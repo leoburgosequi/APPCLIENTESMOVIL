@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { deleteItem, getItem, saveItem } from '../storage/GeneralStorage';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from '../context/AuthContext';
 import LoginBackground from '../resources/LoginBackground.png';
 import { LoginStyles } from '../styles/LoginStyles';
 import LoginUserIcon from '../resources/LoginUserIcon.png';
@@ -12,10 +13,11 @@ import WhiteLogo from '../resources/WhiteLogo.png';
 
 const LoginScreen = ({ navigation }) => {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('lburgos@equinorte.net');
+    const [password, setPassword] = useState('1234567890');
     const [isLoading, setIsLoading] = useState(false);
 
+    const [login, testApi] = useContext(AuthContext);
 
     const testStorage = async () => {
         setIsLoading(true);
@@ -35,11 +37,9 @@ const LoginScreen = ({ navigation }) => {
 
     const testDeleteStorage = async () => {
         setIsLoading(true);
-        await deleteItem("test:dataManager").then(data => console.log("Mensaje final: ",data)).catch(e => console.log(e))
+        await deleteItem("test:dataManager").then(data => console.log(data)).catch(e => console.log(e))
         setIsLoading(false);
     }
-
-
 
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -71,6 +71,8 @@ const LoginScreen = ({ navigation }) => {
                             value={email}
                             onChangeText={setEmail}
                             style={[LoginStyles.textInput]}
+                            keyboardType="email-address"
+                            autoComplete="email"
                         //placeholderTextColor="#F38658"
                         />
                         <TextInput
@@ -92,27 +94,13 @@ const LoginScreen = ({ navigation }) => {
                             <Text style={[StandardStyles.simpleTextOrange, { fontWeight: "bold" }]}>REGISTRARME</Text>
 
                         </TouchableOpacity>
-                        {/* <TouchableOpacity style={[StandardStyles.orangePrimaryButton, { marginTop: 10, width:"80%" }]}
-                        onPress={() => { testApi(); }}  >
-                        <Text style={[StandardStyles.simpleTextWhite, { fontWeight: "bold" }]}>TEST</Text>
-
-    </TouchableOpacity> */}
                         <TouchableOpacity style={[StandardStyles.orangePrimaryButton, { marginTop: 10, width: "80%" }]}
-                            onPress={testStorage}  >
-                            <Text style={[StandardStyles.simpleTextWhite, { fontWeight: "bold" }]}>TEST</Text>
-
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[StandardStyles.orangePrimaryButton, { marginTop: 10, width: "80%" }]}
-                            onPress={testShowStorage}  >
+                            onPress={() => { testApi(); }}  >
                             <Text style={[StandardStyles.simpleTextWhite, { fontWeight: "bold" }]}>TEST</Text>
 
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={[StandardStyles.orangePrimaryButton, { marginTop: 10, width: "80%" }]}
-                            onPress={testDeleteStorage}  >
-                            <Text style={[StandardStyles.simpleTextWhite, { fontWeight: "bold" }]}>TEST</Text>
 
-                        </TouchableOpacity>
                     </View>
                 </ImageBackground>
             </View>
