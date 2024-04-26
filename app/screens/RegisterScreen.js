@@ -1,6 +1,7 @@
 import { Keyboard, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import React, { useContext, useState } from "react";
 
+import { AuthContext } from '../context/AuthContext';
 import CheckBox from "../components/CheckBox";
 //import { AuthContext } from '../context/AuthContext';
 import { LoginStyles } from "../styles/LoginStyles";
@@ -10,10 +11,12 @@ import { StandardStyles } from "../styles/StandardStyles";
 
 const RegisterScreen = ({ navigation }) => {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [fullName, setFullName] = useState('');
-    const [passwordConfirmation, setPasswordConfirmation] = useState('');
+    const [,,,,register] = useContext(AuthContext);
+
+    const [email, setEmail] = useState('fer3333@gmail.com');
+    const [password, setPassword] = useState('1234567890');
+    const [fullName, setFullName] = useState('maria fernanda x');
+    const [passwordConfirmation, setPasswordConfirmation] = useState('1234567890');
     const [isLoading, setIsLoading] = useState(false);
     const [tratamientoSelection, setTratamientoSelection] = useState(false);
     const [terminosSelection, setTerminosSelection] = useState(false);
@@ -41,6 +44,8 @@ const RegisterScreen = ({ navigation }) => {
                     value={email}
                     onChangeText={setEmail}
                     placeholderTextColor="#F38658"
+                    keyboardType="email-address"
+                    autoComplete="email"
                 />
                 <TextInput style={LoginStyles.textInput}
                     placeholder="Contraseña"
@@ -75,7 +80,7 @@ const RegisterScreen = ({ navigation }) => {
                 />
 
                 <TouchableOpacity style={[StandardStyles.orangePrimaryButton, { marginTop: 10 }]}
-                    onPress={() => { register(name, email, password, passwordConfirmation); }} >
+                    onPress={() => { register(fullName, email, password, passwordConfirmation); }} >
                     <Text style={[StandardStyles.simpleTextWhite, { fontWeight: "bold" }]}>CREAR CUENTA</Text>
 
                 </TouchableOpacity>
