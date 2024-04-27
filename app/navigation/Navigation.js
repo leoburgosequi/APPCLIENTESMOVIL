@@ -5,9 +5,11 @@ import { AuthContext } from "../context/AuthContext";
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import HomeScreen from '../screens/HomeScreen';
+import LineasScreen from '../screens/LineasScreen';
 import LoginScreen from "../screens/LoginScreen";
 import { NavigationContainer } from '@react-navigation/native';
 import { ProfileScreen } from '../screens';
+import QuestionsScreen from '../screens/QuestionsScreen';
 import RegisterScreen from "../screens/RegisterScreen";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -61,7 +63,12 @@ function MyStack() {
     return (
         <Stack.Navigator initialRouteName="Login">
             {
-                (token !== '') ? <Stack.Screen name="HomeTabs" component={HomeTabs} options={{ headerShown: false }} />
+                (token !== '') ? 
+                        <>
+                            <Stack.Screen name="HomeTabs" component={HomeTabs} />
+                            <Stack.Screen name="Lineas" component={LineasScreen} />
+                            <Stack.Screen name="Preguntas" component={QuestionsScreen} />
+                        </>
                     :
                     <>
                         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
@@ -90,7 +97,8 @@ function HomeTabs() {
                             </>
 
                         )
-                    }
+                    },
+                    
                 }}
             />
             <Tab.Screen

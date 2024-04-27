@@ -19,28 +19,6 @@ const LoginScreen = ({ navigation }) => {
 
     const [login, testApi] = useContext(AuthContext);
 
-    const testStorage = async () => {
-        setIsLoading(true);
-        console.log("TestStorage");
-        await saveItem('test:data', "Leonardo Daniel Burgos Hernández");
-        await saveItem('test:dataManager', "Maria fernanda");
-        setIsLoading(false);
-    }
-
-    const testShowStorage = async () => {
-        setIsLoading(true);
-        const data = await getItem("test:data").then((d) => {
-            console.log("data: ", d)
-        })
-        setIsLoading(false);
-    }
-
-    const testDeleteStorage = async () => {
-        setIsLoading(true);
-        await deleteItem("test:dataManager").then(data => console.log(data)).catch(e => console.log(e))
-        setIsLoading(false);
-    }
-
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={LoginStyles.container} >
