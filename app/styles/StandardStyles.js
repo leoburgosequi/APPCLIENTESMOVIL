@@ -1,8 +1,10 @@
+import { primaryOrangeColor, secondBlueVolor } from "../config";
+
 import { StyleSheet } from "react-native";
 
 const StandardStyles = StyleSheet.create({
     orangePrimaryButton: {
-        backgroundColor: "#E45417",
+        backgroundColor: primaryOrangeColor,
         borderRadius:10,
         alignItems:"center",
         justifyContent:"center",
@@ -13,7 +15,7 @@ const StandardStyles = StyleSheet.create({
         borderRadius:10,
         alignItems:"center",
         justifyContent:"center",
-        borderColor:"#E45417",
+        borderColor:primaryOrangeColor,
         borderWidth:2,
         padding:15
     },
@@ -22,11 +24,11 @@ const StandardStyles = StyleSheet.create({
         fontSize:14,
     },
     simpleTextOrange: {
-        color: "#E45417",
+        color: primaryOrangeColor,
         fontSize:14
     },
     bluePrimaryButton: {
-        backgroundColor:"#0f2b46",
+        backgroundColor:secondBlueVolor,
         borderRadius:10,
         alignItems:"center",
         justifyContent:"center",

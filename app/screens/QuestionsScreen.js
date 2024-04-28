@@ -1,0 +1,102 @@
+import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+
+import { StandardStyles } from '../styles/StandardStyles';
+import axios from 'axios';
+import { getItem } from '../storage/GeneralStorage';
+import { primaryOrangeColor } from '../config';
+
+const QuestionsScreen = ({ navigation, route }) => {
+    const data = route.params;
+    const [questions, setQuestions] = useState([]);
+    const [responses, setResponses] = useState([]);
+
+    useEffect(() => {
+        const getQuestions = async () => {
+            const cesToken = await getItem('ces:token');
+            axios.get('https://api.equinorte.co/xsoftCes/api/v1/ext/get-questions-by-category?codigo=4', {
+                headers: {
+                    'Authorization': `Bearer ${cesToken}`
+                }
+            }).then(response => {
+                setQuestions(response.data);
+            }).catch(error => console.log("Error: ", error));
+        };
+
+        getQuestions();
+    }, []);
+
+    function showAnswers(){
+        console.log(responses);
+    }
+
+    return (
+        <View style={styles.container}>
+            <FlatList
+                data={questions}
+                keyExtractor={item => item.id.toString()}
+                renderItem={({ item }) => (
+                    <View style={styles.questionContainer}>
+                        <Text style={styles.questionText}>{item.descripcion}</Text>
+                        <View style={styles.inputContainer}>
+                            <TextInput
+                                keyboardType="numeric"
+                                style={styles.input}
+                                onChangeText={(text) => setResponses(prevResponses => ({
+                                    ...prevResponses,
+                                    [item.id]: text
+                                }))}
+                                value={responses[item.id] || ''}
+                            />
+                            <Text style={styles.textUnidad}>{item.unidad}</Text>
+                            
+                        </View>
+                        <Text style={{color:"gray", fontSize:12}}>El valor debe estar entre {item.minimo} y {item.maximo}</Text>
+                    </View>
+                )}
+            />
+            <TouchableOpacity style={StandardStyles.bluePrimaryButton} onPress={() => navigation.navigate("Sistemas", [responses])}> 
+                <Text style={[StandardStyles.simpleTextWhite, {fontWeight:"bold"}]}>Consultar</Text>
+            </TouchableOpacity>
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 20,
+        backgroundColor:"white"
+    },
+    questionContainer: {
+        marginBottom: 30,
+    },
+    inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        position: 'relative',
+    },
+    questionText: {
+        fontSize: 16,
+        marginBottom: 10,
+        color:primaryOrangeColor,
+        fontWeight:"bold"
+    },
+    input: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+        padding: 10,
+        height: 40,
+        borderRadius: 10,
+        flex: 1,
+        marginRight: 50, // Ajustar según el tamaño del texto de unidad
+    },
+    textUnidad: {
+        position: 'absolute',
+        right: 10,
+        alignSelf: 'center',
+        fontWeight:"bold"
+    }
+});
+
+export default QuestionsScreen;
