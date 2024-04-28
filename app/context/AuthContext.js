@@ -34,6 +34,7 @@ export const AuthProvider = ({children}) => {
             
             await saveItem('user:data', JSON.stringify(res.data.user));
             await saveItem('user:token', res.data.access_token);
+            await saveItem('ces:token', res.data.t_access );
             setUser(res.data.user);
             setToken(res.data.access_token);
             console.log("Mensjae: ",res.data.message);

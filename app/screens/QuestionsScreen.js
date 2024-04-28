@@ -1,75 +1,102 @@
-import { FlatList, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
 
+import { StandardStyles } from '../styles/StandardStyles';
 import axios from 'axios';
+import { getItem } from '../storage/GeneralStorage';
+import { primaryOrangeColor } from '../config';
 
-const QuestionsScreen = ({navigation,route}) => {
-
+const QuestionsScreen = ({ navigation, route }) => {
     const data = route.params;
-    console.log(data);
-    const [questions, setQuestions] = useState({});
+    const [questions, setQuestions] = useState([]);
+    const [responses, setResponses] = useState([]);
 
     useEffect(() => {
-        const getQuestions = () => {
-            axios.get(`https://api.equinorte.co/xsoftCes/api/v1/ext/Questions/categoria?codigo=4`,{
+        const getQuestions = async () => {
+            const cesToken = await getItem('ces:token');
+            axios.get('https://api.equinorte.co/xsoftCes/api/v1/ext/get-questions-by-category?codigo=4', {
                 headers: {
-                    'Authorization': "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJDQUxUQU1BUiIsInJvbGVzIjpbXSwiaWF0IjoxNzE0MTgxNzc2LCJleHAiOjE3MTQyMjQ5NzZ9.q8l71L1HaJkt6qiFsX3Z62lp76Lw1HJOR-PHSCovCbE"
+                    'Authorization': `Bearer ${cesToken}`
                 }
-            }).then(q => {
-                console.log(q.data);
-                setQuestions(q.data);
+            }).then(response => {
+                setQuestions(response.data);
             }).catch(error => console.log("Error: ", error));
-        }
+        };
 
         getQuestions();
     }, []);
 
-   const [responses, setResponses] = useState({});
+    function showAnswers(){
+        console.log(responses);
+    }
 
     return (
         <View style={styles.container}>
             <FlatList
                 data={questions}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.questionContainer}>
                         <Text style={styles.questionText}>{item.descripcion}</Text>
-                        <TextInput
-                        keyboardType="numeric"
-                            style={styles.input}
-                            onChangeText={(text) => {
-                                setResponses(prevResponses => ({
+                        <View style={styles.inputContainer}>
+                            <TextInput
+                                keyboardType="numeric"
+                                style={styles.input}
+                                onChangeText={(text) => setResponses(prevResponses => ({
                                     ...prevResponses,
                                     [item.id]: text
-                                }));
-                            }}
-                            value={responses[item.id] || ''}
-                        />
+                                }))}
+                                value={responses[item.id] || ''}
+                            />
+                            <Text style={styles.textUnidad}>{item.unidad}</Text>
+                            
+                        </View>
+                        <Text style={{color:"gray", fontSize:12}}>El valor debe estar entre {item.minimo} y {item.maximo}</Text>
                     </View>
                 )}
             />
+            <TouchableOpacity style={StandardStyles.bluePrimaryButton} onPress={() => navigation.navigate("Sistemas", [responses])}> 
+                <Text style={[StandardStyles.simpleTextWhite, {fontWeight:"bold"}]}>Consultar</Text>
+            </TouchableOpacity>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
+        backgroundColor:"white"
     },
     questionContainer: {
-        marginBottom: 20,
+        marginBottom: 30,
+    },
+    inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        position: 'relative',
     },
     questionText: {
         fontSize: 16,
         marginBottom: 10,
+        color:primaryOrangeColor,
+        fontWeight:"bold"
     },
     input: {
-        borderWidth: 1,
-        borderColor: '#ccc',
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
         padding: 10,
         height: 40,
+        borderRadius: 10,
+        flex: 1,
+        marginRight: 50, // Ajustar según el tamaño del texto de unidad
+    },
+    textUnidad: {
+        position: 'absolute',
+        right: 10,
+        alignSelf: 'center',
+        fontWeight:"bold"
     }
 });
 
-export default QuestionsScreen
+export default QuestionsScreen;

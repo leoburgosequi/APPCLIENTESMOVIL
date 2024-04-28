@@ -6,6 +6,7 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StandardStyles } from "../styles/StandardStyles";
 import axios from "axios";
+import { getItem } from "../storage/GeneralStorage";
 import { primaryOrangeColor } from "../config";
 
 const HomeScreen = ({ navigation }) => {
@@ -18,9 +19,11 @@ const HomeScreen = ({ navigation }) => {
         const fetchData = async () => {
             console.log("Entra");
             try {
+                const cesToken = await getItem('ces:token').then(t => {return t});
+                console.log("Ces token: ", cesToken);
                 axios.get(`https://api.equinorte.co/xsoftCes/api/v1/ext/LineasNegocio?pageIndex=0&pageSize=5`,{
                     headers: {
-                        'Authorization': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJDRVMwQVBJIiwicm9sZXMiOltdLCJpYXQiOjE3MTQxNzAzMTUsImV4cCI6MTcxNDIxMzUxNX0.ZnxLC-ONG97yFsLfCBSqAYLfHXdnGFRrIgc2XECffqQ`
+                        'Authorization': `Bearer ${cesToken}`
                     }
                 }).then(resp => {
                     setLineas(resp.data.content);

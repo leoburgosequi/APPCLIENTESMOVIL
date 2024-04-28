@@ -2,15 +2,21 @@ import React, { useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { AuthContext } from "../context/AuthContext";
+import CatalogoScreen from '../screens/CatalogoScreen';
+import ContactScreen from '../screens/ContactScreen';
+import ContentScreen from '../screens/ContentScreen';
 import { Entypo } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import HomeScreen from '../screens/HomeScreen';
 import LineasScreen from '../screens/LineasScreen';
 import LoginScreen from "../screens/LoginScreen";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { ProfileScreen } from '../screens';
 import QuestionsScreen from '../screens/QuestionsScreen';
 import RegisterScreen from "../screens/RegisterScreen";
+import SystemsScreen from '../screens/SystemsScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { primaryOrangeColor } from '../config';
@@ -27,7 +33,7 @@ const screenOptions = {
         right: 0,
         left: 0,
         elevation: 0,
-        height: 80,
+        height: 100,
         backgroundColor: primaryOrangeColor,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
@@ -45,14 +51,14 @@ const styles = StyleSheet.create({
     iconNotFocus: {
         backgroundColor: primaryOrangeColor
     },
-    textFocus:{
-        fontSize:14,
-        color:"white",
-        fontWeight:"bold"
+    textFocus: {
+        fontSize: 14,
+        color: "white",
+        fontWeight: "bold"
     },
-    textNotFocus:{
-        fontSize:13,
-        color:"#FF976B" ,
+    textNotFocus: {
+        fontSize: 13,
+        color: "#FF976B",
 
     }
 })
@@ -63,12 +69,13 @@ function MyStack() {
     return (
         <Stack.Navigator initialRouteName="Login">
             {
-                (token !== '') ? 
-                        <>
-                            <Stack.Screen name="HomeTabs" component={HomeTabs} />
-                            <Stack.Screen name="Lineas" component={LineasScreen} />
-                            <Stack.Screen name="Preguntas" component={QuestionsScreen} />
-                        </>
+                (token !== '') ?
+                    <>
+                        <Stack.Screen name="Inicio" component={HomeTabs} options={{ headerShown: false }} />
+                        <Stack.Screen name="Lineas" component={LineasScreen} />
+                        <Stack.Screen name="Preguntas" component={QuestionsScreen} />
+                        <Stack.Screen name="Sistemas" component={SystemsScreen} />
+                    </>
                     :
                     <>
                         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
@@ -82,7 +89,40 @@ function MyStack() {
 
 function HomeTabs() {
     return (
-        <Tab.Navigator screenOptions={screenOptions}>
+
+        <Tab.Navigator screenOptions={screenOptions} initialRouteName='Home'>
+            <Tab.Screen
+                name="Contenido"
+                component={ContentScreen}
+                options={{
+                    tabBarIcon: ({ focused }) => {
+                        return (
+                            <>
+                                <View style={focused ? styles.iconFocus : styles.iconNotFocus}>
+                                    <Entypo name="video" size={30} color={focused ? primaryOrangeColor : "#FF976B"} />
+                                </View>
+                                <Text style={focused ? styles.textFocus : styles.textNotFocus}>Contenido</Text>
+                            </>
+
+                        )
+                    }
+                }} />
+            <Tab.Screen
+                name="Catalogo"
+                component={CatalogoScreen}
+                options={{
+                    tabBarIcon: ({ focused }) => {
+                        return (
+                            <>
+                                <View style={focused ? styles.iconFocus : styles.iconNotFocus}>
+                                    <MaterialCommunityIcons name="web" size={30} color={focused ? primaryOrangeColor : "#FF976B"} />
+                                </View>
+                                <Text style={focused ? styles.textFocus : styles.textNotFocus}>Catálogo</Text>
+                            </>
+
+                        )
+                    }
+                }} />
             <Tab.Screen
                 name="Home"
                 component={HomeScreen}
@@ -98,9 +138,25 @@ function HomeTabs() {
 
                         )
                     },
-                    
+
                 }}
             />
+            <Tab.Screen
+                name="Contacto"
+                component={ContactScreen}
+                options={{
+                    tabBarIcon: ({ focused }) => {
+                        return (
+                            <>
+                                <View style={focused ? styles.iconFocus : styles.iconNotFocus}>
+                                    <Feather name="message-circle" size={30} color={focused ? primaryOrangeColor : "#FF976B"}/>
+                                </View>
+                                <Text style={focused ? styles.textFocus : styles.textNotFocus}>Contacto</Text>
+                            </>
+
+                        )
+                    }
+                }} />
             <Tab.Screen
                 name="Profile"
                 component={ProfileScreen}
