@@ -26,10 +26,6 @@ const QuestionsScreen = ({ navigation, route }) => {
         getQuestions();
     }, []);
 
-    function showAnswers(){
-        console.log(responses);
-    }
-
     return (
         <View style={styles.container}>
             <FlatList
@@ -55,7 +51,7 @@ const QuestionsScreen = ({ navigation, route }) => {
                     </View>
                 )}
             />
-            <TouchableOpacity style={StandardStyles.bluePrimaryButton} onPress={() => navigation.navigate("Sistemas", [responses])}> 
+            <TouchableOpacity style={StandardStyles.bluePrimaryButton} onPress={() => navigation.navigate("Sistemas", [responses,questions])}> 
                 <Text style={[StandardStyles.simpleTextWhite, {fontWeight:"bold"}]}>Consultar</Text>
             </TouchableOpacity>
         </View>

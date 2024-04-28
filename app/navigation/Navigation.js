@@ -16,6 +16,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { ProfileScreen } from '../screens';
 import QuestionsScreen from '../screens/QuestionsScreen';
 import RegisterScreen from "../screens/RegisterScreen";
+import SystemDetailScreen from '../screens/SystemDetailScreen';
 import SystemsScreen from '../screens/SystemsScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -75,6 +76,7 @@ function MyStack() {
                         <Stack.Screen name="Lineas" component={LineasScreen} />
                         <Stack.Screen name="Preguntas" component={QuestionsScreen} />
                         <Stack.Screen name="Sistemas" component={SystemsScreen} />
+                        <Stack.Screen name="Sistema" component={SystemDetailScreen} />
                     </>
                     :
                     <>
