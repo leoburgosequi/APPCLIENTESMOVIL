@@ -5,8 +5,6 @@ import { useNavigation } from '@react-navigation/native';
 
 const CheckBox = ({isChecked, onChange, label, isButton, sizeFont, link}) => {
   const navigation = useNavigation();
-  const colorScheme = Appearance.getColorScheme();
-  console.log(colorScheme);
   
   const styles = StyleSheet.create({
     contentWrapper: {

@@ -8,11 +8,9 @@ import { primaryOrangeColor } from '../config'
 const SystemsScreen = ({ navigation, route }) => {
 
     const data = route.params;
-    console.log(data);
     const dataKey = data[0];
     const params = Object.keys(dataKey).map(key => `q_${key}=${encodeURIComponent(dataKey[key])}`);
     const resp = params.join('&');
-    console.log(resp);
 
     const [systems, setSystems] = useState([]);
 
@@ -27,7 +25,6 @@ const SystemsScreen = ({ navigation, route }) => {
                     'Authorization': `Bearer ${cesToken}`
                 }
             }).then(s => {
-                console.log("Sistemas: ", s.data);
                 setSystems(s.data);
             }).catch(e => console.log(`Error: ${e}`));
         }
