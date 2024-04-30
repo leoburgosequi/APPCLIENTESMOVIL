@@ -14,13 +14,13 @@ const RegisterScreen = ({ navigation }) => {
 
     const [,,,,register] = useContext(AuthContext);
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [fullName, setFullName] = useState('');
-    const [passwordConfirmation, setPasswordConfirmation] = useState('');
+    const [email, setEmail] = useState('leo@gmail.com');
+    const [password, setPassword] = useState('1789378');
+    const [fullName, setFullName] = useState('fdghkjfd');
+    const [passwordConfirmation, setPasswordConfirmation] = useState('11111');
     const [isLoading, setIsLoading] = useState(false);
     const [tratamientoSelection, setTratamientoSelection] = useState(false);
-    const [terminosSelection, setTerminosSelection] = useState(false);
+   // const [terminosSelection, setTerminosSelection] = useState(false);
     //  const [,register,,,isLoading,user] = useContext(AuthContext);
 
     return (
@@ -83,7 +83,7 @@ const RegisterScreen = ({ navigation }) => {
                 /> */}
 
                 <TouchableOpacity style={[StandardStyles.orangePrimaryButton, { marginTop: 10 }]}
-                    onPress={() => { register(fullName, email, password, passwordConfirmation); }} >
+                    onPress={() => { register(fullName, email, password, passwordConfirmation, tratamientoSelection); }} >
                     <Text style={[StandardStyles.simpleTextWhite, { fontWeight: "bold" }]}>CREAR CUENTA</Text>
 
                 </TouchableOpacity>

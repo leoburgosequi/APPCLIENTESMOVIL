@@ -91,8 +91,19 @@ export const AuthProvider = ({children}) => {
         })
     }
 
-    const register = (name, email, password, passwordConfirmation) => {
+    const register = (name, email, password, passwordConfirmation,tratamientoCheck) => {
         setIsLoading(true);
+        if(!tratamientoCheck){
+            Alert.alert("Error al registrar usuario", "Debe Autorizar el tratamiento de sus datos." , [
+                {
+                  text: 'Cerrar',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+              ]);
+              setIsLoading(false);
+              return;
+        }
         const data = {
             name,
             email,
@@ -100,9 +111,8 @@ export const AuthProvider = ({children}) => {
             password_confirmation: passwordConfirmation
         }
         axios.post(`${BASE_URI}/register`, data).then(res => {
-            console.log(res.data.message);
             if(res.data.user === null){
-                Alert.alert("Error al registrar usuario", (email !== undefined) ? "* Este Correo ya existe": '' + "\n" + (password !== undefined) ? "* Las contraseñas no coinciden":'' , [
+                Alert.alert("Error al registrar usuario", (res.data.message.email) ? res.data.message.email[0]: '' + "\n" + (res.data.message.password) ? res.data.message.password[0]:'' , [
                     {
                       text: 'Cerrar',
                       onPress: () => console.log('Cancel Pressed'),
