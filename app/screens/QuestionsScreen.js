@@ -26,6 +26,14 @@ const QuestionsScreen = ({ navigation, route }) => {
         getQuestions();
     }, []);
 
+    function convertDecimalAnswer(numberString) {
+        if (numberString.includes(',')) {
+            numberString = numberString.replace(',', '.');
+        }
+        const number = parseFloat(numberString);
+        return number;
+    }
+
     return (
         <View style={styles.container}>
             <FlatList
@@ -40,7 +48,7 @@ const QuestionsScreen = ({ navigation, route }) => {
                                 style={styles.input}
                                 onChangeText={(text) => setResponses(prevResponses => ({
                                     ...prevResponses,
-                                    [item.id]: text
+                                    [item.id]: convertDecimalAnswer(text)
                                 }))}
                                 value={responses[item.id] || ''}
                             />

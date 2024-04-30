@@ -2,6 +2,8 @@ import { BASE_URI_CES, defaultListaPrecio } from '../config';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 
+import { AntDesign } from '@expo/vector-icons';
+import CheckBox from '../components/CheckBox';
 import Collapsible from 'react-native-collapsible';
 import axios from 'axios';
 import { formatPrice } from '../helpers/General';
@@ -15,6 +17,10 @@ const SystemDetailScreen = ({ navigation, route }) => {
     const [groupedData, setGroupedData] = useState([]);
     const [basicPrice, setBasicPrice] = useState(0);
     const [collapses, setCollapses] = useState({});
+    const [selectedSubgroup, setSelectedSubgroup] = useState({});
+    const [subtotals, setSubtotals] = useState({});
+    const [totalGlobal, setTotalGlobal] = useState(0);
+
     const data = route.params;
 
     useLayoutEffect(() => {
@@ -35,6 +41,8 @@ const SystemDetailScreen = ({ navigation, route }) => {
                         const optionalDetails = d.data.preCotizaciones
                             .filter(item => item.opcionL1 !== null && item.opcionL2 !== null);
 
+                        const newSubtotals = {};
+
                         const groupedData = optionalDetails.reduce((acc, item) => {
                             const { opcionL1, opcionL2 } = item;
                             if (!acc[opcionL1]) {
@@ -47,13 +55,25 @@ const SystemDetailScreen = ({ navigation, route }) => {
                             return acc;
                         }, {});
 
+                        optionalDetails.forEach(item => {
+                            const { opcionL1, opcionL2, precio, cantidad } = item;
+                            if (!newSubtotals[opcionL1]) {
+                                newSubtotals[opcionL1] = {};
+                            }
+                            if (!newSubtotals[opcionL1][opcionL2]) {
+                                newSubtotals[opcionL1][opcionL2] = 0;
+                            }
+                            newSubtotals[opcionL1][opcionL2] += precio * cantidad;
+                        });
+
+                        setSubtotals(newSubtotals);
                         setGroupedData(groupedData);
 
                         const newCollapses = {};
                         Object.keys(groupedData).forEach(opcionL1 => {
-                            newCollapses[opcionL1] = true; // Initialize each main group as collapsed
+                            newCollapses[opcionL1] = true;
                             Object.keys(groupedData[opcionL1]).forEach(opcionL2 => {
-                                newCollapses[`${opcionL1}_${opcionL2}`] = true; // Initialize each subgroup as collapsed
+                                newCollapses[`${opcionL1}_${opcionL2}`] = true;
                             });
                         });
                         setCollapses(newCollapses);
@@ -66,20 +86,36 @@ const SystemDetailScreen = ({ navigation, route }) => {
         detailSystem();
     }, []);
 
+    const updateTotalGlobal = (selectedSubgroups, subtotals) => {
+        let newTotal = 0;
+        Object.keys(selectedSubgroups).forEach(opcionL1 => {
+            const opcionL2 = selectedSubgroups[opcionL1];
+            if (opcionL2 && subtotals[opcionL1] && subtotals[opcionL1][opcionL2]) {
+                newTotal += subtotals[opcionL1][opcionL2];
+            }
+        });
+        setTotalGlobal(newTotal);
+    };
+
     const toggleCollapse = (key) => {
         setCollapses(prevState => {
             const newState = {
                 ...prevState,
                 [key]: !prevState[key]
             };
-            console.log(`Toggling collapse for ${key}:`, newState[key]);
             return newState;
         });
     };
 
     const renderSubItem = ({ item }) => (
-        <View style={styles.item}>
-            <Text>{item.nombreSku} - Cantidad: {item.cantidad}, Precio: ${formatPrice(item.precio)}</Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 6 }}>
+            <View style={{ width: "70%" }}>
+                <Text>{item.nombreSku}</Text>
+                <Text style={{ color: "gray", fontSize: 13 }}>Cantidad: {item.cantidad}</Text>
+            </View>
+            <View>
+                <Text style={{ fontWeight: "bold" }}>$ {formatPrice(item.cantidad * item.precio)}</Text>
+            </View>
         </View>
     );
 
@@ -93,21 +129,44 @@ const SystemDetailScreen = ({ navigation, route }) => {
             />
         </View>
     );
+    const handleCheckboxChange = (opcionL1, opcionL2) => {
+        setSelectedSubgroup(prev => {
+            const newState = {
+                ...prev,
+                [opcionL1]: prev[opcionL1] === opcionL2 ? null : opcionL2
+            };
+            updateTotalGlobal(newState, subtotals);
+            return newState;
+        });
+    };
 
-    const renderSubGroup = ({ item, index, section }) => (
-        <View style={styles.subGroup}>
-            <TouchableOpacity onPress={() => toggleCollapse(`${section.pregunta}_${item.opcion}`)} style={styles.subHeader}>
-                <Text style={styles.subTitle}>{item.opcion}</Text>
-            </TouchableOpacity>
-            <Collapsible collapsed={collapses[`${section.pregunta}_${item.opcion}`]}>
-                <FlatList
-                    data={item.items}
-                    renderItem={renderSubItem}
-                    keyExtractor={subItem => `${subItem.id}`}
-                />
-            </Collapsible>
-        </View>
-    );
+    const renderSubGroup = ({ item, index, section }) => {
+        const subtotal = item.items.reduce((acc, curr) => acc + (curr.cantidad * curr.precio), 0);
+        const checkBoxKey = `${item.items[0].opcionL1}_${item.opcion}`;
+        const isChecked = selectedSubgroup[item.items[0].opcionL1] === item.opcion;
+
+        return (
+            <View style={styles.subGroup}>
+                <TouchableOpacity onPress={() => toggleCollapse(checkBoxKey)} style={styles.subHeader}>
+                    <CheckBox
+                        isChecked={isChecked}
+                        onChange={() => handleCheckboxChange(item.items[0].opcionL1, item.opcion, subtotal)}
+                        label=""
+                        sizeFont={16}
+                    />
+                    <Text style={[styles.subTitle, isChecked ? styles.selectedTitle : null]}>{item.opcion} - ${formatPrice(subtotal)}  </Text>
+                    <AntDesign name="caretdown" size={14} color="gray" />
+                </TouchableOpacity>
+                <Collapsible collapsed={collapses[checkBoxKey]}>
+                    <FlatList
+                        data={item.items}
+                        renderItem={renderSubItem}
+                        keyExtractor={subItem => `${subItem.id}`}
+                    />
+                </Collapsible>
+            </View>
+        );
+    };
 
     return (
         <View style={styles.container}>
@@ -115,6 +174,7 @@ const SystemDetailScreen = ({ navigation, route }) => {
             <TouchableOpacity style={{ marginTop: 30, flexDirection: "row", justifyContent: "space-evenly", alignItems: "center", paddingVertical: 10 }} onPress={() => setIsCollapsed(!isCollapsed)}>
                 <Text style={{ fontSize: 20 }}>Elementos básicos</Text>
                 <Text style={{ fontSize: 18, fontWeight: "bold" }}>$ {formatPrice(basicPrice)}</Text>
+                <AntDesign name="caretdown" size={14} color="black" />
             </TouchableOpacity>
             <Collapsible collapsed={isCollapsed}>
                 <View style={{ padding: 20, backgroundColor: '#FAFAFA', height: "100%" }}>
@@ -147,6 +207,8 @@ const SystemDetailScreen = ({ navigation, route }) => {
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index.toString()}
             />
+            <View style={styles.containerSubtotal}>
+                <Text style={styles.textTotal}>Total: $ {formatPrice(totalGlobal + basicPrice)}</Text></View>
         </View>
     );
 }
@@ -155,7 +217,7 @@ export default SystemDetailScreen
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1, 
+        flex: 1,
         backgroundColor: "white"
     },
     titleSistema: {
@@ -166,28 +228,59 @@ const styles = StyleSheet.create({
     },
     group: {
         padding: 10,
-        
+
     },
     headerText: {
-        fontSize: 16,
-        textAlign:"left"
+        fontSize: 18,
+        textAlign: "center",
+        marginTop: 20
     },
     subGroup: {
         marginTop: 5,
         paddingLeft: 10,
         borderBottomWidth: 1,
-        borderBottomColor: '#eee'
+        borderBottomColor: '#eee',
     },
     subHeader: {
         padding: 8,
+        flexDirection: "row",
+        alignItems: "center",
+
 
     },
     subTitle: {
         fontSize: 16,
-
+        textDecorationLine: 'line-through',
+        color: "gray"
     },
     item: {
         padding: 10,
-        backgroundColor: '#fafafa'
+        backgroundColor: '#fafafa',
+
+    },
+    selectedTitle: {
+        textDecorationLine: 'none',
+        color: "black"
+    },
+    containerSubtotal: {
+        position: "absolute",
+        backgroundColor: "white",
+        borderRadius: 10,
+        bottom: 80,
+        right: 10,
+        padding: 20,
+        shadowColor: "black",
+        alignItems: "center",
+        shadowOffset: {
+            width: 6,
+            height: 6,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 4,
+    },
+    textTotal: {
+        fontSize: 18,
+        fontWeight: "bold"
     }
+
 });

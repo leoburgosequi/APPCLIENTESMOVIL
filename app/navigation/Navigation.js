@@ -13,6 +13,7 @@ import LineasScreen from '../screens/LineasScreen';
 import LoginScreen from "../screens/LoginScreen";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
+import PolicyScreen from '../screens/PolicyScreen';
 import { ProfileScreen } from '../screens';
 import QuestionsScreen from '../screens/QuestionsScreen';
 import RegisterScreen from "../screens/RegisterScreen";
@@ -77,11 +78,13 @@ function MyStack() {
                         <Stack.Screen name="Preguntas" component={QuestionsScreen} />
                         <Stack.Screen name="Sistemas" component={SystemsScreen} />
                         <Stack.Screen name="Sistema" component={SystemDetailScreen} />
+                        
                     </>
                     :
                     <>
                         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
                         <Stack.Screen name="Registrarse" component={RegisterScreen} options={{ headerShown: true }} />
+                        <Stack.Screen name="Politica de tratamiento de datos" component={PolicyScreen} />
                     </>
             }
 

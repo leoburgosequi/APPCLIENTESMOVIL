@@ -5,6 +5,7 @@ import { AuthContext } from '../context/AuthContext';
 import CheckBox from "../components/CheckBox";
 //import { AuthContext } from '../context/AuthContext';
 import { LoginStyles } from "../styles/LoginStyles";
+import PolicyScreen from './PolicyScreen';
 import { RegisterStyles } from "../styles/RegisterStyles";
 import Spinner from "react-native-loading-spinner-overlay";
 import { StandardStyles } from "../styles/StandardStyles";
@@ -13,10 +14,10 @@ const RegisterScreen = ({ navigation }) => {
 
     const [,,,,register] = useContext(AuthContext);
 
-    const [email, setEmail] = useState('fer3333@gmail.com');
-    const [password, setPassword] = useState('1234567890');
-    const [fullName, setFullName] = useState('maria fernanda x');
-    const [passwordConfirmation, setPasswordConfirmation] = useState('1234567890');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [fullName, setFullName] = useState('');
+    const [passwordConfirmation, setPasswordConfirmation] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [tratamientoSelection, setTratamientoSelection] = useState(false);
     const [terminosSelection, setTerminosSelection] = useState(false);
@@ -67,17 +68,19 @@ const RegisterScreen = ({ navigation }) => {
                     onChange={setTratamientoSelection}
                     sizeFont={16}
                     isButton={true}
-                    link="Login"
+                    link="Politica de tratamiento de datos"
+                    containerWidth="80%"
                   
                 />
-
+{/* 
                 <CheckBox label="Acepto los terminos y condiciones."
                     isChecked={terminosSelection}
                     onChange={setTerminosSelection}
                     sizeFont={16}
                     isButton={true}
                     link="Login"
-                />
+                    containerWidth="80%"
+                /> */}
 
                 <TouchableOpacity style={[StandardStyles.orangePrimaryButton, { marginTop: 10 }]}
                     onPress={() => { register(fullName, email, password, passwordConfirmation); }} >

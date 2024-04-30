@@ -3,7 +3,7 @@ import { Appearance, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 
-const CheckBox = ({isChecked, onChange, label, isButton, sizeFont, link}) => {
+const CheckBox = ({isChecked, onChange, label, isButton, sizeFont, link,containerWidth}) => {
   const navigation = useNavigation();
   
   const styles = StyleSheet.create({
@@ -34,7 +34,7 @@ const CheckBox = ({isChecked, onChange, label, isButton, sizeFont, link}) => {
   
   return (
 
-    <View style={{ flexDirection: "row", width: "80%", marginVertical: 10 }}>
+    <View style={{ flexDirection: "row", width: containerWidth, marginVertical: 10 }}>
       <TouchableOpacity onPress={() => { onChange(!isChecked) }} style={{ alignItems: "center", marginVertical: 10 }}>
         <View style={styles.contentWrapper}>
           <Text style={styles.chulo}>√</Text>
