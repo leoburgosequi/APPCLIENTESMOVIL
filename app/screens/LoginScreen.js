@@ -13,7 +13,7 @@ import WhiteLogo from '../resources/WhiteLogo.png';
 
 const LoginScreen = ({ navigation }) => {
 
-    const [email, setEmail] = useState('lburgos@equinorte.net');
+    const [email, setEmail] = useState('leonardobh96@gmail.com');
     const [password, setPassword] = useState('1234567890');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -72,11 +72,11 @@ const LoginScreen = ({ navigation }) => {
                             <Text style={[StandardStyles.simpleTextOrange, { fontWeight: "bold" }]}>REGISTRARME</Text>
 
                         </TouchableOpacity>
-                        <TouchableOpacity style={[StandardStyles.orangePrimaryButton, { marginTop: 10, width: "80%" }]}
+                        {/*      <TouchableOpacity style={[StandardStyles.orangePrimaryButton, { marginTop: 10, width: "80%" }]}
                             onPress={() => { testApi(); }}  >
                             <Text style={[StandardStyles.simpleTextWhite, { fontWeight: "bold" }]}>TEST</Text>
 
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
 
                     </View>

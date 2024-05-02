@@ -1,6 +1,7 @@
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
+import { BASE_URI_CES } from '../config';
 import { StandardStyles } from '../styles/StandardStyles';
 import axios from 'axios';
 import { getItem } from '../storage/GeneralStorage';
@@ -14,7 +15,7 @@ const QuestionsScreen = ({ navigation, route }) => {
     useEffect(() => {
         const getQuestions = async () => {
             const cesToken = await getItem('ces:token');
-            axios.get('https://api.equinorte.co/xsoftCes/api/v1/ext/get-questions-by-category?codigo=4', {
+            axios.get(`${BASE_URI_CES}/get-questions-by-category?codigo=4`, {
                 headers: {
                     'Authorization': `Bearer ${cesToken}`
                 }
@@ -53,14 +54,14 @@ const QuestionsScreen = ({ navigation, route }) => {
                                 value={responses[item.id] || ''}
                             />
                             <Text style={styles.textUnidad}>{item.unidad}</Text>
-                            
+
                         </View>
-                        <Text style={{color:"gray", fontSize:12}}>El valor debe estar entre {item.minimo} y {item.maximo}</Text>
+                        <Text style={{ color: "gray", fontSize: 12 }}>El valor debe estar entre {item.minimo} y {item.maximo}</Text>
                     </View>
                 )}
             />
-            <TouchableOpacity style={StandardStyles.bluePrimaryButton} onPress={() => navigation.navigate("Sistemas", [responses,questions])}> 
-                <Text style={[StandardStyles.simpleTextWhite, {fontWeight:"bold"}]}>Consultar</Text>
+            <TouchableOpacity style={StandardStyles.bluePrimaryButton} onPress={() => navigation.navigate("Sistemas", [responses, questions])}>
+                <Text style={[StandardStyles.simpleTextWhite, { fontWeight: "bold" }]}>Consultar</Text>
             </TouchableOpacity>
         </View>
     );
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor:"white"
+        backgroundColor: "white"
     },
     questionContainer: {
         marginBottom: 30,
@@ -83,8 +84,8 @@ const styles = StyleSheet.create({
     questionText: {
         fontSize: 16,
         marginBottom: 10,
-        color:primaryOrangeColor,
-        fontWeight:"bold"
+        color: primaryOrangeColor,
+        fontWeight: "bold"
     },
     input: {
         borderBottomWidth: 1,
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 10,
         alignSelf: 'center',
-        fontWeight:"bold"
+        fontWeight: "bold"
     }
 });
 

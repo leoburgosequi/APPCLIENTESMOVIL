@@ -8,9 +8,9 @@ import { useNavigation } from '@react-navigation/native';
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [user,setUser] = useState({});
+    const [user, setUser] = useState({});
     const [token, setToken] = useState('');
 
 
@@ -19,25 +19,23 @@ export const AuthProvider = ({children}) => {
         axios.post(`${BASE_URI}/login`, {
             email, password
         }).then(async res => {
-            console.log("Data. ",res.data);
-            if(res.data.user === null){
+            if (res.data.user === null) {
                 Alert.alert(res.data.message, '', [
                     {
-                      text: 'Cerrar',
-                      onPress: () => console.log('Cancel Pressed'),
-                      style: 'cancel',
+                        text: 'Cerrar',
+                        style: 'cancel',
                     },
-                  ]);
-                  setIsLoading(false);
-                  return;
+                ]);
+                setIsLoading(false);
+                return;
             }
-            
+
             await saveItem('user:data', JSON.stringify(res.data.user));
             await saveItem('user:token', res.data.access_token);
-            await saveItem('ces:token', res.data.t_access );
+            await saveItem('ces:token', res.data.t_access);
             setUser(res.data.user);
             setToken(res.data.access_token);
-            console.log("Mensjae: ",res.data.message);
+            console.log("Mensjae: ", res.data.message);
             setIsLoading(false);
         }).catch(error => {
             console.log(`Login error ${error}`);
@@ -51,13 +49,13 @@ export const AuthProvider = ({children}) => {
         axios.get(`${BASE_URI}/testApi`).then(res => {
             Alert.alert(res.data.nombre, '', [
                 {
-                  text: 'Cerrar',
-                  onPress: () => console.log('Cancel Pressed'),
-                  style: 'cancel',
+                    text: 'Cerrar',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
                 },
-              ]);
-              setIsLoading(false);
-              return;
+            ]);
+            setIsLoading(false);
+            return;
         }).catch(e => {
             setIsLoading(false);
             console.log("test api error: ", e);
@@ -67,23 +65,21 @@ export const AuthProvider = ({children}) => {
     const logout = async () => {
         setIsLoading(true);
         const token = await getItem('user:token').then(res => {
-            console.log("token: ", res);
             if (res !== null) {
                 axios.post(`${BASE_URI}/logout`, {}, {
                     headers: {
                         'Authorization': `Bearer ${res}`
                     }
                 }).then(async res => {
-                    console.log(res.data);
                     await deleteItem('user:token');
                     await deleteItem('user:data');
                     setUser({});
                     setToken('');
                     setIsLoading(false);
                 }).catch(e => {
-                    console.log("Error al realizar petición. ",e);
+                    console.log("Error al realizar petición. ", e);
                     setIsLoading(false);
-            });
+                });
             }
         }).catch(error => {
             console.log("Error al obtener data", error);
@@ -91,18 +87,17 @@ export const AuthProvider = ({children}) => {
         })
     }
 
-    const register = (name, email, password, passwordConfirmation,tratamientoCheck) => {
+    const register = (name, email, password, passwordConfirmation, tratamientoCheck) => {
         setIsLoading(true);
-        if(!tratamientoCheck){
-            Alert.alert("Error al registrar usuario", "Debe Autorizar el tratamiento de sus datos." , [
+        if (!tratamientoCheck) {
+            Alert.alert("Error al registrar usuario", "Debe Autorizar el tratamiento de sus datos.", [
                 {
-                  text: 'Cerrar',
-                  onPress: () => console.log('Cancel Pressed'),
-                  style: 'cancel',
+                    text: 'Cerrar',
+                    style: 'cancel',
                 },
-              ]);
-              setIsLoading(false);
-              return;
+            ]);
+            setIsLoading(false);
+            return;
         }
         const data = {
             name,
@@ -111,31 +106,28 @@ export const AuthProvider = ({children}) => {
             password_confirmation: passwordConfirmation
         }
         axios.post(`${BASE_URI}/register`, data).then(res => {
-            if(res.data.user === null){
-                Alert.alert("Error al registrar usuario", (res.data.message.email) ? res.data.message.email[0]: '' + "\n" + (res.data.message.password) ? res.data.message.password[0]:'' , [
+            if (res.data.user === null) {
+                Alert.alert("Error al registrar usuario", (res.data.message.email) ? res.data.message.email[0] : '' + "\n" + (res.data.message.password) ? res.data.message.password[0] : '', [
                     {
-                      text: 'Cerrar',
-                      onPress: () => console.log('Cancel Pressed'),
-                      style: 'cancel',
+                        text: 'Cerrar',
+                        style: 'cancel',
                     },
-                  ]);
-                  setIsLoading(false);
-                  return;
-            }else{
+                ]);
+                setIsLoading(false);
+                return;
+            } else {
 
-                Alert.alert("Usuario creado exitosamente", '' , [
+                Alert.alert("Usuario creado exitosamente", '', [
                     {
-                      text: 'Cerrar',
-                      onPress: () => console.log('Cancel Pressed'),
-                      style: 'cancel',
+                        text: 'Cerrar',
+                        style: 'cancel',
                     },
-                  ]);
+                ]);
                 setUser(res.data.user);
                 setIsLoading(false);
-                console.log("data to login from register: ",email,password);
-                login(email,password);
+                login(email, password);
             }
-            
+
         }).catch(e => {
             console.log(`Error register ${e}`);
             setIsLoading(false);
@@ -146,7 +138,7 @@ export const AuthProvider = ({children}) => {
 
 
     return (
-        <AuthContext.Provider value={[login, testApi,token,logout, register,user]} >
+        <AuthContext.Provider value={[login, testApi, token, logout, register, user]} >
             {children}
         </AuthContext.Provider>
     );
