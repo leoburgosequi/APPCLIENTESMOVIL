@@ -1,7 +1,8 @@
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 import { BASE_URI_CES } from '../config'
+import { StandardStyles } from '../styles/StandardStyles'
 import axios from 'axios'
 import { getItem } from '../storage/GeneralStorage'
 import { primaryOrangeColor } from '../config'
@@ -14,10 +15,12 @@ const SystemsScreen = ({ navigation, route }) => {
     const resp = params.join('&');
 
     const [systems, setSystems] = useState([]);
+    const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
         const getSystems = async () => {
+            setLoading(true)
             const cesToken = await getItem('ces:token');
 
             axios.get(`${BASE_URI_CES}/get-systems-by-answers?${resp}`, {
@@ -27,7 +30,8 @@ const SystemsScreen = ({ navigation, route }) => {
                 }
             }).then(s => {
                 setSystems(s.data);
-            }).catch(e => console.log(`Error: ${e}`));
+                setLoading(false);
+            }).catch(e => { console.log(`Error: ${e}`); setLoading(false) });
         }
         getSystems();
 
@@ -63,10 +67,23 @@ const SystemsScreen = ({ navigation, route }) => {
                         </TouchableOpacity>
                     )}
                 />
+
+                {loading && (
+                    <View style={[StandardStyles.loadingContainer]}>
+                        <ActivityIndicator size="large" color={primaryOrangeColor} />
+                        <Text style={{ fontWeight: "bold" }}>Procesando</Text>
+                    </View>
+                )}
             </View>
             :
             <View style={[styles.systemContainer, { justifyContent: "center", alignItems: "center" }]}>
                 <Text style={styles.title}>No se han encontrado sistemas. Por favor, verifique la información suministrada y de ser correcta, contactar a uno de nuestros desarrolladores de negocios.</Text>
+                {loading && (
+                    <View style={[StandardStyles.loadingContainer, { backgroundColor: "white" }]}>
+                        <ActivityIndicator size="large" color={primaryOrangeColor} />
+                        <Text style={{ fontWeight: "bold" }}>Procesando</Text>
+                    </View>
+                )}
             </View>
     )
 }

@@ -1,13 +1,15 @@
+import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { BASE_URI_CES, defaultListaPrecio } from '../config';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 
 import { AntDesign } from '@expo/vector-icons';
 import CheckBox from '../components/CheckBox';
 import Collapsible from 'react-native-collapsible';
+import { StandardStyles } from '../styles/StandardStyles';
 import axios from 'axios';
 import { formatPrice } from '../helpers/General';
 import { getItem } from '../storage/GeneralStorage';
+import { primaryOrangeColor } from '../config';
 
 const SystemDetailScreen = ({ navigation, route }) => {
 
@@ -20,11 +22,13 @@ const SystemDetailScreen = ({ navigation, route }) => {
     const [selectedSubgroup, setSelectedSubgroup] = useState({});
     const [subtotals, setSubtotals] = useState({});
     const [totalGlobal, setTotalGlobal] = useState(0);
+    const [loading, setLoading] = useState(false);
 
     const data = route.params;
 
     useLayoutEffect(() => {
         const detailSystem = async () => {
+            setLoading(true);
             const cesToken = await getItem('ces:token');
             try {
                 await axios.get(`${BASE_URI_CES}/getSystemById?${data.answers}&listaPrecio=${defaultListaPrecio}&idSistema=${data.idSistema}`, {
@@ -77,10 +81,12 @@ const SystemDetailScreen = ({ navigation, route }) => {
                             });
                         });
                         setCollapses(newCollapses);
+                        setLoading(false)
                     })
                     .catch(e => { console.log(`Error ${e}`) });
             } catch (error) {
                 console.log("Error del catch: ", error);
+                setLoading(false)
             }
         }
         detailSystem();
@@ -170,7 +176,7 @@ const SystemDetailScreen = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titleSistema}>{details.sistema ? details.sistema.nombre : 'Cargando...'}</Text>
+            <Text style={styles.titleSistema}>{details.sistema ? details.sistema.nombre : ''}</Text>
             <TouchableOpacity style={{ marginTop: 30, flexDirection: "row", justifyContent: "space-evenly", alignItems: "center", paddingVertical: 10 }} onPress={() => setIsCollapsed(!isCollapsed)}>
                 <Text style={{ fontSize: 20 }}>Elementos básicos</Text>
                 <Text style={{ fontSize: 18, fontWeight: "bold" }}>$ {formatPrice(basicPrice)}</Text>
@@ -208,7 +214,14 @@ const SystemDetailScreen = ({ navigation, route }) => {
                 keyExtractor={(item, index) => index.toString()}
             />
             <View style={styles.containerSubtotal}>
-                <Text style={styles.textTotal}>Total: $ {formatPrice(totalGlobal + basicPrice)}</Text></View>
+                <Text style={styles.textTotal}>Total: $ {formatPrice(totalGlobal + basicPrice)}</Text>
+            </View>
+            {loading && (
+                <View style={[StandardStyles.loadingContainer]}>
+                    <ActivityIndicator size="large" color={primaryOrangeColor} />
+                    <Text style={{ fontWeight: "bold" }}>Procesando</Text>
+                </View>
+            )}
         </View>
     );
 }

@@ -20,7 +20,7 @@ const LoginStyles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 4,
         elevation: 10,
-        alignItems:"center",
+        alignItems: "center",
         justifyContent: "center",
     },
     imgBackground: {
@@ -31,10 +31,10 @@ const LoginStyles = StyleSheet.create({
         justifyContent: "center",
     },
     userIcon: {
-     //   position: "absolute",
+        //   position: "absolute",
         width: 108,
         height: 108,
-       // top: 170,
+        // top: 170,
         zIndex: 2,
         backgroundColor: "white",
         borderRadius: 50,
@@ -46,24 +46,24 @@ const LoginStyles = StyleSheet.create({
             height: 6,
         },
         elevation: 10,
-        marginTop:-90
+        marginTop: -90
     },
-    titleMessage:{
-        fontSize:25,
-        fontWeight:"bold",
-        textAlign:"center",
-        marginTop:10
+    titleMessage: {
+        fontSize: 25,
+        fontWeight: "bold",
+        textAlign: "center",
+        marginTop: 10
     },
-    textInput:{
-        borderBottomWidth:1,
-        borderBottomColor:"#D8D8D8",
-        width:"90%",
-        height:"8%",
-        padding:10,
-        fontSize:16,
-        fontWeight:"bold",
-        
-        
+    textInput: {
+        borderBottomWidth: 1,
+        borderBottomColor: "#D8D8D8",
+        width: "90%",
+        height: "8%",
+        padding: 10,
+        fontSize: 16,
+        fontWeight: "bold",
+
+
     }
 });
 

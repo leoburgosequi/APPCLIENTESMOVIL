@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
 import { BASE_URI_CES } from '../config';
@@ -12,8 +12,11 @@ const QuestionsScreen = ({ navigation, route }) => {
     const [questions, setQuestions] = useState([]);
     const [responses, setResponses] = useState([]);
 
+    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
         const getQuestions = async () => {
+            setLoading(true);
             const cesToken = await getItem('ces:token');
             axios.get(`${BASE_URI_CES}/get-questions-by-category?codigo=4`, {
                 headers: {
@@ -21,7 +24,8 @@ const QuestionsScreen = ({ navigation, route }) => {
                 }
             }).then(response => {
                 setQuestions(response.data);
-            }).catch(error => console.log("Error: ", error));
+                setLoading(false);
+            }).catch(error => { console.log("Error: ", error); setLoading(false) });
         };
 
         getQuestions();
@@ -63,6 +67,13 @@ const QuestionsScreen = ({ navigation, route }) => {
             <TouchableOpacity style={StandardStyles.bluePrimaryButton} onPress={() => navigation.navigate("Sistemas", [responses, questions])}>
                 <Text style={[StandardStyles.simpleTextWhite, { fontWeight: "bold" }]}>Consultar</Text>
             </TouchableOpacity>
+
+            {loading && (
+                <View style={[StandardStyles.loadingContainer]}>
+                    <ActivityIndicator size="large" color={primaryOrangeColor} />
+                    <Text style={{ fontWeight: "bold" }}>Procesando</Text>
+                </View>
+            )}
         </View>
     );
 };
