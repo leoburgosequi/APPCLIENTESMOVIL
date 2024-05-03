@@ -62,9 +62,7 @@ const LoginStyles = StyleSheet.create({
         padding: 10,
         fontSize: 16,
         fontWeight: "bold",
-
-
-    }
+    },
 });
 
 

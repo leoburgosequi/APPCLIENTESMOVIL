@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
 import { BASE_URI_CES } from '../config';
@@ -11,7 +11,6 @@ const QuestionsScreen = ({ navigation, route }) => {
     const data = route.params;
     const [questions, setQuestions] = useState([]);
     const [responses, setResponses] = useState([]);
-
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -39,6 +38,25 @@ const QuestionsScreen = ({ navigation, route }) => {
         return number;
     }
 
+    function validateFields() {
+        var valid = true;
+        questions.map(question => {
+            const answer = responses[question.id];
+            if (answer > question.maximo || answer < question.minimo) {
+                valid = false
+            }
+        });
+        (valid) ?
+            navigation.navigate("Sistemas", [responses, questions])
+            :
+            Alert.alert("¡Error!", 'Verifique las respuestas, estas deben estar dentro de los rangos establecidos.', [
+                {
+                    text: 'Cerrar',
+                    style: 'cancel',
+                },
+            ]);
+    }
+
     return (
         <View style={styles.container}>
             <FlatList
@@ -51,6 +69,7 @@ const QuestionsScreen = ({ navigation, route }) => {
                             <TextInput
                                 keyboardType="numeric"
                                 style={styles.input}
+                                inputMode='numeric'
                                 onChangeText={(text) => setResponses(prevResponses => ({
                                     ...prevResponses,
                                     [item.id]: convertDecimalAnswer(text)
@@ -64,7 +83,9 @@ const QuestionsScreen = ({ navigation, route }) => {
                     </View>
                 )}
             />
-            <TouchableOpacity style={StandardStyles.bluePrimaryButton} onPress={() => navigation.navigate("Sistemas", [responses, questions])}>
+            <TouchableOpacity style={StandardStyles.bluePrimaryButton} onPress={() => {
+                validateFields();
+            }}>
                 <Text style={[StandardStyles.simpleTextWhite, { fontWeight: "bold" }]}>Consultar</Text>
             </TouchableOpacity>
 
