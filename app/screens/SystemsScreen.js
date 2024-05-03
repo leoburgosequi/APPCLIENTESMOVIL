@@ -1,11 +1,12 @@
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import { defaultListaPrecio, primaryOrangeColor } from '../config'
 
 import { BASE_URI_CES } from '../config'
 import { StandardStyles } from '../styles/StandardStyles'
 import axios from 'axios'
+import { formatPrice } from '../helpers/General'
 import { getItem } from '../storage/GeneralStorage'
-import { primaryOrangeColor } from '../config'
 
 const SystemsScreen = ({ navigation, route }) => {
 
@@ -16,26 +17,56 @@ const SystemsScreen = ({ navigation, route }) => {
 
     const [systems, setSystems] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [pricesSystem, setPricesSystem] = useState([]);
 
 
     useEffect(() => {
         const getSystems = async () => {
-            setLoading(true)
+            setLoading(true);
             const cesToken = await getItem('ces:token');
 
-            axios.get(`${BASE_URI_CES}/get-systems-by-answers?${resp}`, {
+            try {
+                let systemsResponse = await axios.get(`${BASE_URI_CES}/get-systems-by-answers?${resp}`, {
+                    headers: {
+                        'Authorization': `Bearer ${cesToken}`
+                    }
+                });
 
-                headers: {
-                    'Authorization': `Bearer ${cesToken}`
-                }
-            }).then(s => {
-                setSystems(s.data);
+                // Preparar para actualizar cada sistema con su precio
+                const systemsWithPrices = await Promise.all(systemsResponse.data.map(async (system) => {
+                    const priceSystem = await getPricesystem(system.id, resp, cesToken);
+                    console.log(`Precio del sistema! ${system.nombre}: `, priceSystem);
+                    return { ...system, price: priceSystem };  // Retorna una nueva versión del objeto system con el precio incluido
+                }));
+                systemsWithPrices.sort((a, b) => a.price - b.price);
+                setSystems(systemsWithPrices);
+            } catch (error) {
+                console.error("Error:", error);
+            } finally {
                 setLoading(false);
-            }).catch(e => { console.log(`Error: ${e}`); setLoading(false) });
-        }
-        getSystems();
+            }
+        };
 
-    }, [])
+        async function getPricesystem(idSystem, answers, cesToken) {
+            try {
+                const response = await axios.get(`${BASE_URI_CES}/getSystemById?${answers}&listaPrecio=${defaultListaPrecio}&idSistema=${idSystem}`, {
+                    headers: {
+                        'Authorization': `Bearer ${cesToken}`
+                    }
+                });
+                const basicSkus = response.data.preCotizaciones.filter(item => item.opcionL1 === null && item.opcionL2 === null);
+                const totalBasics = basicSkus.reduce((total, item) => total + (item.precio * item.cantidad), 0);
+                return totalBasics;
+            } catch (error) {
+                console.log("Error in getPricesystem:", error);
+                return 0;
+            }
+        }
+
+        getSystems();
+    }, []);
+
+
 
 
     return (
@@ -62,7 +93,7 @@ const SystemsScreen = ({ navigation, route }) => {
                             <View style={styles.detailsContainer}>
                                 <Text style={styles.titleSystem}>{item.nombre}</Text>
                                 <Text style={styles.textCategory}>{item.categoria.nombre}</Text>
-                                <Text style={styles.price}>$108.000</Text>
+                                <Text style={styles.price}>${formatPrice(item.price)}</Text>
                             </View>
                         </TouchableOpacity>
                     )}
