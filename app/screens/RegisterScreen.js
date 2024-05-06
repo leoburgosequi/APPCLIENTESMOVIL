@@ -1,4 +1,4 @@
-import { Keyboard, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { ActivityIndicator, Keyboard, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import React, { useContext, useState } from "react";
 
 import { AuthContext } from '../context/AuthContext';
@@ -10,16 +10,16 @@ import { RegisterStyles } from "../styles/RegisterStyles";
 import SimpleBackground from '../components/SimpleBackground';
 import Spinner from "react-native-loading-spinner-overlay";
 import { StandardStyles } from "../styles/StandardStyles";
+import { primaryOrangeColor } from '../config';
 
 const RegisterScreen = ({ navigation }) => {
 
-    const [, , , , register] = useContext(AuthContext);
+    const [, , , , register, , isLoading] = useContext(AuthContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [fullName, setFullName] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
     const [tratamientoSelection, setTratamientoSelection] = useState(false);
     // const [terminosSelection, setTerminosSelection] = useState(false);
     //  const [,register,,,isLoading,user] = useContext(AuthContext);
@@ -29,7 +29,7 @@ const RegisterScreen = ({ navigation }) => {
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 
             <View style={RegisterStyles.container}>
-                <Spinner visible={isLoading} />
+                {/*  <Spinner visible={isLoading} /> */}
                 <Text style={{ textAlign: "center", marginVertical: 20, fontSize: 18, fontWeight: "bold" }}>Completa todos los campos</Text>
 
                 <View style={RegisterStyles.inputWrapper}>
@@ -48,6 +48,7 @@ const RegisterScreen = ({ navigation }) => {
                         placeholderTextColor="#F38658"
                         keyboardType="email-address"
                         autoComplete="email"
+                        autoCapitalize="none"
                     />
                     <TextInput style={LoginStyles.textInput}
                         placeholder="Contraseña"
@@ -55,6 +56,7 @@ const RegisterScreen = ({ navigation }) => {
                         onChangeText={setPassword}
                         placeholderTextColor="#F38658"
                         secureTextEntry
+                        textContentType="oneTimeCode"
                     />
                     <TextInput style={LoginStyles.textInput}
                         placeholder="Confirmar contraseña"
@@ -62,6 +64,7 @@ const RegisterScreen = ({ navigation }) => {
                         onChangeText={setPasswordConfirmation}
                         placeholderTextColor="#F38658"
                         secureTextEntry
+                        textContentType="oneTimeCode"
                     />
 
                     <CheckBox label="Autorizo el tratamiento de mis datos personales a Equinorte SA bajo su política de tratamiento de información."
@@ -79,9 +82,13 @@ const RegisterScreen = ({ navigation }) => {
 
                     </TouchableOpacity>
                     <SimpleBackground width="100%" />
+                    {isLoading && (
+                        <View style={[StandardStyles.loadingContainer]}>
+                            <ActivityIndicator size="large" color={primaryOrangeColor} />
+                            <Text style={{ fontWeight: "bold" }}>Procesando</Text>
+                        </View>
+                    )}
                 </View>
-
-
             </View>
 
         </TouchableWithoutFeedback>

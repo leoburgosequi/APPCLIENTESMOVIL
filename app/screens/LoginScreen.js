@@ -16,8 +16,6 @@ const LoginScreen = ({ navigation }) => {
 
     const [email, setEmail] = useState('leonardobh96@gmail.com');
     const [password, setPassword] = useState('1234567890');
-    // const [isLoading, setIsLoading] = useState(false);
-
     const [login, testApi, , , , , isLoading] = useContext(AuthContext);
 
     return (
@@ -51,6 +49,7 @@ const LoginScreen = ({ navigation }) => {
                             style={[LoginStyles.textInput]}
                             keyboardType="email-address"
                             autoComplete="email"
+                            autoCapitalize="none"
                         //placeholderTextColor="#F38658"
                         />
                         <TextInput

@@ -2,6 +2,7 @@ import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 
 import { AuthContext } from '../context/AuthContext'
+import Logout from '../components/Logout'
 import SimpleBackground from '../components/SimpleBackground'
 import { StandardStyles } from '../styles/StandardStyles'
 import { primaryOrangeColor } from '../config'

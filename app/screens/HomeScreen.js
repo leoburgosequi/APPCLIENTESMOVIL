@@ -5,6 +5,7 @@ import { getItem, saveItem } from "../storage/GeneralStorage";
 
 import { AuthContext } from "../context/AuthContext";
 import { FontAwesome6 } from '@expo/vector-icons';
+import Logout from "../components/Logout";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SimpleBackground from "../components/SimpleBackground";
 import { StandardStyles } from "../styles/StandardStyles";
@@ -105,10 +106,11 @@ const HomeScreen = ({ navigation }) => {
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={{ alignItems: "center", flex: 1, backgroundColor: "white" }}>
                 <View style={styles.contentWrapper}>
+                    <Logout />
                     {
                         (!userVerified) ?
                             <>
-                                <Text style={styles.title}>Se ha enviado una notificación con un código de 5 digitos a su correo, para poder verificarlo inserte el código abajo y presione "Verificar código".</Text>
+                                <Text style={styles.title}>Se ha enviado un código de 5 digitos al correo: "{user.email}", para poder verificarlo insertelo presione "Verificar código".</Text>
                                 <View style={styles.inputWrapper}>
                                     <TextInput
                                         style={styles.inputCode}
