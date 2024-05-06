@@ -137,7 +137,7 @@ const HomeScreen = ({ navigation }) => {
                                     Bienvenido, {user.name}.
                                 </Text>
                                 <View style={styles.optionWrapper}>
-                                    <TouchableOpacity style={styles.boxOption} onPress={msg}>
+                                    <TouchableOpacity style={styles.boxOption} onPress={() => navigation.navigate("Seleccionar cliente")}>
                                         <View style={styles.wrapperIconOption}>
                                             <FontAwesome6 name="helmet-safety" size={70} style={styles.iconBoxOption} />
                                         </View>

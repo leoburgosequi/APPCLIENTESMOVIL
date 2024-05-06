@@ -17,6 +17,7 @@ import PolicyScreen from '../screens/PolicyScreen';
 import { ProfileScreen } from '../screens';
 import QuestionsScreen from '../screens/QuestionsScreen';
 import RegisterScreen from "../screens/RegisterScreen";
+import SelectClientScreen from '../screens/SelectClientScreen';
 import SystemDetailScreen from '../screens/SystemDetailScreen';
 import SystemsScreen from '../screens/SystemsScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -78,7 +79,8 @@ function MyStack() {
                         <Stack.Screen name="Preguntas" component={QuestionsScreen} />
                         <Stack.Screen name="Sistemas" component={SystemsScreen} />
                         <Stack.Screen name="Sistema" component={SystemDetailScreen} />
-                        
+                        <Stack.Screen name="Seleccionar cliente" component={SelectClientScreen} />
+
                     </>
                     :
                     <>
@@ -154,7 +156,7 @@ function HomeTabs() {
                         return (
                             <>
                                 <View style={focused ? styles.iconFocus : styles.iconNotFocus}>
-                                    <Feather name="message-circle" size={30} color={focused ? primaryOrangeColor : "#FF976B"}/>
+                                    <Feather name="message-circle" size={30} color={focused ? primaryOrangeColor : "#FF976B"} />
                                 </View>
                                 <Text style={focused ? styles.textFocus : styles.textNotFocus}>Contacto</Text>
                             </>
