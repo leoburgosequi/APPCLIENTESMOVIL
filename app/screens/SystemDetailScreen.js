@@ -246,7 +246,8 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 18,
         textAlign: "center",
-        marginTop: 20
+        marginTop: 20,
+        color: "black"
     },
     subGroup: {
         marginTop: 5,
@@ -282,7 +283,7 @@ const styles = StyleSheet.create({
         bottom: 80,
         right: 10,
         padding: 20,
-        shadowColor: "black",
+        shadowColor: primaryOrangeColor,
         alignItems: "center",
         shadowOffset: {
             width: 6,

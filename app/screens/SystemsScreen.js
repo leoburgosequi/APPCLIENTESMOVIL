@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { defaultListaPrecio, primaryOrangeColor } from '../config'
 
 import { BASE_URI_CES } from '../config'
+import SimpleBackground from '../components/SimpleBackground'
 import { StandardStyles } from '../styles/StandardStyles'
 import axios from 'axios'
 import { formatPrice } from '../helpers/General'
@@ -105,6 +106,7 @@ const SystemsScreen = ({ navigation, route }) => {
                         <Text style={{ fontWeight: "bold" }}>Procesando</Text>
                     </View>
                 )}
+                <SimpleBackground width="100%" />
             </View>
             :
             <View style={[styles.systemContainer, { justifyContent: "center", alignItems: "center" }]}>
@@ -115,6 +117,7 @@ const SystemsScreen = ({ navigation, route }) => {
                         <Text style={{ fontWeight: "bold" }}>Procesando</Text>
                     </View>
                 )}
+                <SimpleBackground />
             </View>
     )
 }

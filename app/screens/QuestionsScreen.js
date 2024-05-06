@@ -2,6 +2,7 @@ import { ActivityIndicator, Alert, FlatList, StyleSheet, Text, TextInput, Toucha
 import React, { useEffect, useState } from 'react';
 
 import { BASE_URI_CES } from '../config';
+import SimpleBackground from '../components/SimpleBackground';
 import { StandardStyles } from '../styles/StandardStyles';
 import axios from 'axios';
 import { getItem } from '../storage/GeneralStorage';
@@ -69,12 +70,12 @@ const QuestionsScreen = ({ navigation, route }) => {
                             <TextInput
                                 keyboardType="numeric"
                                 style={styles.input}
-                                inputMode='numeric'
+
                                 onChangeText={(text) => setResponses(prevResponses => ({
                                     ...prevResponses,
                                     [item.id]: convertDecimalAnswer(text)
                                 }))}
-                                value={responses[item.id] || ''}
+                                value={(responses[item.id]) ? responses[item.id].toString() : responses[item.id] || ''}
                             />
                             <Text style={styles.textUnidad}>{item.unidad}</Text>
 
@@ -88,6 +89,7 @@ const QuestionsScreen = ({ navigation, route }) => {
             }}>
                 <Text style={[StandardStyles.simpleTextWhite, { fontWeight: "bold" }]}>Consultar</Text>
             </TouchableOpacity>
+            <SimpleBackground width="110%" />
 
             {loading && (
                 <View style={[StandardStyles.loadingContainer]}>
@@ -126,11 +128,11 @@ const styles = StyleSheet.create({
         height: 40,
         borderRadius: 10,
         flex: 1,
-        marginRight: 50, // Ajustar según el tamaño del texto de unidad
+        marginRight: 0,
     },
     textUnidad: {
         position: 'absolute',
-        right: 10,
+        right: 0,
         alignSelf: 'center',
         fontWeight: "bold"
     }

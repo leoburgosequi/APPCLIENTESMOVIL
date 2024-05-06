@@ -1,4 +1,4 @@
-import { Alert, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { Alert, Image, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { BASE_URI, BASE_URI_CES, primaryOrangeColor } from "../config";
 import React, { useContext, useEffect, useState } from "react";
 import { getItem, saveItem } from "../storage/GeneralStorage";
@@ -6,8 +6,10 @@ import { getItem, saveItem } from "../storage/GeneralStorage";
 import { AuthContext } from "../context/AuthContext";
 import { FontAwesome6 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import SimpleBackground from "../components/SimpleBackground";
 import { StandardStyles } from "../styles/StandardStyles";
 import axios from "axios";
+import { simpleMsgAlert } from "../helpers/General";
 
 const HomeScreen = ({ navigation }) => {
 
@@ -87,14 +89,16 @@ const HomeScreen = ({ navigation }) => {
                     style: 'cancel',
                 },
             ]);
-            console.log(res.data);
             if (res.data.user) {
                 await saveItem('user:data', JSON.stringify(res.data.user));
                 setUserVerified(true)
-
             }
             return;
         }).catch(e => console.log(`Error: ${e}`));
+    }
+
+    function msg() {
+        simpleMsgAlert("¡En construcción!", "");
     }
 
     return (
@@ -126,24 +130,47 @@ const HomeScreen = ({ navigation }) => {
                                 </View>
                             </>
                             :
-                            <><Text style={{ fontSize: 22, fontWeight: "bold" }}>
-                                Bienvenido, {user.name}.
-                            </Text><TouchableOpacity style={styles.boxOption}>
-                                    <FontAwesome6 name="building-user" size={30} style={styles.iconBoxOption} />
-                                    <Text style={styles.textBoxOption}> Consultar Obras</Text>
-                                </TouchableOpacity><TouchableOpacity onPress={() => navigation.navigate("Lineas", { data: lineas })} style={styles.boxOption}>
+                            <>
+                                <Text style={{ fontSize: 22, fontWeight: "bold", marginTop: 200 }}>
+                                    Bienvenido, {user.name}.
+                                </Text>
+                                <View style={styles.optionWrapper}>
+                                    <TouchableOpacity style={styles.boxOption} onPress={msg}>
+                                        <View style={styles.wrapperIconOption}>
+                                            <FontAwesome6 name="helmet-safety" size={70} style={styles.iconBoxOption} />
+                                        </View>
 
-                                    <MaterialCommunityIcons name="calculator-variant" size={30} style={styles.iconBoxOption} />
-                                    <Text style={styles.textBoxOption}>Autocotizador</Text>
-                                </TouchableOpacity></>
+                                        <View style={styles.textWrapperOption} >
+                                            <Text style={styles.textBoxOption}> Consultar Obras</Text>
+                                        </View>
+
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => navigation.navigate("Lineas", { data: lineas })} style={styles.boxOption}>
+                                        <View style={styles.wrapperIconOption}>
+                                            <MaterialCommunityIcons name="calculator-variant" size={70} style={styles.iconBoxOption} />
+                                        </View>
+                                        <View style={styles.textWrapperOption} >
+                                            <Text style={styles.textBoxOption}> Autocotizador</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+
+                            </>
                     }
                 </View>
+
+                <SimpleBackground width="100%" />
+
             </View>
         </TouchableWithoutFeedback>
     );
 }
 
 const styles = StyleSheet.create({
+    optionWrapper: {
+        flexDirection: "row",
+
+    },
     buttons: {
         marginTop: 50,
         marginHorizontal: 5
@@ -180,27 +207,39 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     boxOption: {
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: "space-evenly",
         alignItems: "center",
-        borderWidth: 2,
+
         borderColor: "black",
-        width: 300,
-        paddingHorizontal: 10,
-        paddingVertical: 30,
+        width: 190,
+        marginHorizontal: 5,
         borderRadius: 20,
         marginTop: 20
     },
     textBoxOption: {
         fontSize: 20,
         fontWeight: "bold",
-        color: "#313C4b"
+        color: "#313C4b",
+        textAlign: "center"
+
+    },
+    textWrapperOption: {
+        backgroundColor: "#FFECE4",
+        padding: 10,
+        width: "100%",
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        justifyContent: "center"
     },
     iconBoxOption: {
-        backgroundColor: "#313C4b",
-        color: "white",
+
+        color: primaryOrangeColor,
         padding: 10,
-        borderRadius: 10
+        borderRadius: 20
+    },
+    wrapperIconOption: {
+        padding: 30
     }
 })
 

@@ -35,6 +35,7 @@ const StandardStyles = StyleSheet.create({
         padding: 15
     },
     loadingContainer: {
+        flex: 1,
         position: 'absolute',
         left: 0,
         right: 0,
@@ -42,7 +43,7 @@ const StandardStyles = StyleSheet.create({
         bottom: 0,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(255, 255, 255, 0.5)' // Un fondo semi-transparente
+        backgroundColor: 'rgba(255, 255, 255, 0.5)'
     }
 
 })
