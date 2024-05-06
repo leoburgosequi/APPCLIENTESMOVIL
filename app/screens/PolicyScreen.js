@@ -1,6 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 
 import React from 'react'
+import SimpleBackground from '../components/SimpleBackground'
 
 const PolicyScreen = ({ navigation }) => {
     return (
@@ -91,6 +92,7 @@ const PolicyScreen = ({ navigation }) => {
             <Text style={styles.block}>En caso de requerir mayor información para dar respuesta a la solicitud, se requerirá al interesado para que dentro de los cinco (5) días siguientes a la recepción del reclamo, de respuesta a lo solicitado por EQUINORTE S.A. Transcurridos quince (15) días desde la respuesta solicitando mayor información, sin que el solicitante de respuesta, se entenderá que como desistido la reclamación y deberá radicar una nueva. </Text>
             <Text style={styles.block}>En caso de dar respuesta, recibida la misma, atender el reclamo será de quince (15) días hábiles contados a partir del día siguiente a la fecha de su recibo. Cuando no fuere posible atender el reclamo dentro de dicho término, se informará al interesado los motivos de la demora y la fecha en que se atenderá su reclamo. </Text>
             <Text style={styles.block}>En caso de requerir información adicional, se deberá contactar a los canales de contacto establecidos en el numeral 6. </Text>
+
         </ScrollView>
     )
 }

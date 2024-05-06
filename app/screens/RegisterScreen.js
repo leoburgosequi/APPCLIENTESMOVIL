@@ -7,6 +7,7 @@ import CheckBox from "../components/CheckBox";
 import { LoginStyles } from "../styles/LoginStyles";
 import PolicyScreen from './PolicyScreen';
 import { RegisterStyles } from "../styles/RegisterStyles";
+import SimpleBackground from '../components/SimpleBackground';
 import Spinner from "react-native-loading-spinner-overlay";
 import { StandardStyles } from "../styles/StandardStyles";
 
@@ -72,26 +73,17 @@ const RegisterScreen = ({ navigation }) => {
                         containerWidth="80%"
 
                     />
-                    {/* 
-                <CheckBox label="Acepto los terminos y condiciones."
-                    isChecked={terminosSelection}
-                    onChange={setTerminosSelection}
-                    sizeFont={16}
-                    isButton={true}
-                    link="Login"
-                    containerWidth="80%"
-                /> */}
-
                     <TouchableOpacity style={[StandardStyles.orangePrimaryButton, { marginTop: 10 }]}
                         onPress={() => { register(fullName, email, password, passwordConfirmation, tratamientoSelection); }} >
                         <Text style={[StandardStyles.simpleTextWhite, { fontWeight: "bold" }]}>CREAR CUENTA</Text>
 
                     </TouchableOpacity>
-
+                    <SimpleBackground width="100%" />
                 </View>
 
 
             </View>
+
         </TouchableWithoutFeedback>
     )
 }
