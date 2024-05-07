@@ -133,7 +133,7 @@ const HomeScreen = ({ navigation }) => {
                             </>
                             :
                             <>
-                                <Text style={{ fontSize: 22, fontWeight: "bold", marginTop: 200 }}>
+                                <Text style={{ fontSize: 22, fontWeight: "bold", marginTop: "40%" }}>
                                     Bienvenido, {user.name}.
                                 </Text>
                                 <View style={styles.optionWrapper}>

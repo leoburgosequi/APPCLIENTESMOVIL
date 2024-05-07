@@ -1,5 +1,5 @@
 import { BASE_URI_CES, grayStandardColor, primaryOrangeColor, secondBlueColor } from '../config';
-import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -58,6 +58,12 @@ const DropdownComponent = () => {
                 setIsLoading(false);
             });
     }
+
+    const openURL = () => {
+        console.log("sgdjkgkdsj")
+        const url = "http://193.122.159.234:8082/XSoft-Reportes/resources/GWTJReportGenerator.html?cn=com.xsoft.logistica.reportes.kardexclientefac.KardexClienteFactura&createPl=T&sessionId=EFFF5398E6FB1A58633D8ACB3A25D113&PARAMFORM=NO&DESTYPE=SCREEN&pempresa=1&ppto_venta=BAQ&usuario=CALTAMAR&pfecha_ini=01/05/2024&pfecha_fin=07/05/2024&pcliente=890115406&pobra=13079&ver_anulado=NO";
+        Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
+    };
 
     const renderItem = item => {
         return (
@@ -121,11 +127,11 @@ const DropdownComponent = () => {
                                         <Text style={{ fontSize: 18, marginLeft: 20, marginRight: 130, fontWeight: "bold" }}>Saldo en obra</Text>
                                         <AntDesign name="right" size={20} color={primaryOrangeColor} />
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={[styles.row, styles.rowButton]}>
+                                    <TouchableOpacity style={[styles.row, styles.rowButton]} onPress={openURL}>
                                         <View style={{ backgroundColor: grayStandardColor, padding: 10, borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}>
                                             <MaterialIcons name="compare-arrows" size={30} color={primaryOrangeColor} />
                                         </View>
-                                        <Text style={{ fontSize: 18, marginLeft: 20, marginRight: 139, fontWeight: "bold" }}>Movimientos</Text>
+                                        <Text style={{ fontSize: 18, marginLeft: 20, marginRight: 139, fontWeight: "bold" }} >Movimientos</Text>
                                         <AntDesign name="right" size={20} color={primaryOrangeColor} />
                                     </TouchableOpacity>
                                 </View>
@@ -168,7 +174,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1
     },
     box: {
-        width: 370,
+        width: "100%",
         backgroundColor: "white",
         marginBottom: 20,
         borderRadius: 20,
@@ -180,13 +186,13 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     wrapperNotFound: {
-        marginTop: 200,
+        marginTop: "30%",
         alignItems: "center"
     },
     dropdown: {
         margin: 30,
         height: 50,
-        width: 400,
+        width: "90%",
         backgroundColor: 'white',
         borderRadius: 12,
         padding: 12,
