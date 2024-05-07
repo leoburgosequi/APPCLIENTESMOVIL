@@ -1,4 +1,4 @@
-import { primaryOrangeColor, secondBlueVolor } from "../config";
+import { primaryOrangeColor, secondBlueColor } from "../config";
 
 import { StyleSheet } from "react-native";
 
@@ -28,7 +28,7 @@ const StandardStyles = StyleSheet.create({
         fontSize: 14
     },
     bluePrimaryButton: {
-        backgroundColor: secondBlueVolor,
+        backgroundColor: secondBlueColor,
         borderRadius: 10,
         alignItems: "center",
         justifyContent: "center",

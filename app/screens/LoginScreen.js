@@ -4,6 +4,7 @@ import { deleteItem, getItem, saveItem } from '../storage/GeneralStorage';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../context/AuthContext';
+import Loader from '../components/Loader';
 import LoginBackground from '../resources/LoginBackground.png';
 import { LoginStyles } from '../styles/LoginStyles';
 import LoginUserIcon from '../resources/LoginUserIcon.png';
@@ -79,10 +80,7 @@ const LoginScreen = ({ navigation }) => {
                     </View>
                 </ImageBackground>
                 {isLoading && (
-                    <View style={[StandardStyles.loadingContainer]}>
-                        <ActivityIndicator size="large" color={primaryOrangeColor} />
-                        <Text style={{ fontWeight: "bold" }}>Procesando</Text>
-                    </View>
+                    <Loader />
                 )}
 
             </View>
