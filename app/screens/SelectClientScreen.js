@@ -15,7 +15,7 @@ import axios from 'axios';
 import { getItem } from '../storage/GeneralStorage';
 import notFoundClients from '../resources/notFoundClients.png';
 
-const DropdownComponent = () => {
+const DropdownComponent = ({ navigation }) => {
     const [value, setValue] = useState(null);
     const [data, setData] = useState([]);
     const [, , token, logout, , user, , cesToken] = useContext(AuthContext);
@@ -42,7 +42,6 @@ const DropdownComponent = () => {
     }, []);
 
     function getObras(cliente) {
-        //console.log(cesToken, cliente, user);
         setIsLoading(true);
         axios.get(`${BASE_URI_CES}/get-obra-by-cliente?nide_cliente=${cliente}&email=${user.email}`, {
             headers: {
@@ -58,12 +57,6 @@ const DropdownComponent = () => {
                 setIsLoading(false);
             });
     }
-
-    const openURL = () => {
-        console.log("sgdjkgkdsj")
-        const url = "http://193.122.159.234:8082/XSoft-Reportes/resources/GWTJReportGenerator.html?cn=com.xsoft.logistica.reportes.kardexclientefac.KardexClienteFactura&createPl=T&sessionId=EFFF5398E6FB1A58633D8ACB3A25D113&PARAMFORM=NO&DESTYPE=SCREEN&pempresa=1&ppto_venta=BAQ&usuario=CALTAMAR&pfecha_ini=01/05/2024&pfecha_fin=07/05/2024&pcliente=890115406&pobra=13079&ver_anulado=NO";
-        Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
-    };
 
     const renderItem = item => {
         return (
@@ -127,7 +120,7 @@ const DropdownComponent = () => {
                                         <Text style={{ fontSize: 18, marginLeft: 20, marginRight: 130, fontWeight: "bold" }}>Saldo en obra</Text>
                                         <AntDesign name="right" size={20} color={primaryOrangeColor} />
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={[styles.row, styles.rowButton]} onPress={openURL}>
+                                    <TouchableOpacity style={[styles.row, styles.rowButton]} onPress={() => navigation.navigate("Movimientos")} >
                                         <View style={{ backgroundColor: grayStandardColor, padding: 10, borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}>
                                             <MaterialIcons name="compare-arrows" size={30} color={primaryOrangeColor} />
                                         </View>
