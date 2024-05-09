@@ -120,7 +120,7 @@ const DropdownComponent = ({ navigation }) => {
                                         <Text style={{ fontSize: 18, marginLeft: 20, marginRight: 130, fontWeight: "bold" }}>Saldo en obra</Text>
                                         <AntDesign name="right" size={20} color={primaryOrangeColor} />
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={[styles.row, styles.rowButton]} onPress={() => navigation.navigate("Movimientos")} >
+                                    <TouchableOpacity style={[styles.row, styles.rowButton]} onPress={() => navigation.navigate("Movimientos", { obra: item, cliente: value })} >
                                         <View style={{ backgroundColor: grayStandardColor, padding: 10, borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}>
                                             <MaterialIcons name="compare-arrows" size={30} color={primaryOrangeColor} />
                                         </View>
