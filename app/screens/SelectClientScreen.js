@@ -1,16 +1,11 @@
+import { AntDesign, Entypo, FontAwesome5, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { BASE_URI_CES, grayStandardColor, primaryOrangeColor, secondBlueColor } from '../config';
 import { FlatList, Image, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 
-import AntDesign from '@expo/vector-icons/AntDesign';
 import { AuthContext } from '../context/AuthContext';
 import { Dropdown } from 'react-native-element-dropdown';
-import { Entypo } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
 import Loader from '../components/Loader';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Octicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { getItem } from '../storage/GeneralStorage';
 import notFoundClients from '../resources/notFoundClients.png';
@@ -18,9 +13,9 @@ import notFoundClients from '../resources/notFoundClients.png';
 const DropdownComponent = ({ navigation }) => {
     const [value, setValue] = useState(null);
     const [data, setData] = useState([]);
-    const [, , token, logout, , user, , cesToken] = useContext(AuthContext);
     const [obras, setObras] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [, , token, logout, , user, , cesToken] = useContext(AuthContext);
 
     useEffect(() => {
         const getClients = async () => {
@@ -41,7 +36,7 @@ const DropdownComponent = ({ navigation }) => {
         getClients();
     }, []);
 
-    function getObras(cliente) {
+    const getObras = (cliente) => {
         setIsLoading(true);
         axios.get(`${BASE_URI_CES}/get-obra-by-cliente?nide_cliente=${cliente}&email=${user.email}`, {
             headers: {
@@ -58,14 +53,11 @@ const DropdownComponent = ({ navigation }) => {
             });
     }
 
-    const renderItem = item => {
-        return (
-            <View style={styles.item}>
-                <Text style={styles.textItem}>{item.label}</Text>
-
-            </View>
-        );
-    };
+    const renderItem = (item) => (
+        <View style={styles.item}>
+            <Text style={styles.textItem}>{item.label}</Text>
+        </View>
+    );
 
     return (
         <View style={styles.container}>
@@ -76,7 +68,7 @@ const DropdownComponent = ({ navigation }) => {
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
                 data={data}
-                search
+                //   search
                 maxHeight={300}
                 labelField="label"
                 valueField="value"
@@ -85,74 +77,63 @@ const DropdownComponent = ({ navigation }) => {
                 value={value}
                 onChange={item => {
                     setValue(item.value);
-                    console.log(item.value, item.label)
+                    console.log(item.value, item.label);
                     getObras(item.value);
                 }}
                 renderItem={renderItem}
             />
-            {
-                (obras.length > 0)
-                    ?
-                    <FlatList
-                        data={obras}
-                        keyExtractor={item => item.codigo}
-                        renderItem={({ item }) => (
-                            <View style={styles.box}>
-                                <View style={styles.titleWrapper}>
-                                    <View style={{ borderRadius: 15, backgroundColor: grayStandardColor, marginLeft: 10 }}>
-                                        <FontAwesome5 name="building" size={30} color={secondBlueColor} style={{ padding: 10 }} />
-                                    </View>
-                                    <Text style={{ color: secondBlueColor, fontSize: 18, marginLeft: 10, fontWeight: "bold", width: 300 }}>{item.nombre}</Text>
+            {obras.length > 0 ? (
+                <FlatList
+                    data={obras}
+                    keyExtractor={item => item.codigo}
+                    renderItem={({ item }) => (
+                        <View style={styles.box}>
+                            <View style={styles.titleWrapper}>
+                                <View style={{ borderRadius: 15, backgroundColor: grayStandardColor, marginLeft: 10 }}>
+                                    <FontAwesome5 name="building" size={30} color={secondBlueColor} style={{ padding: 10 }} />
                                 </View>
-                                <View>
-                                    <View style={[styles.row]}>
-                                        <Entypo name="location-pin" size={30} color={primaryOrangeColor} />
-                                        <Text style={{ fontSize: 16 }}>{item.ptoVenta}</Text>
-                                    </View>
-                                    <View style={[styles.row]}>
-                                        <MaterialIcons name="numbers" size={24} color={primaryOrangeColor} />
-                                        <Text style={{ fontSize: 18 }}>{item.codigo}</Text>
-                                    </View>
-                                    <TouchableOpacity style={[styles.row, styles.rowButton]}>
-                                        <View style={{ backgroundColor: grayStandardColor, padding: 10, borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}>
-                                            <Ionicons name="cube" size={30} color={primaryOrangeColor} />
-                                        </View>
-                                        <Text style={{ fontSize: 18, marginLeft: 20, marginRight: 130, fontWeight: "bold" }}>Saldo en obra</Text>
-                                        <AntDesign name="right" size={20} color={primaryOrangeColor} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={[styles.row, styles.rowButton]} onPress={() => navigation.navigate("Movimientos", { obra: item, cliente: value })} >
-                                        <View style={{ backgroundColor: grayStandardColor, padding: 10, borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}>
-                                            <MaterialIcons name="compare-arrows" size={30} color={primaryOrangeColor} />
-                                        </View>
-                                        <Text style={{ fontSize: 18, marginLeft: 20, marginRight: 139, fontWeight: "bold" }} >Movimientos</Text>
-                                        <AntDesign name="right" size={20} color={primaryOrangeColor} />
-                                    </TouchableOpacity>
-                                </View>
+                                <Text style={{ color: secondBlueColor, fontSize: 18, marginLeft: 10, fontWeight: "bold", width: 300 }}>{item.nombre}</Text>
                             </View>
-                        )}
-                    />
-                    : <View style={styles.wrapperNotFound}>
-                        <Image
-                            source={notFoundClients}
-                            style={styles.imgNotFound}
-                        />
-                    </View>
-
-            }
-            {isLoading && (
-                <Loader />
+                            <View>
+                                <View style={[styles.row]}>
+                                    <Entypo name="location-pin" size={30} color={primaryOrangeColor} />
+                                    <Text style={{ fontSize: 16 }}>{item.ptoVenta}</Text>
+                                </View>
+                                <View style={[styles.row]}>
+                                    <MaterialIcons name="numbers" size={24} color={primaryOrangeColor} />
+                                    <Text style={{ fontSize: 18 }}>{item.codigo}</Text>
+                                </View>
+                                <TouchableOpacity style={[styles.row, styles.rowButton]}>
+                                    <View style={{ backgroundColor: grayStandardColor, padding: 10, borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}>
+                                        <Ionicons name="cube" size={30} color={primaryOrangeColor} />
+                                    </View>
+                                    <Text style={{ fontSize: 18, marginLeft: 20, marginRight: 130, fontWeight: "bold" }}>Saldo en obra</Text>
+                                    <AntDesign name="right" size={20} color={primaryOrangeColor} />
+                                </TouchableOpacity>
+                                <TouchableOpacity style={[styles.row, styles.rowButton]} onPress={() => navigation.navigate("Movimientos", { obra: item, cliente: value })}>
+                                    <View style={{ backgroundColor: grayStandardColor, padding: 10, borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}>
+                                        <MaterialIcons name="compare-arrows" size={30} color={primaryOrangeColor} />
+                                    </View>
+                                    <Text style={{ fontSize: 18, marginLeft: 20, marginRight: 72, fontWeight: "bold" }}>PDF de Movimientos</Text>
+                                    <AntDesign name="right" size={20} color={primaryOrangeColor} />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    )}
+                />
+            ) : (
+                <View style={styles.wrapperNotFound}>
+                    <Image source={notFoundClients} style={styles.imgNotFound} />
+                </View>
             )}
-
-
+            {isLoading && <Loader />}
         </View>
-
     );
 };
 
 export default DropdownComponent;
 
 const styles = StyleSheet.create({
-
     row: {
         flexDirection: "row",
         alignItems: "center",
@@ -171,7 +152,6 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         marginBottom: 20,
         borderRadius: 20,
-
     },
     container: {
         flex: 1,
