@@ -18,48 +18,58 @@ const Movements = ({ navigation, route }) => {
     const [, , , logout, , user, , cesToken] = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);
     const data = route.params;
-    console.log(data);
+
     const [result, setResult] = useState(null);
     const [cont, setCont] = useState(0);
     const [showWebView, setShowWebView] = useState(false);
     const webviewRef = useRef(null);
-    const url = `http://193.122.159.234:8082/XSoft-Reportes/resources/GWTJReportGenerator.html?cn=com.xsoft.logistica.reportes.kardexclientefac.KardexClienteFactura&createPl=T&sessionId=EFFF5398E6FB1A58633D8ACB3A25D113&PARAMFORM=NO&DESTYPE=SCREEN&pempresa=1&ppto_venta=BAQ&usuario=APPMOVIL&pfecha_ini=01/02/2021&pfecha_fin=14/11/2023&pcliente=890115406&pobra=22504&ver_anulado=NO&DESNAME=${cont}`;
+    const [finalUrl, setFinalUrl] = useState('');
+    //const url = `http://193.122.159.234:8082/XSoft-Reportes/resources/GWTJReportGenerator.html?cn=com.xsoft.logistica.reportes.kardexclientefac.KardexClienteFactura&createPl=T&sessionId=EFFF5398E6FB1A58633D8ACB3A25D113&PARAMFORM=NO&DESTYPE=SCREEN&pempresa=1&ppto_venta=${data.obra.ptoVenta}&usuario=APPMOVIL&pfecha_ini=${fechaInicial}&pfecha_fin=${fechaFinal}&pcliente=${data.cliente}&pobra=${data.obra.codigo}&ver_anulado=NO&DESNAME=${cont}`;
 
     const [date, setDate] = useState(new Date());
     const [fechaInicial, setFechaInicial] = useState('');
     const [showPickerFechaInicial, setShowPickerFechaInicial] = useState(false);
-    const [dateFinal, setDateFinal] = useState(new Date);
+    const [dateFinal, setDateFinal] = useState(new Date());
     const [fechaFinal, setFechaFinal] = useState('');
     const [showPickerFechaFinal, setShowPickerFechaFinal] = useState(false);
+
+
+    useEffect(() => {
+        if (cont !== 0) {
+            const newUrl = makeUrl();
+            setFinalUrl(newUrl);
+        }
+    }, [cont, fechaFinal, fechaInicial])
 
     const handleWebViewNavigationStateChange = async (navState) => {
         if (navState.url.includes('XSoft-Reportes')) {
             setTimeout(() => {
                 setShowWebView(false);
-                console.log("en setimeout");
                 handlePressButtonAsync();
             }, 3000);
 
         }
     };
 
+    function makeUrl() {
+        return `http://193.122.159.234:8082/XSoft-Reportes/resources/GWTJReportGenerator.html?cn=com.xsoft.logistica.reportes.kardexclientefac.KardexClienteFactura&createPl=T&sessionId=EFFF5398E6FB1A58633D8ACB3A25D113&PARAMFORM=NO&DESTYPE=SCREEN&pempresa=1&ppto_venta=${data.obra.ptoVenta}&usuario=APPMOVIL&pfecha_ini=${fechaInicial.toLocaleDateString()}&pfecha_fin=${fechaFinal.toLocaleDateString()}&pcliente=${data.cliente}&pobra=${data.obra.codigo}&ver_anulado=NO&DESNAME=${cont}`
+    }
+
     const openURL = () => {
-        console.log(fechaInicial, fechaFinal);
-        if (fechaInicial > fechaFinal) {
+        if (fechaInicial <= fechaFinal) {
 
-            console.log("La fecha es mayor");
-
+            setTimeout(() => {
+                const number = Math.floor(Math.random() * 1000);
+                setCont(number);
+            }, 500);
+            setShowWebView(true);
         } else {
             console.log("es menor")
         }
-        const number = Math.floor(Math.random() * 1000);
-        console.log(number)
-        setCont(number);
-        setShowWebView(true);
+
     };
 
     const handlePressButtonAsync = async () => {
-        console.log("abreidno link");
         let result = await WebBrowser.openBrowserAsync(`http://193.122.159.234:8082/XSoft-Reportes/files//${cont}`);
         setResult(result);
     };
@@ -113,6 +123,7 @@ const Movements = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.title}>Consulta de movimientos de la obra <Text style={styles.resalt}>{data.obra.codigo} - {data.obra.nombre}</Text> </Text>
 
             <Text style={styles.label}>Desde: </Text>
             {
@@ -123,6 +134,8 @@ const Movements = ({ navigation, route }) => {
                         value={date}
                         onChange={onChangeFechaInicial}
                         style={styles.datePicker}
+                        minimumDate={new Date('2016-01-01')}
+                        maximumDate={new Date()}
                     />
                 )
             }
@@ -146,7 +159,7 @@ const Movements = ({ navigation, route }) => {
                     >
                         <TextInput
                             style={styles.input}
-                            placeholder="fecha inicial"
+                            placeholder="Fecha inicial"
                             value={(fechaInicial) ? fechaInicial.toLocaleDateString() : fechaInicial}
                             onChangeText={setFechaInicial}
                             editable={false}
@@ -165,6 +178,8 @@ const Movements = ({ navigation, route }) => {
                         value={dateFinal}
                         onChange={onChangeFechaFinal}
                         style={styles.datePicker}
+                        minimumDate={new Date('2016-01-01')}
+                        maximumDate={new Date()}
                     />
                 )
             }
@@ -199,13 +214,13 @@ const Movements = ({ navigation, route }) => {
             }
 
 
-            <TouchableOpacity style={StandardStyles.bluePrimaryButton} onPress={openURL} >
+            <TouchableOpacity style={[StandardStyles.bluePrimaryButton, { marginTop: 20 }]} onPress={openURL} >
                 <Text style={{ color: "white", fontWeight: "bold" }}>Generar PDF</Text>
             </TouchableOpacity>
             {showWebView && (
                 <WebView
                     ref={webviewRef}
-                    source={{ uri: url }}
+                    source={{ uri: (finalUrl === '') ? '' : finalUrl }}
                     onNavigationStateChange={handleWebViewNavigationStateChange}
                     style={styles.webview}
                 />
@@ -218,15 +233,26 @@ const Movements = ({ navigation, route }) => {
 export default Movements
 
 const styles = StyleSheet.create({
+    resalt: {
+        fontWeight: "bold",
+        color: "black"
+    },
+    title: {
+        fontSize: 30,
+        color: "gray",
+        width: "90%",
+        textAlign: "center",
+        marginVertical: 50
+    },
     container: {
         flex: 1,
-        justifyContent: 'center',
+        paddingTop: 100,
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
     webview: {
-        width: 0, // Hacerlo invisible
-        height: 0, // Hacerlo invisible
+        width: 0,
+        height: 0,
     },
     input: {
         padding: 15,
@@ -237,6 +263,7 @@ const styles = StyleSheet.create({
     },
     label: {
         padding: 7,
+        fontWeight: "bold"
     },
     datePicker: {
         height: 120,
