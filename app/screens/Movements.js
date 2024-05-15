@@ -1,7 +1,7 @@
 import * as WebBrowser from 'expo-web-browser';
 
+import { Alert, Button, Platform, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { BASE_URI_CES, grayStandardColor } from '../config';
-import { Button, Platform, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import { AuthContext } from '../context/AuthContext';
@@ -13,6 +13,7 @@ import { WebView } from 'react-native-webview';
 import axios from 'axios';
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
+import { simpleMsgAlert } from '../helpers/General';
 
 const Movements = ({ navigation, route }) => {
     const [, , , logout, , user, , cesToken] = useContext(AuthContext);
@@ -56,21 +57,28 @@ const Movements = ({ navigation, route }) => {
     }
 
     const openURL = () => {
-        if (fechaInicial <= fechaFinal) {
+        if (fechaFinal === '' || fechaInicial === '') {
+            simpleMsgAlert("¡Atención!", "Las fechas son obligatorias.");
+            return;
+        }
 
+        if (fechaInicial <= fechaFinal) {
+            setIsLoading(true)
             setTimeout(() => {
                 const number = Math.floor(Math.random() * 1000);
                 setCont(number);
             }, 500);
             setShowWebView(true);
         } else {
-            console.log("es menor")
+            simpleMsgAlert("¡Error!", "La fecha inicial no puede ser mayor a la fecha final.");
+            return;
         }
 
     };
 
     const handlePressButtonAsync = async () => {
         let result = await WebBrowser.openBrowserAsync(`http://193.122.159.234:8082/XSoft-Reportes/files//${cont}`);
+        setIsLoading(false);
         setResult(result);
     };
 
@@ -226,6 +234,11 @@ const Movements = ({ navigation, route }) => {
                 />
             )}
             <SimpleBackground width="100%" />
+            {
+                isLoading && (
+                    <Loader text="Generando PDF" bg="white" />
+                )
+            }
         </View>
     )
 }
@@ -238,15 +251,15 @@ const styles = StyleSheet.create({
         color: "black"
     },
     title: {
-        fontSize: 30,
+        fontSize: 24,
         color: "gray",
         width: "90%",
         textAlign: "center",
-        marginVertical: 50
+        marginVertical: 30
     },
     container: {
         flex: 1,
-        paddingTop: 100,
+        paddingTop: 30,
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
