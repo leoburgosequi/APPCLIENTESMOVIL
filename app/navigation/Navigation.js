@@ -12,6 +12,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LineasScreen from '../screens/LineasScreen';
 import LoginScreen from "../screens/LoginScreen";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Movements from '../screens/Movements';
 import { NavigationContainer } from '@react-navigation/native';
 import PolicyScreen from '../screens/PolicyScreen';
 import { ProfileScreen } from '../screens';
@@ -80,6 +81,7 @@ function MyStack() {
                         <Stack.Screen name="Sistemas" component={SystemsScreen} />
                         <Stack.Screen name="Sistema" component={SystemDetailScreen} />
                         <Stack.Screen name="Seleccionar cliente" component={SelectClientScreen} />
+                        <Stack.Screen name="Movimientos" component={Movements} />
 
                     </>
                     :

@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState({});
     const [token, setToken] = useState('');
-
+    const [cesToken, setCesToken] = useState('');
 
     const login = async (email, password) => {
         setIsLoading(true);
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
             await saveItem('ces:token', res.data.t_access);
             setUser(res.data.user);
             setToken(res.data.access_token);
-            console.log("Mensjae: ", res.data.message);
+            setCesToken(res.data.t_access);
             setIsLoading(false);
         }).catch(error => {
             console.log(`Login error ${error}`);
@@ -138,7 +138,7 @@ export const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={[login, testApi, token, logout, register, user, isLoading]} >
+        <AuthContext.Provider value={[login, testApi, token, logout, register, user, isLoading, cesToken]} >
             {children}
         </AuthContext.Provider>
     );
