@@ -1,5 +1,9 @@
 {
   "expo": {
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/8bb7cac2-f516-4ed6-b588-229bca54c06a"
+    },
     "name": "appClientesMovil",
     "slug": "appClientesMovil",
     "version": "1.0.0",
@@ -31,6 +35,9 @@
       "eas": {
         "projectId": "8bb7cac2-f516-4ed6-b588-229bca54c06a"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }

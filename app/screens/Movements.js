@@ -21,7 +21,7 @@ const Movements = ({ navigation, route }) => {
     const data = route.params;
 
     const [result, setResult] = useState(null);
-    const [cont, setCont] = useState(0);
+    const [cont, setCont] = useState('');
     const [showWebView, setShowWebView] = useState(false);
     const webviewRef = useRef(null);
     const [finalUrl, setFinalUrl] = useState('');
@@ -36,19 +36,21 @@ const Movements = ({ navigation, route }) => {
 
 
     useEffect(() => {
-        if (cont !== 0) {
-            const newUrl = makeUrl();
-            setFinalUrl(newUrl);
+        async function updateUrlAndProcess() {
+            if (cont !== '') {
+                const newUrl = makeUrl();
+                setFinalUrl(newUrl);
+            }
         }
-    }, [cont, fechaFinal, fechaInicial])
+        updateUrlAndProcess();
+    }, [cont])
 
     const handleWebViewNavigationStateChange = async (navState) => {
         if (navState.url.includes('XSoft-Reportes')) {
             setTimeout(() => {
                 setShowWebView(false);
                 handlePressButtonAsync();
-            }, 3000);
-
+            }, 6000);
         }
     };
 
@@ -62,13 +64,20 @@ const Movements = ({ navigation, route }) => {
             return;
         }
 
+        /*  if (validateDateRange(fechaInicial, fechaFinal)) {
+              simpleMsgAlert("¡Atención!", "El rango de fechas debe estar entre 6 meses");
+              return;
+          }*/
+
         if (fechaInicial <= fechaFinal) {
             setIsLoading(true)
             setTimeout(() => {
-                const number = Math.floor(Math.random() * 1000);
-                setCont(number);
+                const firstNumber = Math.floor(Math.random() * 1000);
+                const secondNumber = Math.floor(Math.random() * (3000 - 2000 + 1)) + 2000;
+                const fileName = `${secondNumber}_${data.obra.nombre.replace(/\s+/g, '_')}_${data.obra.ptoVenta}_${firstNumber}`;
+                setCont(fileName);
+                setShowWebView(true);
             }, 500);
-            setShowWebView(true);
         } else {
             simpleMsgAlert("¡Error!", "La fecha inicial no puede ser mayor a la fecha final.");
             return;
@@ -127,6 +136,20 @@ const Movements = ({ navigation, route }) => {
     const iosChangeFechaFinal = () => {
         setFechaFinal(dateFinal);
         toggleFechaFinalPicker();
+    }
+
+    function validateDateRange(date1, date2) {
+        const d1 = new Date(date1);
+        const d2 = new Date(date2);
+
+        const earlierDate = new Date(Math.min(d1, d2));
+        earlierDate.setMonth(earlierDate.getMonth() + 6);
+
+        if (earlierDate < new Date(Math.max(d1, d2))) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
@@ -235,7 +258,8 @@ const Movements = ({ navigation, route }) => {
             {showWebView && (
                 <WebView
                     ref={webviewRef}
-                    source={{ uri: (finalUrl === '') ? '' : finalUrl }}
+                    //   source={{ uri: (finalUrl === '') ? '' : finalUrl }}
+                    source={{ uri: finalUrl }}
                     onNavigationStateChange={handleWebViewNavigationStateChange}
                     style={styles.webview}
                 />
