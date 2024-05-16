@@ -53,7 +53,7 @@ const Movements = ({ navigation, route }) => {
     };
 
     function makeUrl() {
-        return `http://193.122.159.234:8082/XSoft-Reportes/resources/GWTJReportGenerator.html?cn=com.xsoft.logistica.reportes.kardexclientefac.KardexClienteFactura&createPl=T&sessionId=EFFF5398E6FB1A58633D8ACB3A25D113&PARAMFORM=NO&DESTYPE=SCREEN&pempresa=1&ppto_venta=${data.obra.ptoVenta}&usuario=APPMOVIL&pfecha_ini=${fechaInicial.toLocaleDateString()}&pfecha_fin=${fechaFinal.toLocaleDateString()}&pcliente=${data.cliente}&pobra=${data.obra.codigo}&ver_anulado=NO&DESNAME=${cont}`
+        return `http://193.122.159.234:8082/XSoft-Reportes/resources/GWTJReportGenerator.html?cn=com.xsoft.logistica.reportes.kardexclientefac.KardexClienteFactura&createPl=T&sessionId=EFFF5398E6FB1A58633D8ACB3A25D113&PARAMFORM=NO&DESTYPE=SCREEN&pempresa=1&ppto_venta=${data.obra.ptoVenta}&usuario=APPMOVIL&pfecha_ini=${formatDate(fechaInicial)}&pfecha_fin=${formatDate(fechaFinal)}&pcliente=${data.cliente}&pobra=${data.obra.codigo}&ver_anulado=NO&DESNAME=${cont}`
     }
 
     const openURL = () => {
@@ -129,6 +129,13 @@ const Movements = ({ navigation, route }) => {
         toggleFechaFinalPicker();
     }
 
+
+    function formatDate(date) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript van de 0 a 11
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Consulta de movimientos de la obra <Text style={styles.resalt}>{data.obra.codigo} - {data.obra.nombre}</Text> </Text>
@@ -168,7 +175,7 @@ const Movements = ({ navigation, route }) => {
                         <TextInput
                             style={styles.input}
                             placeholder="Fecha inicial"
-                            value={(fechaInicial) ? fechaInicial.toLocaleDateString() : fechaInicial}
+                            value={(fechaInicial) ? formatDate(fechaInicial) : fechaInicial}
                             onChangeText={setFechaInicial}
                             editable={false}
                             onPressIn={toggleFechaInicialPicker}
@@ -212,7 +219,7 @@ const Movements = ({ navigation, route }) => {
                         <TextInput
                             style={styles.input}
                             placeholder="Fecha final"
-                            value={(fechaFinal) ? fechaFinal.toLocaleDateString() : fechaFinal}
+                            value={(fechaFinal) ? formatDate(fechaFinal) : fechaFinal}
                             onChangeText={setFechaFinal}
                             editable={false}
                             onPressIn={toggleFechaFinalPicker}
