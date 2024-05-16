@@ -72,9 +72,10 @@ const Movements = ({ navigation, route }) => {
         if (fechaInicial <= fechaFinal) {
             setIsLoading(true)
             setTimeout(() => {
-                const firstNumber = Math.floor(Math.random() * 1000);
-                const secondNumber = Math.floor(Math.random() * (3000 - 2000 + 1)) + 2000;
-                const fileName = `${secondNumber}_${data.obra.nombre.replace(/\s+/g, '_')}_${data.obra.ptoVenta}_${firstNumber}`;
+                const firstNumber = Math.floor(Math.random() * 100000);
+                const secondNumber = Math.floor(Math.random() * (30000 - 20000 + 1)) * firstNumber;
+                const fileName = `${secondNumber}_${data.obra.nombre.replace(/\s+/g, '_')}_${data.obra.ptoVenta}_${formatDate(fechaInicial)}_${formatDate(fechaFinal)}`;
+                console.log(fileName);
                 setCont(fileName);
                 setShowWebView(true);
             }, 500);
