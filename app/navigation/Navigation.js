@@ -18,6 +18,7 @@ import PolicyScreen from '../screens/PolicyScreen';
 import { ProfileScreen } from '../screens';
 import QuestionsScreen from '../screens/QuestionsScreen';
 import RegisterScreen from "../screens/RegisterScreen";
+import SaldoScreen from '../screens/SaldoScreen';
 import SelectClientScreen from '../screens/SelectClientScreen';
 import SystemDetailScreen from '../screens/SystemDetailScreen';
 import SystemsScreen from '../screens/SystemsScreen';
@@ -82,6 +83,7 @@ function MyStack() {
                         <Stack.Screen name="Sistema" component={SystemDetailScreen} />
                         <Stack.Screen name="Seleccionar cliente" component={SelectClientScreen} />
                         <Stack.Screen name="Movimientos" component={Movements} />
+                        <Stack.Screen name="Saldo en obra" component={SaldoScreen} />
 
                     </>
                     :

@@ -103,7 +103,7 @@ const DropdownComponent = ({ navigation }) => {
                                     <MaterialIcons name="numbers" size={24} color={primaryOrangeColor} />
                                     <Text style={{ fontSize: 18 }}>{item.codigo}</Text>
                                 </View>
-                                <TouchableOpacity style={[styles.row, styles.rowButton]}>
+                                <TouchableOpacity style={[styles.row, styles.rowButton]} onPress={() => navigation.navigate("Saldo en obra", { obra: item })}>
                                     <View style={{ backgroundColor: grayStandardColor, padding: 10, borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}>
                                         <Ionicons name="cube" size={30} color={primaryOrangeColor} />
                                     </View>

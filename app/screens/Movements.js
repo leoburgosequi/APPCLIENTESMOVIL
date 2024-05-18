@@ -1,11 +1,12 @@
 import * as WebBrowser from 'expo-web-browser';
 
 import { Alert, Button, Platform, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { BASE_URI_CES, grayStandardColor } from '../config';
+import { BASE_URI_CES, grayStandardColor, primaryOrangeColor } from '../config';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import { AuthContext } from '../context/AuthContext';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { FontAwesome5 } from '@expo/vector-icons';
 import Loader from '../components/Loader';
 import SimpleBackground from '../components/SimpleBackground';
 import { StandardStyles } from '../styles/StandardStyles';
@@ -64,10 +65,10 @@ const Movements = ({ navigation, route }) => {
             return;
         }
 
-        /*  if (validateDateRange(fechaInicial, fechaFinal)) {
-              simpleMsgAlert("¡Atención!", "El rango de fechas debe estar entre 6 meses");
-              return;
-          }*/
+        if (validateDateRange(fechaInicial, fechaFinal)) {
+            simpleMsgAlert("¡Atención!", "El rango de fechas debe estar entre 6 meses");
+            return;
+        }
 
         if (fechaInicial <= fechaFinal) {
             setIsLoading(true)
@@ -251,6 +252,11 @@ const Movements = ({ navigation, route }) => {
                     </Pressable>
                 )
             }
+            <View style={{ alignItems: "center", width: "95%" }}>
+                <Text style={{ marginTop: 20, color: "gray", }}><FontAwesome5 name="exclamation-circle" size={20} color={primaryOrangeColor} /> El rango de fechas debe estar comprendido en 6 meses.</Text>
+
+            </View>
+
 
 
             <TouchableOpacity style={[StandardStyles.bluePrimaryButton, { marginTop: 20 }]} onPress={openURL} >
