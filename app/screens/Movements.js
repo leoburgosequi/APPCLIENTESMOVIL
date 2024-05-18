@@ -55,11 +55,11 @@ const Movements = ({ navigation, route }) => {
         }
     };
 
-    function makeUrl() {
-        return `http://193.122.159.234:8082/XSoft-Reportes/resources/GWTJReportGenerator.html?cn=com.xsoft.logistica.reportes.kardexclientefac.KardexClienteFactura&createPl=T&sessionId=EFFF5398E6FB1A58633D8ACB3A25D113&PARAMFORM=NO&DESTYPE=SCREEN&pempresa=1&ppto_venta=${data.obra.ptoVenta}&usuario=APPMOVIL&pfecha_ini=${formatDate(fechaInicial)}&pfecha_fin=${formatDate(fechaFinal)}&pcliente=${data.cliente}&pobra=${data.obra.codigo}&ver_anulado=NO&DESNAME=${cont}`
+    function makeUrl(fileName) {
+        return `http://193.122.159.234:8082/XSoft-Reportes/resources/GWTJReportGenerator.html?cn=com.xsoft.logistica.reportes.kardexclientefac.KardexClienteFactura&createPl=T&sessionId=EFFF5398E6FB1A58633D8ACB3A25D113&PARAMFORM=NO&DESTYPE=SCREEN&pempresa=1&ppto_venta=${data.obra.ptoVenta}&usuario=APPMOVIL&pfecha_ini=${formatDate(fechaInicial)}&pfecha_fin=${formatDate(fechaFinal)}&pcliente=${data.cliente}&pobra=${data.obra.codigo}&ver_anulado=NO&DESNAME=${fileName}`
     }
 
-    const openURL = () => {
+    const openURL = async () => {
         if (fechaFinal === '' || fechaInicial === '') {
             simpleMsgAlert("¡Atención!", "Las fechas son obligatorias.");
             return;
@@ -71,20 +71,28 @@ const Movements = ({ navigation, route }) => {
         }
 
         if (fechaInicial <= fechaFinal) {
-            setIsLoading(true)
-            setTimeout(() => {
+            setTimeout(async () => {
                 const firstNumber = Math.floor(Math.random() * 100000);
                 const secondNumber = Math.floor(Math.random() * (30000 - 20000 + 1)) * firstNumber;
+
                 const fileName = `${secondNumber}_${data.obra.nombre.replace(/\s+/g, '_')}_${data.obra.ptoVenta}_${formatDate(fechaInicial)}_${formatDate(fechaFinal)}`;
+
                 console.log(fileName);
-                setCont(fileName);
-                setShowWebView(true);
+
+                const newUrl = makeUrl(fileName);
+                console.log(newUrl);
+                WebBrowser.openBrowserAsync(newUrl);
+
+                // Espera adicionalmente 6 segundos después de que WebBrowser ha finalizado
+                setTimeout(() => {
+                    WebBrowser.openBrowserAsync(`http://193.122.159.234:8082/XSoft-Reportes/files//${fileName}`);
+                }, 6000);
+
             }, 500);
         } else {
             simpleMsgAlert("¡Error!", "La fecha inicial no puede ser mayor a la fecha final.");
             return;
         }
-
     };
 
     const handlePressButtonAsync = async () => {
