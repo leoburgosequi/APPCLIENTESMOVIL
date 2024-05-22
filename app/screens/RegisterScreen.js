@@ -1,8 +1,10 @@
 import { ActivityIndicator, Keyboard, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import React, { useContext, useState } from "react";
 
+import { AntDesign } from '@expo/vector-icons';
 import { AuthContext } from '../context/AuthContext';
 import CheckBox from "../components/CheckBox";
+import { Entypo } from '@expo/vector-icons';
 //import { AuthContext } from '../context/AuthContext';
 import { LoginStyles } from "../styles/LoginStyles";
 import PolicyScreen from './PolicyScreen';
@@ -21,6 +23,8 @@ const RegisterScreen = ({ navigation }) => {
     const [fullName, setFullName] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
     const [tratamientoSelection, setTratamientoSelection] = useState(false);
+    const [showPass, setShowPass] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
     // const [terminosSelection, setTerminosSelection] = useState(false);
     //  const [,register,,,isLoading,user] = useContext(AuthContext);
 
@@ -33,39 +37,62 @@ const RegisterScreen = ({ navigation }) => {
                 <Text style={{ textAlign: "center", marginVertical: 20, fontSize: 18, fontWeight: "bold" }}>Completa todos los campos</Text>
 
                 <View style={RegisterStyles.inputWrapper}>
-                    <TextInput style={[LoginStyles.textInput, { alignItems: "center" }]}
-                        placeholder="Nombre Completo"
-                        value={fullName}
-                        onChangeText={setFullName}
-                        placeholderTextColor="#F38658"
+                    <View style={LoginStyles.inputWrapper}>
+                        <TextInput style={[LoginStyles.textInput, { alignItems: "center" }]}
+                            placeholder="Nombre Completo"
+                            value={fullName}
+                            onChangeText={setFullName}
+                            placeholderTextColor="#F38658"
+                        />
+                        <AntDesign name="user" size={24} style={StandardStyles.rightIconInput} color={primaryOrangeColor} />
+                    </View>
 
-                    />
+                    <View style={LoginStyles.inputWrapper}>
+                        <TextInput style={LoginStyles.textInput}
+                            placeholder="Correo electrónico"
+                            value={email}
+                            onChangeText={setEmail}
+                            placeholderTextColor="#F38658"
+                            keyboardType="email-address"
+                            autoComplete="email"
+                            autoCapitalize="none"
+                        />
+                        <Entypo name="email" size={24} style={StandardStyles.rightIconInput} color={primaryOrangeColor} />
+                    </View>
 
-                    <TextInput style={LoginStyles.textInput}
-                        placeholder="Correo electrónico"
-                        value={email}
-                        onChangeText={setEmail}
-                        placeholderTextColor="#F38658"
-                        keyboardType="email-address"
-                        autoComplete="email"
-                        autoCapitalize="none"
-                    />
-                    <TextInput style={LoginStyles.textInput}
-                        placeholder="Contraseña"
-                        value={password}
-                        onChangeText={setPassword}
-                        placeholderTextColor="#F38658"
-                        secureTextEntry
-                        textContentType="oneTimeCode"
-                    />
-                    <TextInput style={LoginStyles.textInput}
-                        placeholder="Confirmar contraseña"
-                        value={passwordConfirmation}
-                        onChangeText={setPasswordConfirmation}
-                        placeholderTextColor="#F38658"
-                        secureTextEntry
-                        textContentType="oneTimeCode"
-                    />
+                    <View style={LoginStyles.inputWrapper}>
+                        <TextInput style={LoginStyles.textInput}
+                            placeholder="Contraseña"
+                            value={password}
+                            onChangeText={setPassword}
+                            placeholderTextColor="#F38658"
+                            secureTextEntry={!showPass}
+                            textContentType="oneTimeCode"
+                        />
+                        {
+                            showPass ?
+                                <Entypo name="eye-with-line" size={24} color="#c1c1c1" style={StandardStyles.rightIconInput} onPress={() => { setShowPass(false) }} />
+                                :
+                                <Entypo name="eye" size={24} color="#c1c1c1" style={StandardStyles.rightIconInput} onPress={() => { setShowPass(true) }} />
+                        }
+                    </View>
+
+                    <View style={LoginStyles.inputWrapper}>
+                        <TextInput style={LoginStyles.textInput}
+                            placeholder="Confirmar contraseña"
+                            value={passwordConfirmation}
+                            onChangeText={setPasswordConfirmation}
+                            placeholderTextColor="#F38658"
+                            secureTextEntry={!showConfirm}
+                            textContentType="oneTimeCode"
+                        />
+                        {
+                            showConfirm ?
+                                <Entypo name="eye-with-line" size={24} color="#c1c1c1" style={StandardStyles.rightIconInput} onPress={() => { setShowConfirm(false) }} />
+                                :
+                                <Entypo name="eye" size={24} color="#c1c1c1" style={StandardStyles.rightIconInput} onPress={() => { setShowConfirm(true) }} />
+                        }
+                    </View>
 
                     <CheckBox label="Autorizo el tratamiento de mis datos personales a Equinorte SA bajo su política de tratamiento de información."
                         isChecked={tratamientoSelection}

@@ -56,6 +56,7 @@ const StandardStyles = StyleSheet.create({
     androidShadow: {
         elevation: 10
     },
+    rightIconInput: { position: "absolute", alignSelf: "center", right: 0 },
 
 })
 

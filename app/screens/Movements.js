@@ -20,6 +20,7 @@ const Movements = ({ navigation, route }) => {
     const [, , , logout, , user, , cesToken] = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);
     const data = route.params;
+    const range = 12;
 
     const [result, setResult] = useState(null);
     const [cont, setCont] = useState('');
@@ -153,7 +154,7 @@ const Movements = ({ navigation, route }) => {
         const d2 = new Date(date2);
 
         const earlierDate = new Date(Math.min(d1, d2));
-        earlierDate.setMonth(earlierDate.getMonth() + 6);
+        earlierDate.setMonth(earlierDate.getMonth() + range);
 
         if (earlierDate < new Date(Math.max(d1, d2))) {
             return true;
@@ -261,7 +262,7 @@ const Movements = ({ navigation, route }) => {
                 )
             }
             <View style={{ alignItems: "center", width: "95%" }}>
-                <Text style={{ marginTop: 20, color: "gray", }}><FontAwesome5 name="exclamation-circle" size={20} color={primaryOrangeColor} /> El rango de fechas debe estar comprendido en 6 meses.</Text>
+                <Text style={{ marginTop: 20, color: "gray", }}><FontAwesome5 name="exclamation-circle" size={20} color={primaryOrangeColor} /> El rango de fechas debe estar comprendido en {range} meses.</Text>
 
             </View>
 

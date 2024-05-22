@@ -1,9 +1,12 @@
+import * as WebBrowser from 'expo-web-browser';
+
 import { ActivityIndicator, Alert, Button, Image, ImageBackground, Keyboard, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import { deleteItem, getItem, saveItem } from '../storage/GeneralStorage';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../context/AuthContext';
+import { Entypo } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Loader from '../components/Loader';
 import LoginBackground from '../resources/LoginBackground.png';
@@ -13,12 +16,31 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { StandardStyles } from '../styles/StandardStyles';
 import WhiteLogo from '../resources/WhiteLogo.png';
 import { primaryOrangeColor } from '../config';
+import { simpleMsgAlert } from '../helpers/General';
 
 const LoginScreen = ({ navigation }) => {
 
     const [email, setEmail] = useState('leonardobh96@gmail.com');
     const [password, setPassword] = useState('1234567890');
     const [login, testApi, , , , , isLoading] = useContext(AuthContext);
+    const [showPassword, setShowPassword] = useState(false);
+
+    const message = () => {
+        Alert.alert("Información", "La restauración de su contraseña es en nuestro portal web.", [
+            {
+                text: 'Cerrar',
+                style: 'destructive',
+            },
+            {
+                text: '¡Ir!',
+                onPress: () => WebBrowser.openBrowserAsync("https://appclientes.equinorte.co/password/reset")
+            }
+        ]);
+    }
+    const openLink = () => {
+
+        return;
+    }
 
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -44,24 +66,37 @@ const LoginScreen = ({ navigation }) => {
                         <Text style={LoginStyles.titleMessage}>
                             ¡Bienvenido!
                         </Text>
-                        <TextInput
-                            placeholder="Correo electrónico"
-                            value={email}
-                            onChangeText={setEmail}
-                            style={[LoginStyles.textInput]}
-                            keyboardType="email-address"
-                            autoComplete="email"
-                            autoCapitalize="none"
-                        //placeholderTextColor="#F38658"
-                        />
-                        <TextInput
-                            placeholder="Contraseña"
-                            value={password}
-                            onChangeText={setPassword}
-                            secureTextEntry
-                            style={LoginStyles.textInput}
-                        //  placeholderTextColor="#F38658"
-                        />
+                        <View style={LoginStyles.inputWrapper}>
+                            <TextInput
+                                placeholder="Correo electrónico"
+                                value={email}
+                                onChangeText={setEmail}
+                                style={[LoginStyles.textInput]}
+                                keyboardType="email-address"
+                                autoComplete="email"
+                                autoCapitalize="none"
+
+                            />
+                            <Entypo name="email" size={24} style={StandardStyles.rightIconInput} color={primaryOrangeColor} />
+                        </View>
+
+                        <View style={LoginStyles.inputWrapper}>
+                            <TextInput
+                                placeholder="Contraseña"
+                                value={password}
+                                onChangeText={setPassword}
+                                secureTextEntry={!showPassword}
+                                style={LoginStyles.textInput}
+                            />
+                            {
+                                showPassword ?
+                                    <Entypo name="eye-with-line" size={24} color="#c1c1c1" style={StandardStyles.rightIconInput} onPress={() => { setShowPassword(false) }} />
+                                    :
+                                    <Entypo name="eye" size={24} color="#c1c1c1" style={StandardStyles.rightIconInput} onPress={() => { setShowPassword(true) }} />
+                            }
+
+                        </View>
+
                         <TouchableOpacity style={[StandardStyles.orangePrimaryButton, { marginTop: 30, width: "80%" }]}
                             onPress={() => { login(email, password); }}  >
                             <Text style={[StandardStyles.simpleTextWhite, { fontWeight: "bold" }]}>INGRESAR</Text>
@@ -72,6 +107,9 @@ const LoginScreen = ({ navigation }) => {
                             onPress={() => navigation.navigate("Registrarse")}  >
                             <Text style={[StandardStyles.simpleTextOrange, { fontWeight: "bold" }]}>REGISTRARME</Text>
 
+                        </TouchableOpacity>
+                        <TouchableOpacity style={LoginStyles.forgotButton} onPress={message}>
+                            <Text style={LoginStyles.textForgot}>Olvidé mi contraseña</Text>
                         </TouchableOpacity>
                         {/*      <TouchableOpacity style={[StandardStyles.orangePrimaryButton, { marginTop: 10, width: "80%" }]}
                             onPress={() => { testApi(); }}  >

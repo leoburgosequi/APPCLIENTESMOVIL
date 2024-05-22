@@ -213,7 +213,7 @@ const SystemDetailScreen = ({ navigation, route }) => {
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index.toString()}
             />
-            <View style={styles.containerSubtotal}>
+            <View style={[styles.containerSubtotal, StandardStyles.androidShadow]}>
                 <Text style={styles.textTotal}>Total: $ {formatPrice(totalGlobal + basicPrice)}</Text>
             </View>
             {loading && (

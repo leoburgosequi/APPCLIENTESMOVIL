@@ -59,15 +59,30 @@ const LoginStyles = StyleSheet.create({
         textAlign: "center",
         marginTop: 10
     },
+    inputWrapper: {
+        width: "90%",
+        height: "8%",
+        justifyContent: "center"
+    },
     textInput: {
         borderBottomWidth: 1,
         borderBottomColor: "#D8D8D8",
         width: "90%",
-        height: "8%",
         padding: 10,
         fontSize: 16,
         fontWeight: "bold",
     },
+    forgotButton: {
+
+        padding: 10,
+        marginTop: 40
+    },
+    textForgot: {
+        textDecorationLine: "underline",
+        fontSize: 18,
+        fontWeight: "bold"
+    },
+
 });
 
 

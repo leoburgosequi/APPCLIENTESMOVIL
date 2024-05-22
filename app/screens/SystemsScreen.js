@@ -94,7 +94,7 @@ const SystemsScreen = ({ navigation, route }) => {
                             <View style={styles.detailsContainer}>
                                 <Text style={styles.titleSystem}>{item.nombre}</Text>
                                 <Text style={styles.textCategory}>{item.categoria.nombre}</Text>
-                                <Text style={styles.price}>${formatPrice(item.price)}</Text>
+                                <Text style={styles.price}>${formatPrice(item.price)} / Día</Text>
                             </View>
                         </TouchableOpacity>
                     )}
