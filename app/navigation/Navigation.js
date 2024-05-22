@@ -77,7 +77,7 @@ function MyStack() {
                 (token !== '') ?
                     <>
                         <Stack.Screen name="Inicio" component={HomeTabs} options={{ headerShown: false }} />
-                        <Stack.Screen name="Lineas" component={LineasScreen} />
+                        <Stack.Screen name="Lineas" component={LineasScreen} options={{ headerShown: true }} />
                         <Stack.Screen name="Preguntas" component={QuestionsScreen} />
                         <Stack.Screen name="Sistemas" component={SystemsScreen} />
                         <Stack.Screen name="Sistema" component={SystemDetailScreen} />
