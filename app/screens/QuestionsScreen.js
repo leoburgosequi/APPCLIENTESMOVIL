@@ -75,7 +75,7 @@ const QuestionsScreen = ({ navigation, route }) => {
                                     ...prevResponses,
                                     [item.id]: convertDecimalAnswer(text)
                                 }))}
-                                value={(responses[item.id]) ? responses[item.id].toString() : responses[item.id] || ''}
+                                value={responses[item.id] || ''}
                             />
                             <Text style={styles.textUnidad}>{item.unidad}</Text>
 

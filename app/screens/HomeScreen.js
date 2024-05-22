@@ -106,7 +106,7 @@ const HomeScreen = ({ navigation }) => {
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={{ alignItems: "center", flex: 1, backgroundColor: "white" }}>
                 <View style={styles.contentWrapper}>
-                    <Logout />
+                    {/*  <Logout /> */}
                     {
                         (!userVerified) ?
                             <>
