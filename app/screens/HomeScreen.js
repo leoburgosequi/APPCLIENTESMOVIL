@@ -110,7 +110,7 @@ const HomeScreen = ({ navigation }) => {
                     {
                         (!userVerified) ?
                             <>
-                                <Text style={styles.title}>Se ha enviado un código de 5 digitos al correo: "{user.email}", para poder verificarlo insertelo presione "Verificar código".</Text>
+                                <Text style={styles.title}>Se ha enviado un código de 5 digitos al correo: "{user.email}", para poder verificarlo, insertelo y presione "Verificar código".</Text>
                                 <View style={styles.inputWrapper}>
                                     <TextInput
                                         style={styles.inputCode}
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     inputWrapper: {
         width: 350,
         alignItems: "center",
-        marginTop: 110
+        marginTop: 60
     },
     inputCode: {
         width: "70%",
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 24,
-        marginTop: 70,
+        marginTop: 30,
         textAlign: "center",
         paddingHorizontal: 20,
         // fontWeight: "bold"

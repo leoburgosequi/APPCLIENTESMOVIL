@@ -5,7 +5,7 @@
       "url": "https://u.expo.dev/8bb7cac2-f516-4ed6-b588-229bca54c06a"
     },
     "name": "EQN",
-    "slug": "EQN",
+    "slug": "appClientesMovil",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -26,7 +26,8 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.leoburgos07.EQN"
+      "package": "com.leoburgos07.EQN",
+      "softwareKeyboardLayoutMode": "pan"
     },
     "extra": {
       "eas": {

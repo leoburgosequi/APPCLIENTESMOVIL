@@ -10,7 +10,7 @@ const LoginStyles = StyleSheet.create({
         width: "85%",
         backgroundColor: "white",
         borderRadius: 10,
-        height: "78%",
+        height: "80%",
         zIndex: 1,
         shadowColor: "black",
         shadowOffset: {
@@ -45,8 +45,13 @@ const LoginStyles = StyleSheet.create({
             width: 6,
             height: 6,
         },
-        elevation: 10,
-        marginTop: -90
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+
+        marginTop: 0
+    },
+    userIconshadow: {
+        elevation: 10
     },
     titleMessage: {
         fontSize: 25,

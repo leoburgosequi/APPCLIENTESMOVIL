@@ -43,7 +43,19 @@ const StandardStyles = StyleSheet.create({
         bottom: 0,
         alignItems: 'center',
         justifyContent: 'center',
-    }
+    },
+    iosShadow: {
+        shadowColor: "black",
+        shadowOffset: {
+            width: 6,
+            height: 6,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+    },
+    androidShadow: {
+        elevation: 10
+    },
 
 })
 

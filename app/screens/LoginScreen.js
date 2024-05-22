@@ -1,9 +1,10 @@
-import { ActivityIndicator, Alert, Button, Image, ImageBackground, Keyboard, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { ActivityIndicator, Alert, Button, Image, ImageBackground, Keyboard, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import { deleteItem, getItem, saveItem } from '../storage/GeneralStorage';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../context/AuthContext';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Loader from '../components/Loader';
 import LoginBackground from '../resources/LoginBackground.png';
 import { LoginStyles } from '../styles/LoginStyles';
@@ -33,7 +34,7 @@ const LoginScreen = ({ navigation }) => {
                     />
                     <View style={LoginStyles.wrapper} >
 
-                        <View style={LoginStyles.userIcon}>
+                        <View style={[LoginStyles.userIcon, LoginStyles.userIconshadow]}>
                             <Image
                                 source={LoginUserIcon}
                                 style={LoginStyles.loginUserIcon}
