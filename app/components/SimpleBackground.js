@@ -8,7 +8,7 @@ const SimpleBackground = ({ width }) => {
         <Image
             source={HomeBackground}
             style={{
-                position: "absolute", bottom: 0, width, zIndex: -1
+                position: "absolute", bottom: 0, width: width ? width : "100%", zIndex: -1
             }}
         />
     )

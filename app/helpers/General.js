@@ -21,3 +21,17 @@ export function simpleMsgAlert(title, content) {
     },
   ]);
 }
+
+export function dobleButtonActionAlert(title, content, textDoneButton, textCancelButton, functionExecute) {
+  Alert.alert(title, content, [
+    {
+      text: textCancelButton,
+      style: 'destructive',
+    },
+    {
+      text: textDoneButton,
+      style: 'cancel',
+      onPress: functionExecute()
+    },
+  ]);
+}
