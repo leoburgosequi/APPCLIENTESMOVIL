@@ -40,6 +40,7 @@ const ProfileScreen = ({ navigation }) => {
       console.log(resp.data)
       if (!resp.data.done) {
         simpleMsgAlert("¡Error!", resp.data.message);
+        setIsLoading(false);
         return;
       }
 
