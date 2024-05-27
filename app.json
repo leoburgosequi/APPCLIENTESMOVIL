@@ -24,11 +24,11 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#ffffff",
-        "versionCode": 2
+        "backgroundColor": "#ffffff"
       },
       "package": "com.leoburgos07.appClientesMovil",
-      "softwareKeyboardLayoutMode": "pan"
+      "softwareKeyboardLayoutMode": "pan",
+      "versionCode": 2
     },
     "extra": {
       "eas": {
