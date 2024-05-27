@@ -24,7 +24,8 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "versionCode": 2
       },
       "package": "com.leoburgos07.appClientesMovil",
       "softwareKeyboardLayoutMode": "pan"
