@@ -4,9 +4,9 @@
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/8bb7cac2-f516-4ed6-b588-229bca54c06a"
     },
-    "name": "EQN",
+    "name": "appClientesMovil",
     "slug": "appClientesMovil",
-    "version": "1.0.1",
+    "version": "2.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -26,7 +26,7 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.leoburgos07.eqn",
+      "package": "com.leoburgos07.appClientesMovil",
       "softwareKeyboardLayoutMode": "pan"
     },
     "extra": {
