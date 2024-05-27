@@ -113,7 +113,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#FEF8F6",
     },
     contentWrapper: {
-        alignItems: "center"
+        alignItems: "center",
+        paddingBottom: 200
     },
     box: {
         width: "100%",

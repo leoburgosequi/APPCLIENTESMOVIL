@@ -67,7 +67,7 @@ const Movements = ({ navigation, route }) => {
         }
 
         if (validateDateRange(fechaInicial, fechaFinal)) {
-            simpleMsgAlert("¡Atención!", "El rango de fechas debe estar entre 6 meses");
+            simpleMsgAlert("¡Atención!", `El rango de fechas debe estar entre ${range} meses.`);
             return;
         }
 
