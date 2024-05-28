@@ -9,7 +9,7 @@ import { getItem } from '../storage/GeneralStorage';
 import { primaryOrangeColor } from '../config';
 
 const QuestionsScreen = ({ navigation, route }) => {
-    const data = route.params;
+    const { codCategory } = route.params;
     const [questions, setQuestions] = useState([]);
     const [responses, setResponses] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ const QuestionsScreen = ({ navigation, route }) => {
         const getQuestions = async () => {
             setLoading(true);
             const cesToken = await getItem('ces:token');
-            axios.get(`${BASE_URI_CES}/get-questions-by-category?codigo=4`, {
+            axios.get(`${BASE_URI_CES}/get-questions-by-category?codigo=${codCategory}`, {
                 headers: {
                     'Authorization': `Bearer ${cesToken}`
                 }

@@ -47,8 +47,8 @@ const StandardStyles = StyleSheet.create({
     iosShadow: {
         shadowColor: "black",
         shadowOffset: {
-            width: 6,
-            height: 6,
+            width: 2,
+            height: 2,
         },
         shadowOpacity: 0.2,
         shadowRadius: 4,

@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderBottomWidth: 1,
-    borderBottomColor: grayStandardColor,
+    borderBottomColor: "gray",
     marginTop: 15,
     fontSize: 18
   },

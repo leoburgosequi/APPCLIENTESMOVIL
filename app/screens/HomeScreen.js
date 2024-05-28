@@ -147,7 +147,7 @@ const HomeScreen = ({ navigation }) => {
                                         </View>
 
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={() => navigation.navigate("Lineas", { data: lineas })} style={styles.boxOption}>
+                                    <TouchableOpacity onPress={() => navigation.navigate("Lineas de Negocio", { lineas })} style={styles.boxOption}>
                                         <View style={styles.wrapperIconOption}>
                                             <MaterialCommunityIcons name="calculator-variant" size={70} style={styles.iconBoxOption} />
                                         </View>

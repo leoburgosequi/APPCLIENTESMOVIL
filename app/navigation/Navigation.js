@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { AuthContext } from "../context/AuthContext";
 import CatalogoScreen from '../screens/CatalogoScreen';
+import CategoryScreen from '../screens/CategoryScreen';
 import ContactScreen from '../screens/ContactScreen';
 import ContentScreen from '../screens/ContentScreen';
 import { Entypo } from '@expo/vector-icons';
@@ -77,13 +78,14 @@ function MyStack() {
                 (token !== '') ?
                     <>
                         <Stack.Screen name="Inicio" component={HomeTabs} options={{ headerShown: false }} />
-                        <Stack.Screen name="Lineas" component={LineasScreen} options={{ headerShown: true }} />
+                        <Stack.Screen name="Lineas de Negocio" component={LineasScreen} options={{ headerShown: true }} />
                         <Stack.Screen name="Preguntas" component={QuestionsScreen} />
                         <Stack.Screen name="Sistemas" component={SystemsScreen} />
                         <Stack.Screen name="Sistema" component={SystemDetailScreen} />
                         <Stack.Screen name="Seleccionar cliente" component={SelectClientScreen} />
                         <Stack.Screen name="Movimientos" component={Movements} />
                         <Stack.Screen name="Saldo en obra" component={SaldoScreen} />
+                        <Stack.Screen name="Categorías" component={CategoryScreen} />
 
                     </>
                     :
