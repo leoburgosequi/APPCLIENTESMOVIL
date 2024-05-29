@@ -10,10 +10,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import Loader from '../components/Loader';
 import SimpleBackground from '../components/SimpleBackground';
 import { StandardStyles } from '../styles/StandardStyles';
-import { WebView } from 'react-native-webview';
 import axios from 'axios';
-import { printToFileAsync } from 'expo-print';
-import { shareAsync } from 'expo-sharing';
 import { simpleMsgAlert } from '../helpers/General';
 
 const Movements = ({ navigation, route }) => {
@@ -24,8 +21,6 @@ const Movements = ({ navigation, route }) => {
 
     const [result, setResult] = useState(null);
     const [cont, setCont] = useState('');
-    const [showWebView, setShowWebView] = useState(false);
-    const webviewRef = useRef(null);
     const [finalUrl, setFinalUrl] = useState('');
     //const url = `http://193.122.159.234:8082/XSoft-Reportes/resources/GWTJReportGenerator.html?cn=com.xsoft.logistica.reportes.kardexclientefac.KardexClienteFactura&createPl=T&sessionId=EFFF5398E6FB1A58633D8ACB3A25D113&PARAMFORM=NO&DESTYPE=SCREEN&pempresa=1&ppto_venta=${data.obra.ptoVenta}&usuario=APPMOVIL&pfecha_ini=${fechaInicial}&pfecha_fin=${fechaFinal}&pcliente=${data.cliente}&pobra=${data.obra.codigo}&ver_anulado=NO&DESNAME=${cont}`;
 
@@ -47,14 +42,6 @@ const Movements = ({ navigation, route }) => {
         updateUrlAndProcess();
     }, [cont])
 
-    const handleWebViewNavigationStateChange = async (navState) => {
-        if (navState.url.includes('XSoft-Reportes')) {
-            setTimeout(() => {
-                setShowWebView(false);
-                handlePressButtonAsync();
-            }, 6000);
-        }
-    };
 
     function makeUrl(fileName) {
         return `http://193.122.159.234:8082/XSoft-Reportes/resources/GWTJReportGenerator.html?cn=com.xsoft.logistica.reportes.kardexclientefac.KardexClienteFactura&createPl=T&sessionId=EFFF5398E6FB1A58633D8ACB3A25D113&PARAMFORM=NO&DESTYPE=SCREEN&pempresa=1&ppto_venta=${data.obra.ptoVenta}&usuario=APPMOVIL&pfecha_ini=${formatDate(fechaInicial)}&pfecha_fin=${formatDate(fechaFinal)}&pcliente=${data.cliente}&pobra=${data.obra.codigo}&ver_anulado=NO&DESNAME=${fileName}`
@@ -270,15 +257,7 @@ const Movements = ({ navigation, route }) => {
             <TouchableOpacity style={[StandardStyles.bluePrimaryButton, { marginTop: 20 }]} onPress={openURL} >
                 <Text style={{ color: "white", fontWeight: "bold" }}>Generar PDF</Text>
             </TouchableOpacity>
-            {showWebView && (
-                <WebView
-                    ref={webviewRef}
-                    //   source={{ uri: (finalUrl === '') ? '' : finalUrl }}
-                    source={{ uri: finalUrl }}
-                    onNavigationStateChange={handleWebViewNavigationStateChange}
-                    style={styles.webview}
-                />
-            )}
+
             <SimpleBackground width="100%" />
             {
                 isLoading && (
@@ -308,10 +287,6 @@ const styles = StyleSheet.create({
         paddingTop: 30,
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
-    },
-    webview: {
-        width: 0,
-        height: 0,
     },
     input: {
         padding: 15,
