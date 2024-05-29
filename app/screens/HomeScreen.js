@@ -14,11 +14,19 @@ import { simpleMsgAlert } from "../helpers/General";
 
 const HomeScreen = ({ navigation }) => {
 
-    const [, , token, logout, , user] = useContext(AuthContext);
+    const [login, testApi, token, logout, register, user, , cesToken] = useContext(AuthContext);
 
     const [lineas, setLineas] = useState({});
     const [code, setCode] = useState('');
-    const [userVerified, setUserVerified] = useState((!user.email_verified_at) ? false : true)
+    const [userVerified, setUserVerified] = useState(false)
+
+    useEffect(() => {
+        if (user.email_verified_at) {
+            setUserVerified(true);
+        } else {
+            setUserVerified(false);
+        }
+    }, [user]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -98,15 +106,10 @@ const HomeScreen = ({ navigation }) => {
         }).catch(e => console.log(`Error: ${e}`));
     }
 
-    function msg() {
-        simpleMsgAlert("¡En construcción!", "");
-    }
-
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={{ alignItems: "center", flex: 1, backgroundColor: "white" }}>
                 <View style={styles.contentWrapper}>
-                    {/*  <Logout /> */}
                     {
                         (!userVerified) ?
                             <>
@@ -133,7 +136,7 @@ const HomeScreen = ({ navigation }) => {
                             </>
                             :
                             <>
-                                <Text style={{ fontSize: 22, fontWeight: "bold", marginTop: "40%" }}>
+                                <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: "40%", paddingHorizontal: 30 }}>
                                     Bienvenido, {user.name}.
                                 </Text>
                                 <View style={styles.optionWrapper}>

@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from "../context/AuthContext";
 import CatalogoScreen from '../screens/CatalogoScreen';
 import CategoryScreen from '../screens/CategoryScreen';
@@ -71,11 +72,15 @@ const styles = StyleSheet.create({
 
 
 function MyStack() {
-    const [, , token] = useContext(AuthContext);
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [userToken, setUserToken] = useState(null);
+    const [login, testApi, token, logout, register, user, , cesToken] = useContext(AuthContext);
+
     return (
         <Stack.Navigator initialRouteName="Login">
             {
-                (token !== '') ?
+                (token) ?
                     <>
                         <Stack.Screen name="Inicio" component={HomeTabs} options={{ headerShown: false }} />
                         <Stack.Screen name="Lineas de Negocio" component={LineasScreen} options={{ headerShown: true }} />
@@ -90,8 +95,9 @@ function MyStack() {
                     </>
                     :
                     <>
-                        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+
                         <Stack.Screen name="Registrarse" component={RegisterScreen} options={{ headerShown: true }} />
+                        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
                         <Stack.Screen name="Politica de tratamiento de datos" component={PolicyScreen} />
                     </>
             }

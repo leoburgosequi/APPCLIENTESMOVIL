@@ -63,16 +63,6 @@ const CategoryScreen = ({ navigation, route }) => {
         "empty": false
     }
 
-    const [data, setData] = useState([]);
-
-    console.log(dataFull.content);
-
-    /*  useEffect(() => {
-         const getCategorys = () => {
-             axios.get(`${BASE_URI_CES}`)
-         }
-     }, []); */
-
     const renderItem = ({ item }) => {
         return (
             <TouchableOpacity style={[styles.categoryBox, StandardStyles.androidShadow, StandardStyles.iosShadow]} onPress={() => navigation.navigate("Preguntas", { codCategory: item.id })}>

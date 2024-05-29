@@ -84,7 +84,6 @@ const Movements = ({ navigation, route }) => {
                 console.log(newUrl);
                 WebBrowser.openBrowserAsync(newUrl);
 
-                // Espera adicionalmente 6 segundos después de que WebBrowser ha finalizado
                 setTimeout(() => {
                     WebBrowser.openBrowserAsync(`http://193.122.159.234:8082/XSoft-Reportes/files//${fileName}`);
                 }, 6000);

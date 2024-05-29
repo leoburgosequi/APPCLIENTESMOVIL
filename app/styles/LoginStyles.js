@@ -74,7 +74,7 @@ const LoginStyles = StyleSheet.create({
     },
     forgotButton: {
 
-        padding: 10,
+        padding: 15,
         marginTop: 40
     },
     textForgot: {

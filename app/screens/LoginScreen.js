@@ -20,8 +20,8 @@ import { simpleMsgAlert } from '../helpers/General';
 
 const LoginScreen = ({ navigation }) => {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('leonardobh96@gmail.com');
+    const [password, setPassword] = useState('1234567890');
     const [login, testApi, , , , , isLoading] = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
 
@@ -36,10 +36,6 @@ const LoginScreen = ({ navigation }) => {
                 onPress: () => WebBrowser.openBrowserAsync("https://appclientes.equinorte.co/password/reset")
             }
         ]);
-    }
-    const openLink = () => {
-
-        return;
     }
 
     return (
@@ -119,7 +115,7 @@ const LoginScreen = ({ navigation }) => {
                     </View>
                 </ImageBackground>
                 {isLoading && (
-                    <Loader />
+                    <Loader bg="white" />
                 )}
 
             </View>

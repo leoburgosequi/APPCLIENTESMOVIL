@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { deleteItem, getItem, saveItem } from "../storage/GeneralStorage";
 
 import { Alert } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_URI } from "../config";
 import axios from "axios";
 import { useNavigation } from '@react-navigation/native';
@@ -134,6 +135,26 @@ export const AuthProvider = ({ children }) => {
         });
 
     };
+
+    const isLoggedIn = async () => {
+        try {
+            setIsLoading(true);
+            const userToken = await AsyncStorage.getItem('user:token');
+            const userData = await AsyncStorage.getItem('user:data');
+            if (userToken && userData) {
+                setToken(userToken);
+                setUser(JSON.parse(userData)); // Convertir de JSON a objeto
+            }
+            setIsLoading(false);
+        } catch (error) {
+            console.log(`logged in error ${error}`);
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        isLoggedIn()
+    }, []);
 
 
 
