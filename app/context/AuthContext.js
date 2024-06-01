@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState('');
     const [cesToken, setCesToken] = useState('');
 
+
     const login = async (email, password) => {
         setIsLoading(true);
         axios.post(`${BASE_URI}/login`, {
@@ -30,10 +31,12 @@ export const AuthProvider = ({ children }) => {
                 setIsLoading(false);
                 return;
             }
-
+            const lastLogin = new Date();
             await saveItem('user:data', JSON.stringify(res.data.user));
             await saveItem('user:token', res.data.access_token);
             await saveItem('ces:token', res.data.t_access);
+            await saveItem('lastLogin', lastLogin.toString());
+            console.log(lastLogin.toString());
             setUser(res.data.user);
             setToken(res.data.access_token);
             setCesToken(res.data.t_access);
@@ -74,6 +77,8 @@ export const AuthProvider = ({ children }) => {
                 }).then(async res => {
                     await deleteItem('user:token');
                     await deleteItem('user:data');
+                    await deleteItem('user:token');
+                    setCesToken('');
                     setUser({});
                     setToken('');
                     setIsLoading(false);

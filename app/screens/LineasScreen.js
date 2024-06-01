@@ -63,11 +63,12 @@ const LineasScreen = ({ navigation, route }) => {
         }
         navigation.navigate("Categorías", { linea: item.id })
     }
+    console.log(lineas)
 
     return (
         <View style={{ flex: 1, backgroundColor: grayStandardColor, alignItems: "center" }}>
 
-            {/* <FlatList
+            {/*   <FlatList
                 data={lineas}
                 keyExtractor={item => item.id}
                 renderItem={renderLine}

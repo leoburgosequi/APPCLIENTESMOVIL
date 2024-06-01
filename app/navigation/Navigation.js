@@ -118,7 +118,8 @@ function HomeTabs() {
                         return (
                             <>
                                 <View style={focused ? styles.iconFocus : styles.iconNotFocus}>
-                                    <Entypo name="video" size={30} color={focused ? primaryOrangeColor : "#FF976B"} />
+                                    <MaterialCommunityIcons name="dots-grid" size={30} color={focused ? primaryOrangeColor : "#FF976B"} />
+
                                 </View>
                                 <Text style={focused ? styles.textFocus : styles.textNotFocus}>Contenido</Text>
                             </>

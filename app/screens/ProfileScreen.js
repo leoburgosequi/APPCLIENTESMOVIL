@@ -74,7 +74,7 @@ const ProfileScreen = ({ navigation }) => {
           <FontAwesome name="user-circle" size={120} color={primaryOrangeColor} style={[StandardStyles.androidShadow, StandardStyles.iosShadow]} />
           <Text style={styles.name}>{user.name}</Text>
           <Text style={{ color: primaryOrangeColor, fontSize: 18, fontWeight: "bold", marginTop: 7 }}>
-            {user.id_role === 3 ? "Cliente" : user.role === 2 ? "Visitante" : "Administrador"}
+            {user.id_role === 3 ? "Cliente" : user.id_role === 2 ? "Visitante" : "Administrador"}
           </Text>
           <Text style={{ fontSize: 18, marginTop: 7 }}> <Feather name="mail" size={24} color="black" /> {user.email}</Text>
           <TouchableOpacity style={[StandardStyles.bluePrimaryButton, { padding: 10, marginTop: 20 }]} onPress={logout}>

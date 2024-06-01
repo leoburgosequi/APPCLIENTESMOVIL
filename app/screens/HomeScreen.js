@@ -106,6 +106,12 @@ const HomeScreen = ({ navigation }) => {
         }).catch(e => console.log(`Error: ${e}`));
     }
 
+    function toCapitalizeCase(str) {
+        return str
+            .toLowerCase()
+            .replace(/\b\w/g, chr => chr.toUpperCase());
+    }
+
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={{ alignItems: "center", flex: 1, backgroundColor: "white" }}>
@@ -137,19 +143,24 @@ const HomeScreen = ({ navigation }) => {
                             :
                             <>
                                 <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: "40%", paddingHorizontal: 30 }}>
-                                    Bienvenido, {user.name}.
+                                    Bienvenido, {user.name ? toCapitalizeCase(user.name) : ""}.
                                 </Text>
                                 <View style={styles.optionWrapper}>
-                                    <TouchableOpacity style={styles.boxOption} onPress={() => navigation.navigate("Seleccionar cliente")}>
-                                        <View style={styles.wrapperIconOption}>
-                                            <FontAwesome6 name="helmet-safety" size={70} style={styles.iconBoxOption} />
-                                        </View>
+                                    {
+                                        (user.id_role === 3) && (
+                                            <TouchableOpacity style={styles.boxOption} onPress={() => navigation.navigate("Seleccionar cliente")}>
+                                                <View style={styles.wrapperIconOption}>
+                                                    <FontAwesome6 name="helmet-safety" size={70} style={styles.iconBoxOption} />
+                                                </View>
 
-                                        <View style={styles.textWrapperOption} >
-                                            <Text style={styles.textBoxOption}> Consultar Obras</Text>
-                                        </View>
+                                                <View style={styles.textWrapperOption} >
+                                                    <Text style={styles.textBoxOption}> Consultar Obras</Text>
+                                                </View>
 
-                                    </TouchableOpacity>
+                                            </TouchableOpacity>
+                                        )
+                                    }
+
                                     <TouchableOpacity onPress={() => navigation.navigate("Lineas de Negocio", { lineas })} style={styles.boxOption}>
                                         <View style={styles.wrapperIconOption}>
                                             <MaterialCommunityIcons name="calculator-variant" size={70} style={styles.iconBoxOption} />

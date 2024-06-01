@@ -1,11 +1,19 @@
 import { BASE_URI_CES, grayStandardColor, primaryOrangeColor } from '../config';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import { AntDesign } from '@expo/vector-icons';
+import { AuthContext } from '../context/AuthContext';
+import SimpleBackground from '../components/SimpleBackground';
 import { StandardStyles } from '../styles/StandardStyles';
+import axios from 'axios';
+import { simpleMsgAlert } from '../helpers/General';
 
 const CategoryScreen = ({ navigation, route }) => {
+
+    const [, , token, logout, , user, , cesToken] = useContext(AuthContext);
+    const [isLoading, setIsLoading] = useState(false);
+    const [categorys, setCategorys] = useState([]);
     const { linea } = route.params;
     console.log(linea)
 
@@ -63,6 +71,27 @@ const CategoryScreen = ({ navigation, route }) => {
         "empty": false
     }
 
+    useEffect(() => {
+        const getCategorys = () => {
+            setIsLoading(true);
+            console.log(`${BASE_URI_CES}/getCategorys?pageIndex=${20}&pageSize=${0}&ln=${linea}`)
+            axios.get(`${BASE_URI_CES}/getCategorys?pageIndex=${0}&pageSize=${20}&ln=${linea}`, {
+                headers: {
+                    'Authorization': `Bearer ${cesToken}`
+                }
+            }).then(resp => {
+                console.log(resp.data.content);
+                setCategorys(resp.data.content);
+                setIsLoading(false);
+            })
+                .catch(error => {
+                    simpleMsgAlert("Error", error.toString());
+                    setIsLoading(false);
+                })
+        }
+        getCategorys();
+    }, [])
+
     const renderItem = ({ item }) => {
         return (
             <TouchableOpacity style={[styles.categoryBox, StandardStyles.androidShadow, StandardStyles.iosShadow]} onPress={() => navigation.navigate("Preguntas", { codCategory: item.id })}>
@@ -77,11 +106,13 @@ const CategoryScreen = ({ navigation, route }) => {
             <FlatList
 
                 style={styles.wrapper}
-                data={dataFull.content}
+                data={categorys}
                 keyExtractor={item => item.id}
                 renderItem={renderItem}
             />
 
+
+            <SimpleBackground />
 
         </View>
     )
@@ -91,14 +122,14 @@ export default CategoryScreen
 
 const styles = StyleSheet.create({
     container: {
+
         flex: 1,
-        backgroundColor: grayStandardColor,
+
         alignItems: "center"
     },
     wrapper: {
         width: "90%",
         marginTop: 100
-
     },
     categoryBox: {
         backgroundColor: "white",
@@ -107,7 +138,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        width: "96%",
+        margin: "auto"
     },
     title: {
         fontWeight: "bold",
