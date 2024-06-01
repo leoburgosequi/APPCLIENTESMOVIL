@@ -1,17 +1,19 @@
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { defaultListaPrecio, primaryOrangeColor } from '../config'
+import React, { useContext, useEffect, useState } from 'react'
+import { checkActivity, formatPrice } from '../helpers/General'
+import { defaultListaPrecio, primaryOrangeColor, timeActivity } from '../config'
 
+import { AuthContext } from '../context/AuthContext'
 import { BASE_URI_CES } from '../config'
 import SimpleBackground from '../components/SimpleBackground'
 import { StandardStyles } from '../styles/StandardStyles'
 import axios from 'axios'
-import { formatPrice } from '../helpers/General'
 import { getItem } from '../storage/GeneralStorage'
 
 const SystemsScreen = ({ navigation, route }) => {
 
     const data = route.params;
+    const [, , token, logout, , user, , cesToken] = useContext(AuthContext);
     const dataKey = data[0];
     const params = Object.keys(dataKey).map(key => `q_${key}=${encodeURIComponent(dataKey[key])}`);
     const resp = params.join('&');
@@ -22,6 +24,7 @@ const SystemsScreen = ({ navigation, route }) => {
 
 
     useEffect(() => {
+        checkActivity(timeActivity, logout)
         const getSystems = async () => {
             setLoading(true);
             const cesToken = await getItem('ces:token');

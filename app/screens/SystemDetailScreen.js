@@ -1,17 +1,21 @@
 import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { BASE_URI_CES, defaultListaPrecio } from '../config';
+import { BASE_URI_CES, defaultListaPrecio, timeActivity } from '../config';
 import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { checkActivity, formatPrice } from '../helpers/General';
 
 import { AntDesign } from '@expo/vector-icons';
+import { AuthContext } from '../context/AuthContext';
 import CheckBox from '../components/CheckBox';
 import Collapsible from 'react-native-collapsible';
 import { StandardStyles } from '../styles/StandardStyles';
 import axios from 'axios';
-import { formatPrice } from '../helpers/General';
 import { getItem } from '../storage/GeneralStorage';
 import { primaryOrangeColor } from '../config';
+import { useContext } from 'react';
 
 const SystemDetailScreen = ({ navigation, route }) => {
+
+    const [, , token, logout, , user, , cesToken] = useContext(AuthContext);
 
     const [isCollapsed, setIsCollapsed] = useState(true);
     const [details, setDetails] = useState({});
@@ -27,6 +31,7 @@ const SystemDetailScreen = ({ navigation, route }) => {
     const data = route.params;
 
     useLayoutEffect(() => {
+        checkActivity(timeActivity, logout);
         const detailSystem = async () => {
             setLoading(true);
             const cesToken = await getItem('ces:token');

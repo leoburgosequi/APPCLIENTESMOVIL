@@ -18,8 +18,8 @@ export default function App() {
     <AuthProvider>
       <NavigationContainer>
 
-        
-      <Navigation />
+
+        <Navigation />
       </NavigationContainer>
     </AuthProvider>
   );

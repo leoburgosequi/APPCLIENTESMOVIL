@@ -36,7 +36,8 @@ export const AuthProvider = ({ children }) => {
             await saveItem('user:token', res.data.access_token);
             await saveItem('ces:token', res.data.t_access);
             await saveItem('lastLogin', lastLogin.toString());
-            console.log(lastLogin.toString());
+            console.log("Date: ", lastLogin);
+            console.log("String: ", lastLogin.toString());
             setUser(res.data.user);
             setToken(res.data.access_token);
             setCesToken(res.data.t_access);

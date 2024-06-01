@@ -1,13 +1,13 @@
-import { BASE_URI_CES, grayStandardColor, primaryOrangeColor } from '../config';
+import { BASE_URI_CES, grayStandardColor, primaryOrangeColor, timeActivity } from '../config';
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
+import { checkActivity, simpleMsgAlert } from '../helpers/General';
 
 import { AuthContext } from '../context/AuthContext';
 import Loader from '../components/Loader';
 import SimpleBackground from '../components/SimpleBackground';
 import { StandardStyles } from '../styles/StandardStyles';
 import axios from 'axios';
-import { simpleMsgAlert } from '../helpers/General';
 
 const SaldoScreen = ({ route }) => {
     const [, , token, logout, , user, , cesToken] = useContext(AuthContext);
@@ -19,7 +19,9 @@ const SaldoScreen = ({ route }) => {
     const [page, setPage] = useState(0);
 
     useEffect(() => {
+        checkActivity(timeActivity, logout);
         fetchAllData();
+
     }, []);
 
     const fetchAllData = async () => {

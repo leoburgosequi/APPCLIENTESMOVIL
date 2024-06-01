@@ -1,5 +1,5 @@
 import { AntDesign, Entypo, FontAwesome5, Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { BASE_URI_CES, grayStandardColor, primaryOrangeColor, secondBlueColor } from '../config';
+import { BASE_URI_CES, grayStandardColor, primaryOrangeColor, secondBlueColor, timeActivity } from '../config';
 import { FlatList, Image, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 
@@ -7,6 +7,7 @@ import { AuthContext } from '../context/AuthContext';
 import { Dropdown } from 'react-native-element-dropdown';
 import Loader from '../components/Loader';
 import axios from 'axios';
+import { checkActivity } from '../helpers/General';
 import { getItem } from '../storage/GeneralStorage';
 import notFoundClients from '../resources/notFoundClients.png';
 
@@ -18,6 +19,7 @@ const DropdownComponent = ({ navigation }) => {
     const [, , token, logout, , user, , cesToken] = useContext(AuthContext);
 
     useEffect(() => {
+        checkActivity(timeActivity, logout);
         const getClients = async () => {
             try {
                 const res = await axios.get(`${BASE_URI_CES}/get-customers-works-by-email?email=${user.email}`, {

@@ -1,5 +1,5 @@
 import { Alert, Image, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import { BASE_URI, BASE_URI_CES, primaryOrangeColor } from "../config";
+import { BASE_URI, BASE_URI_CES, primaryOrangeColor, timeActivity } from "../config";
 import React, { useContext, useEffect, useState } from "react";
 import { getItem, saveItem } from "../storage/GeneralStorage";
 
@@ -10,6 +10,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SimpleBackground from "../components/SimpleBackground";
 import { StandardStyles } from "../styles/StandardStyles";
 import axios from "axios";
+import { checkActivity } from "../helpers/General";
 import { simpleMsgAlert } from "../helpers/General";
 
 const HomeScreen = ({ navigation }) => {
@@ -29,6 +30,7 @@ const HomeScreen = ({ navigation }) => {
     }, [user]);
 
     useEffect(() => {
+        checkActivity(timeActivity, logout);
         const fetchData = async () => {
             try {
                 const cesToken = await getItem('ces:token').then(t => { return t });

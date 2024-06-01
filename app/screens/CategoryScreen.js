@@ -7,7 +7,9 @@ import { AuthContext } from '../context/AuthContext';
 import SimpleBackground from '../components/SimpleBackground';
 import { StandardStyles } from '../styles/StandardStyles';
 import axios from 'axios';
+import { checkActivity } from '../helpers/General';
 import { simpleMsgAlert } from '../helpers/General';
+import { timeActivity } from '../config';
 
 const CategoryScreen = ({ navigation, route }) => {
 
@@ -72,6 +74,7 @@ const CategoryScreen = ({ navigation, route }) => {
     }
 
     useEffect(() => {
+        checkActivity(1, logout);
         const getCategorys = () => {
             setIsLoading(true);
             console.log(`${BASE_URI_CES}/getCategorys?pageIndex=${20}&pageSize=${0}&ln=${linea}`)

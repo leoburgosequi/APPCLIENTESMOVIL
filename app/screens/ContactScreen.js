@@ -8,6 +8,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import Loader from '../components/Loader';
 import { StandardStyles } from '../styles/StandardStyles';
 import axios from 'axios'
+import { checkActivity } from '../helpers/General';
+import { timeActivity } from '../config'
 
 const ContactScreen = () => {
   const [, , token, logout, , user, , cesToken] = useContext(AuthContext);
@@ -15,6 +17,7 @@ const ContactScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    checkActivity(timeActivity, logout);
     const getPuntos = () => {
       setIsLoading(true);
       axios.get(`${BASE_URI}/getInfoAgencias`, {

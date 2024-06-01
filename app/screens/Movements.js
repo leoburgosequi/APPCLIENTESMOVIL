@@ -1,8 +1,9 @@
 import * as WebBrowser from 'expo-web-browser';
 
 import { Alert, Button, Platform, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { BASE_URI_CES, grayStandardColor, primaryOrangeColor } from '../config';
+import { BASE_URI_CES, grayStandardColor, primaryOrangeColor, timeActivity } from '../config';
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import { checkActivity, simpleMsgAlert } from '../helpers/General';
 
 import { AuthContext } from '../context/AuthContext';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -11,7 +12,6 @@ import Loader from '../components/Loader';
 import SimpleBackground from '../components/SimpleBackground';
 import { StandardStyles } from '../styles/StandardStyles';
 import axios from 'axios';
-import { simpleMsgAlert } from '../helpers/General';
 
 const Movements = ({ navigation, route }) => {
     const [, , , logout, , user, , cesToken] = useContext(AuthContext);
@@ -30,6 +30,10 @@ const Movements = ({ navigation, route }) => {
     const [dateFinal, setDateFinal] = useState(new Date());
     const [fechaFinal, setFechaFinal] = useState('');
     const [showPickerFechaFinal, setShowPickerFechaFinal] = useState(false);
+
+    useEffect(() => {
+        checkActivity(timeActivity, logout);
+    }, []);
 
 
     useEffect(() => {

@@ -1,11 +1,12 @@
+import { BASE_URI, timeActivity } from '../config';
 import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { deleteItem, getItem, saveItem } from "../storage/GeneralStorage";
 
 import { AuthContext } from '../context/AuthContext';
-import { BASE_URI } from '../config';
 import Loader from '../components/Loader';
 import axios from 'axios';
+import { checkActivity } from '../helpers/General';
 import { simpleMsgAlert } from '../helpers/General';
 
 const { width, height } = Dimensions.get('window');
@@ -21,13 +22,7 @@ const ContentScreen = () => {
 
 
   useEffect(() => {
-    getLastLogin = async () => {
-      const last = await getItem('lastLogin').then(resp => {
-        console.log(new Date(resp))
-      }).catch(error => console.log(error));
-
-    }
-
+    checkActivity(timeActivity, logout);
 
     const getContents = () => {
       setIsLoading(true);
@@ -47,7 +42,6 @@ const ContentScreen = () => {
       })
     }
     getContents();
-    getLastLogin();
   }, []);
 
 

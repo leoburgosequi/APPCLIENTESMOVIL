@@ -1,5 +1,8 @@
+import React, { useContext } from "react";
+import { deleteItem, getItem, saveItem } from "../storage/GeneralStorage";
+
 import { Alert } from "react-native";
-import React from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export function formatPrice(valor) {
   const partes = valor.toFixed(2).toString().split('.');
@@ -34,4 +37,35 @@ export function dobleButtonActionAlert(title, content, textDoneButton, textCance
       onPress: functionExecute()
     },
   ]);
+}
+
+export async function checkActivity(range, logout) {
+
+
+  await getItem('lastLogin').then(resp => {
+    const d1 = new Date(resp);
+    const d2 = new Date();
+
+    const earlierDate = new Date(Math.min(d1, d2));
+    const laterDate = new Date(Math.max(d1, d2));
+
+    earlierDate.setHours(earlierDate.getHours() + range);
+    //earlierDate.setMinutes(earlierDate.getMinutes() + range);
+
+    console.log(earlierDate, laterDate)
+
+    if (earlierDate >= laterDate) {
+      console.log("Está dentro del rango");
+    } else {
+      Alert.alert("Tiempo de inactividad", "Debe volver a iniciar sesión.", [
+        {
+          text: 'OK',
+          style: 'cancel',
+          onPress: () => logout()
+        },
+      ]);
+    }
+  }).catch(error => {
+    console.log(error)
+  });
 }

@@ -1,20 +1,25 @@
 import { ActivityIndicator, Alert, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { BASE_URI_CES, timeActivity } from '../config';
+import React, { useContext, useEffect, useState } from 'react';
 
-import { BASE_URI_CES } from '../config';
+import { AuthContext } from '../context/AuthContext';
+import Logout from '../components/Logout';
 import SimpleBackground from '../components/SimpleBackground';
 import { StandardStyles } from '../styles/StandardStyles';
 import axios from 'axios';
+import { checkActivity } from '../helpers/General';
 import { getItem } from '../storage/GeneralStorage';
 import { primaryOrangeColor } from '../config';
 
 const QuestionsScreen = ({ navigation, route }) => {
     const { codCategory } = route.params;
+    const [, , token, logout, , user, , cesToken] = useContext(AuthContext);
     const [questions, setQuestions] = useState([]);
     const [responses, setResponses] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        checkActivity(timeActivity, logout)
         const getQuestions = async () => {
             setLoading(true);
             const cesToken = await getItem('ces:token');

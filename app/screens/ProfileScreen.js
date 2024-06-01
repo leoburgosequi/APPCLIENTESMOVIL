@@ -1,7 +1,7 @@
 import { Alert, Keyboard, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
-import { BASE_URI, grayStandardColor, primaryOrangeColor } from '../config'
-import React, { useContext, useState } from 'react'
-import { dobleButtonActionAlert, simpleMsgAlert } from '../helpers/General';
+import { BASE_URI, grayStandardColor, primaryOrangeColor, timeActivity } from '../config'
+import React, { useContext, useEffect, useState } from 'react'
+import { checkActivity, dobleButtonActionAlert, simpleMsgAlert } from '../helpers/General';
 
 import { AntDesign } from '@expo/vector-icons';
 import { AuthContext } from '../context/AuthContext'
@@ -19,6 +19,10 @@ const ProfileScreen = ({ navigation }) => {
   const [lastPass, setLastPass] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    checkActivity(timeActivity, logout);
+  }, [])
 
   const toogleForm = () => {
     setShowForm(!showForm);

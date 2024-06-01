@@ -8,9 +8,17 @@ import Header from '../components/Header'
 import Logout from '../components/Logout'
 import SimpleBackground from '../components/SimpleBackground'
 import { StandardStyles } from '../styles/StandardStyles'
+import { checkActivity } from '../helpers/General';
 import { simpleMsgAlert } from '../helpers/General'
+import { timeActivity } from '../config';
 
 const LineasScreen = ({ navigation, route }) => {
+
+    const [, , token, logout, , user, , cesToken] = useContext(AuthContext);
+
+    useEffect(() => {
+        checkActivity(timeActivity, logout);
+    }, [])
 
     const { lineas } = route.params;
     function msg() {
