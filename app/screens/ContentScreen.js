@@ -5,6 +5,8 @@ import { deleteItem, getItem, saveItem } from "../storage/GeneralStorage";
 
 import { AuthContext } from '../context/AuthContext';
 import Loader from '../components/Loader';
+import SimpleBackground from '../components/SimpleBackground';
+import { StandardStyles } from '../styles/StandardStyles';
 import axios from 'axios';
 import { checkActivity } from '../helpers/General';
 import { simpleMsgAlert } from '../helpers/General';
@@ -48,8 +50,8 @@ const ContentScreen = () => {
 
   const renderItem = ({ item }) => {
     return (
-      <TouchableOpacity onPress={() => console.log(`Clicked: ${item.titulo}`)} style={styles.box} activeOpacity={1}>
-        <Image source={{ uri: item.imagen }} style={styles.image} />
+      <TouchableOpacity onPress={() => console.log(`Clicked: ${item.titulo}`)} style={[styles.box, StandardStyles.iosShadow]} activeOpacity={1}>
+        <Image source={{ uri: item.imagen }} style={[styles.image, StandardStyles.androidShadow]} />
         <View style={styles.footer}>
           <Text style={styles.title}>{item.titulo}</Text>
         </View>
@@ -67,7 +69,7 @@ const ContentScreen = () => {
   }
 
   return (
-    <View style={{ flex: 1, justifyContent: "center" }}>
+    <View style={{ flex: 1, justifyContent: "center", backgroundColor: "white" }}>
 
       <Text style={{ fontSize: 20, marginTop: 150, fontWeight: "bold", marginHorizontal: 20 }}>Más Relevante</Text>
 
@@ -96,6 +98,8 @@ const ContentScreen = () => {
         )
       }
 
+      <SimpleBackground />
+
     </View>
   )
 }
@@ -121,7 +125,7 @@ const styles = StyleSheet.create({
 
   },
   image: {
-    width: width - 150,
+    width: width,
     height: 200,
     resizeMode: "cover",
     marginVertical: 10,

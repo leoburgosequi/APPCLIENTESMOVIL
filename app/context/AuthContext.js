@@ -158,9 +158,9 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    useEffect(() => {
-        isLoggedIn()
-    }, []);
+    /*  useEffect(() => {
+         isLoggedIn()
+     }, []); */
 
 
 

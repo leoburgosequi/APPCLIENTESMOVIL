@@ -7,6 +7,7 @@ import { deleteItem, getItem, saveItem } from '../storage/GeneralStorage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../context/AuthContext';
 import { Entypo } from '@expo/vector-icons';
+import HeaderImg from '../resources/HeaderImg.png'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Loader from '../components/Loader';
 import LoginBackground from '../resources/LoginBackground.png';
@@ -16,7 +17,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { StandardStyles } from '../styles/StandardStyles';
 import WhiteLogo from '../resources/WhiteLogo.png';
 import { primaryOrangeColor } from '../config';
-import { simpleMsgAlert } from '../helpers/General';
+import { simpleMsgAlert } from '../helpers/General'
 
 const LoginScreen = ({ navigation }) => {
 
@@ -47,8 +48,8 @@ const LoginScreen = ({ navigation }) => {
                     style={LoginStyles.imgBackground}
                 >
                     <Image
-                        source={WhiteLogo}
-                        style={{ position: "absolute", top: 50 }}
+                        source={HeaderImg}
+                        style={{ position: "absolute", bottom: "10%", width: 120, height: 30, }}
                     />
                     <View style={LoginStyles.wrapper} >
 
@@ -62,35 +63,37 @@ const LoginScreen = ({ navigation }) => {
                         <Text style={LoginStyles.titleMessage}>
                             ¡Bienvenido!
                         </Text>
-                        <View style={LoginStyles.inputWrapper}>
-                            <TextInput
-                                placeholder="Correo electrónico"
-                                value={email}
-                                onChangeText={setEmail}
-                                style={[LoginStyles.textInput]}
-                                keyboardType="email-address"
-                                autoComplete="email"
-                                autoCapitalize="none"
+                        <View style={{ width: "90%" }}>
+                            <View style={LoginStyles.inputWrapper}>
+                                <TextInput
+                                    placeholder="Correo electrónico"
+                                    value={email}
+                                    onChangeText={setEmail}
+                                    style={[LoginStyles.textInput]}
+                                    keyboardType="email-address"
+                                    autoComplete="email"
+                                    autoCapitalize="none"
 
-                            />
-                            <Entypo name="email" size={24} style={StandardStyles.rightIconInput} color={primaryOrangeColor} />
-                        </View>
+                                />
+                                <Entypo name="email" size={24} style={StandardStyles.rightIconInput} color={primaryOrangeColor} />
+                            </View>
 
-                        <View style={LoginStyles.inputWrapper}>
-                            <TextInput
-                                placeholder="Contraseña"
-                                value={password}
-                                onChangeText={setPassword}
-                                secureTextEntry={!showPassword}
-                                style={LoginStyles.textInput}
-                            />
-                            {
-                                showPassword ?
-                                    <Entypo name="eye-with-line" size={24} color="#c1c1c1" style={StandardStyles.rightIconInput} onPress={() => { setShowPassword(false) }} />
-                                    :
-                                    <Entypo name="eye" size={24} color="#c1c1c1" style={StandardStyles.rightIconInput} onPress={() => { setShowPassword(true) }} />
-                            }
+                            <View style={LoginStyles.inputWrapper}>
+                                <TextInput
+                                    placeholder="Contraseña"
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    secureTextEntry={!showPassword}
+                                    style={LoginStyles.textInput}
+                                />
+                                {
+                                    showPassword ?
+                                        <Entypo name="eye-with-line" size={24} color="#c1c1c1" style={StandardStyles.rightIconInput} onPress={() => { setShowPassword(false) }} />
+                                        :
+                                        <Entypo name="eye" size={24} color="#c1c1c1" style={StandardStyles.rightIconInput} onPress={() => { setShowPassword(true) }} />
+                                }
 
+                            </View>
                         </View>
 
                         <TouchableOpacity style={[StandardStyles.orangePrimaryButton, { marginTop: 30, width: "80%" }]}

@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     color: primaryOrangeColor
   },
   wrapper: {
-    marginTop: 100,
+    marginTop: 50,
     width: "90%",
 
 
