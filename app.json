@@ -6,7 +6,7 @@
     },
     "name": "appClientesMovil",
     "slug": "appClientesMovil",
-    "version": "3.2.1",
+    "version": "3.2.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -28,7 +28,7 @@
       },
       "package": "com.leoburgos07.appClientesMovil",
       "softwareKeyboardLayoutMode": "pan",
-      "versionCode": 5
+      "versionCode": 6
     },
     "extra": {
       "eas": {
