@@ -5,6 +5,7 @@ import { getItem, saveItem } from "../storage/GeneralStorage";
 
 import { AuthContext } from "../context/AuthContext";
 import { FontAwesome6 } from '@expo/vector-icons';
+import Loader from "../components/Loader";
 import Logout from "../components/Logout";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SimpleBackground from "../components/SimpleBackground";
@@ -20,6 +21,7 @@ const HomeScreen = ({ navigation }) => {
     const [lineas, setLineas] = useState({});
     const [code, setCode] = useState('');
     const [userVerified, setUserVerified] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (user.email_verified_at) {
@@ -49,8 +51,9 @@ const HomeScreen = ({ navigation }) => {
         fetchData();
     }, []);
 
-    async function generateNewCode() {
-        console.log(`${BASE_URI}/verifyEmail`)
+    function generateNewCode() {
+        setIsLoading(true)
+
 
         axios.post(`${BASE_URI}/verifyEmail`, { email: user.email }, {
             headers: {
@@ -64,16 +67,17 @@ const HomeScreen = ({ navigation }) => {
                     style: 'cancel',
                 },
             ]);
+            setIsLoading(false)
             return;
         }).catch(e => {
-            Alert.alert("Se ha producido un error inesperado", '', [
+            Alert.alert("Se ha producido un error inesperado", e.toString(), [
                 {
                     text: 'Cerrar',
                     style: 'cancel',
                 },
             ]);
             console.log(e)
-
+            setIsLoading(false)
         });
     }
 
@@ -114,6 +118,30 @@ const HomeScreen = ({ navigation }) => {
             .replace(/\b\w/g, chr => chr.toUpperCase());
     }
 
+    const handleGenerateCode = () => {
+        generateNewCode();
+    };
+
+    const verifyResend = () => {
+        console.log("verificar");
+        Alert.alert(
+            "¡Confirmar acción!",
+            "¿Está seguro de generar un nuevo código de verificación?",
+            [
+                {
+                    text: 'Generar',
+                    style: 'cancel',
+                    onPress: handleGenerateCode  // Pasar la referencia de la función
+                },
+                {
+                    text: 'Cancelar',
+                    style: 'destructive',
+                    onPress: () => { }
+                }
+            ]
+        );
+    };
+
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={{ alignItems: "center", flex: 1, backgroundColor: "white" }}>
@@ -121,7 +149,7 @@ const HomeScreen = ({ navigation }) => {
                     {
                         (!userVerified) ?
                             <>
-                                <Text style={styles.title}>Se ha enviado un código de 5 digitos al correo: "{user.email}", para poder verificarlo, insertelo y presione "Verificar código".</Text>
+                                <Text style={styles.title}>Se ha enviado un código al correo <Text style={{ fontWeight: "bold" }}>{user.email}</Text>, para poder verificarlo, insertelo y presione "Verificar código".</Text>
                                 <View style={styles.inputWrapper}>
                                     <TextInput
                                         style={styles.inputCode}
@@ -132,14 +160,15 @@ const HomeScreen = ({ navigation }) => {
                                     />
                                 </View>
                                 <View style={styles.buttonWrapper}>
+                                    <TouchableOpacity style={[StandardStyles.bluePrimaryButton, styles.buttons]} onPress={verifyResend}>
+
+                                        <Text style={{ color: "white", fontWeight: "bold", fontSize: 14, }}> Generar uno nuevo</Text>
+                                    </TouchableOpacity>
                                     <TouchableOpacity style={[StandardStyles.orangePrimaryButton, styles.buttons]} onPress={verifyCode}>
 
                                         <Text style={{ color: "white", fontWeight: "bold", fontSize: 18 }}> Verificar código</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={[StandardStyles.bluePrimaryButton, styles.buttons]} onPress={generateNewCode}>
 
-                                        <Text style={{ color: "white", fontWeight: "bold", fontSize: 18 }}> Generar uno nuevo</Text>
-                                    </TouchableOpacity>
                                 </View>
                             </>
                             :
@@ -176,7 +205,11 @@ const HomeScreen = ({ navigation }) => {
                             </>
                     }
                 </View>
-
+                {
+                    isLoading && (
+                        <Loader bg="white" />
+                    )
+                }
                 <SimpleBackground width="100%" />
 
             </View>

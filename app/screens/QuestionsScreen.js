@@ -37,11 +37,25 @@ const QuestionsScreen = ({ navigation, route }) => {
     }, []);
 
     function convertDecimalAnswer(numberString) {
+        // Permitir una cadena vacía o solo un punto.
+        if (numberString === '' || numberString === '.') {
+            return numberString;
+        }
+
+        // Reemplazar coma por punto.
         if (numberString.includes(',')) {
             numberString = numberString.replace(',', '.');
         }
+
+        // Intentar convertir a número.
         const number = parseFloat(numberString);
-        return number;
+
+        // Validar que el número sea un valor numérico.
+        if (isNaN(number)) {
+            return '';
+        }
+
+        return numberString;
     }
 
     function validateFields() {
@@ -62,6 +76,14 @@ const QuestionsScreen = ({ navigation, route }) => {
                 },
             ]);
     }
+
+    const handleTextChange = (text) => {
+        setInputValue(text);
+        setResponses(prevResponses => ({
+            ...prevResponses,
+            [item.id]: convertDecimalAnswer(text)
+        }));
+    };
 
     return (
         <View style={styles.container}>
