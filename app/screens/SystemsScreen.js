@@ -1,7 +1,7 @@
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { checkActivity, formatPrice } from '../helpers/General'
-import { defaultListaPrecio, primaryOrangeColor, timeActivity } from '../config'
+import { defaultListaPrecio, defaultZone, primaryOrangeColor, timeActivity } from '../config'
 
 import { AuthContext } from '../context/AuthContext'
 import { BASE_URI_CES } from '../config'
@@ -20,6 +20,7 @@ const SystemsScreen = ({ navigation, route }) => {
 
     const [systems, setSystems] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [priceList, setPriceList] = useState(0);
     const [pricesSystem, setPricesSystem] = useState([]);
 
 
@@ -30,6 +31,14 @@ const SystemsScreen = ({ navigation, route }) => {
             const cesToken = await getItem('ces:token');
 
             try {
+                let listaPrecio = await axios.get(`${BASE_URI_CES}/getZone?idZone=${defaultZone}`, {
+                    headers: {
+                        'Authorization': `Bearer ${cesToken}`
+                    }
+                });
+                setPriceList(listaPrecio.data.listaPrecio);
+
+
                 let systemsResponse = await axios.get(`${BASE_URI_CES}/get-systems-by-answers?${resp}`, {
                     headers: {
                         'Authorization': `Bearer ${cesToken}`
@@ -53,7 +62,7 @@ const SystemsScreen = ({ navigation, route }) => {
 
         async function getPricesystem(idSystem, answers, cesToken) {
             try {
-                const response = await axios.get(`${BASE_URI_CES}/getSystemById?${answers}&listaPrecio=${defaultListaPrecio}&idSistema=${idSystem}`, {
+                const response = await axios.get(`${BASE_URI_CES}/getSystemById?${answers}&listaPrecio=${priceList}&idSistema=${idSystem}`, {
                     headers: {
                         'Authorization': `Bearer ${cesToken}`
                     }
@@ -85,7 +94,7 @@ const SystemsScreen = ({ navigation, route }) => {
                     renderItem={({ item }) => (
                         <TouchableOpacity
                             style={styles.cardSystem}
-                            onPress={() => navigation.navigate("Sistema", { answers: resp, idSistema: item.id, questions: data[1] })}>
+                            onPress={() => navigation.navigate("Sistema", { answers: resp, idSistema: item.id, questions: data[1], priceList })}>
                             <View style={styles.imgContainer}>
                                 <Image
                                     style={styles.tinyLogo}

@@ -10,3 +10,4 @@ export const primaryOrangeColor = "#E45417";
 export const secondBlueColor = "#0f2b46";
 export const grayStandardColor = "#F0F0F0";
 export const timeActivity = 6;
+export const defaultZone = 1;

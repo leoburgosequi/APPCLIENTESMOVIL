@@ -36,7 +36,7 @@ const SystemDetailScreen = ({ navigation, route }) => {
             setLoading(true);
             const cesToken = await getItem('ces:token');
             try {
-                await axios.get(`${BASE_URI_CES}/getSystemById?${data.answers}&listaPrecio=${defaultListaPrecio}&idSistema=${data.idSistema}`, {
+                await axios.get(`${BASE_URI_CES}/getSystemById?${data.answers}&listaPrecio=${data.priceList}&idSistema=${data.idSistema}`, {
                     headers: {
                         'Authorization': `Bearer ${cesToken}`
                     }
