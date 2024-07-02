@@ -127,7 +127,7 @@ function HomeTabs() {
                         )
                     }
                 }} />
-            <Tab.Screen
+            {/* <Tab.Screen
                 name="Catalogo"
                 component={CatalogoScreen}
                 options={{
@@ -142,7 +142,7 @@ function HomeTabs() {
 
                         )
                     }
-                }} />
+                }} /> */}
             <Tab.Screen
                 name="Home"
                 component={HomeScreen}

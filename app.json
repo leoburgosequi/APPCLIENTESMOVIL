@@ -6,7 +6,7 @@
     },
     "name": "eqn",
     "slug": "appClientesMovil",
-    "version": "3.3.0",
+    "version": "3.3.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -28,7 +28,7 @@
       },
       "package": "com.leoburgos07.appClientesMovil",
       "softwareKeyboardLayoutMode": "pan",
-      "versionCode": 7
+      "versionCode": 8
     },
     "extra": {
       "eas": {

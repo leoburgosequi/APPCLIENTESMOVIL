@@ -50,21 +50,21 @@ const ContentScreen = () => {
 
   const renderItem = ({ item }) => {
     return (
-      <TouchableOpacity onPress={() => console.log(`Clicked: ${item.titulo}`)} style={[styles.box, StandardStyles.iosShadow]} activeOpacity={1}>
+      <View /* onPress={() => console.log(`Clicked: ${item.titulo}`)}  */ style={[styles.box, StandardStyles.iosShadow]} activeOpacity={1}>
         <Image source={{ uri: item.imagen }} style={[styles.image, StandardStyles.androidShadow]} />
         <View style={styles.footer}>
           <Text style={styles.title}>{item.titulo}</Text>
         </View>
-      </TouchableOpacity>
+      </View>
     )
   }
 
   const renderNewItem = ({ item }) => {
     return (
-      <TouchableOpacity>
+      <View>
         <Text>{item.titulo}</Text>
 
-      </TouchableOpacity>
+      </View>
     )
   }
 
