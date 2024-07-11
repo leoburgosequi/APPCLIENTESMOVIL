@@ -25,7 +25,8 @@ const SystemsScreen = ({ navigation, route }) => {
 
 
     useEffect(() => {
-        checkActivity(timeActivity, logout)
+        checkActivity(timeActivity, logout);
+
         const getSystems = async () => {
             setLoading(true);
             const cesToken = await getItem('ces:token');
@@ -36,8 +37,8 @@ const SystemsScreen = ({ navigation, route }) => {
                         'Authorization': `Bearer ${cesToken}`
                     }
                 });
-                setPriceList(listaPrecio.data.listaPrecio);
-
+                const priceListData = listaPrecio.data.listaPrecio;
+                setPriceList(priceListData);
 
                 let systemsResponse = await axios.get(`${BASE_URI_CES}/get-systems-by-answers?${resp}`, {
                     headers: {
@@ -45,11 +46,10 @@ const SystemsScreen = ({ navigation, route }) => {
                     }
                 });
 
-                // Preparar para actualizar cada sistema con su precio
                 const systemsWithPrices = await Promise.all(systemsResponse.data.map(async (system) => {
-                    const priceSystem = await getPricesystem(system.id, resp, cesToken);
+                    const priceSystem = await getPricesystem(system.id, resp, cesToken, priceListData);
                     console.log(`Precio del sistema! ${system.nombre}: `, priceSystem);
-                    return { ...system, price: priceSystem };  // Retorna una nueva versión del objeto system con el precio incluido
+                    return { ...system, price: priceSystem };
                 }));
                 systemsWithPrices.sort((a, b) => a.price - b.price);
                 setSystems(systemsWithPrices);
@@ -60,7 +60,7 @@ const SystemsScreen = ({ navigation, route }) => {
             }
         };
 
-        async function getPricesystem(idSystem, answers, cesToken) {
+        async function getPricesystem(idSystem, answers, cesToken, priceList) {
             try {
                 const response = await axios.get(`${BASE_URI_CES}/getSystemById?${answers}&listaPrecio=${priceList}&idSistema=${idSystem}`, {
                     headers: {
@@ -78,6 +78,7 @@ const SystemsScreen = ({ navigation, route }) => {
 
         getSystems();
     }, []);
+
 
 
 

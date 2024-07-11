@@ -6,6 +6,7 @@ import { AuthContext } from "../context/AuthContext";
 import CatalogoScreen from '../screens/CatalogoScreen';
 import CategoryScreen from '../screens/CategoryScreen';
 import ContactScreen from '../screens/ContactScreen';
+import ContentDetailScreen from '../screens/ContentDetailScreen';
 import ContentScreen from '../screens/ContentScreen';
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -91,6 +92,7 @@ function MyStack() {
                         <Stack.Screen name="Movimientos" component={Movements} />
                         <Stack.Screen name="Saldo en obra" component={SaldoScreen} />
                         <Stack.Screen name="Categorías" component={CategoryScreen} />
+                        <Stack.Screen name="Detalle del contenido" component={ContentDetailScreen} />
 
                     </>
                     :

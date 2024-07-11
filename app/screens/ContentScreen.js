@@ -1,4 +1,4 @@
-import { BASE_URI, timeActivity } from '../config';
+import { BASE_URI, grayStandardColor, timeActivity } from '../config';
 import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { deleteItem, getItem, saveItem } from "../storage/GeneralStorage";
@@ -13,7 +13,7 @@ import { simpleMsgAlert } from '../helpers/General';
 
 const { width, height } = Dimensions.get('window');
 
-const ContentScreen = () => {
+const ContentScreen = ({ navigation }) => {
 
   const [, , token, logout, , user, , cesToken] = useContext(AuthContext);
   const [content, setContent] = useState([]);
@@ -50,48 +50,40 @@ const ContentScreen = () => {
 
   const renderItem = ({ item }) => {
     return (
-      <View /* onPress={() => console.log(`Clicked: ${item.titulo}`)}  */ style={[styles.box, StandardStyles.iosShadow]} activeOpacity={1}>
-        <Image source={{ uri: item.imagen }} style={[styles.image, StandardStyles.androidShadow]} />
+      <TouchableOpacity onPress={() => navigation.navigate("Detalle del contenido", { item })} style={[styles.box, StandardStyles.iosShadow]}>
+
         <View style={styles.footer}>
           <Text style={styles.title}>{item.titulo}</Text>
         </View>
-      </View>
+        <Image source={{ uri: item.imagen }} style={[styles.image, StandardStyles.androidShadow]} />
+
+      </TouchableOpacity >
     )
   }
 
-  const renderNewItem = ({ item }) => {
-    return (
-      <View>
-        <Text>{item.titulo}</Text>
-
-      </View>
-    )
-  }
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", backgroundColor: "white" }}>
+    <View style={{ flex: 1, justifyContent: "center", backgroundColor: "white", alignItems: "center", paddingBottom: 110 }}>
 
-      <Text style={{ fontSize: 20, marginTop: 150, fontWeight: "bold", marginHorizontal: 20 }}>Más Relevante</Text>
+      <Text style={{ fontSize: 20, marginTop: 100, marginBottom: 20, fontWeight: "bold", marginHorizontal: 20 }}>Más Relevante</Text>
 
       <FlatList
         data={content}
         keyExtractor={item => item.id}
         renderItem={renderItem}
         style={styles.wrapper}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled
+      /*  horizontal
+       showsHorizontalScrollIndicator={false}
+       pagingEnabled */
       />
-      {/*   {
-        <FlatList
-          data={newContent}
-          keyExtractor={item => item.id}
-          renderItem={renderNewItem}
-          style={styles.newWrapper}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          pagingEnabled
-        />} */}
+
+      {/*  <FlatList
+        data={newContent}
+        keyExtractor={item => item.id}
+        renderItem={renderNewItem}
+        style={newStyles.wrapper}
+
+      /> */}
       {
         isLoading && (
           <Loader />
@@ -107,37 +99,43 @@ const ContentScreen = () => {
 export default ContentScreen
 
 const styles = StyleSheet.create({
-  newWrapper: {
-    borderWidth: 3,
-
-  },
   box: {
+    borderColor: grayStandardColor,
+    height: 250,
+    marginBottom: 40,
+    borderTopWidth: 1
 
-    borderColor: "green",
-    height: 250
   },
   wrapper: {
-
     width: "90%",
-
     borderColor: "red",
     height: 0,
-
   },
   image: {
-    width: width,
+    width: "100%",
     height: 200,
     resizeMode: "cover",
     marginVertical: 10,
-    marginHorizontal: 10,
     borderRadius: 15
   },
   footer: {
     paddingHorizontal: 15,
+    marginTop: 20
 
   },
   title: {
     fontWeight: "bold",
-    fontSize: 16
+    fontSize: 20
+  }
+});
+
+const newStyles = StyleSheet.create({
+  wrapper: {
+    borderWidth: 1,
+    width: "90%"
+  },
+  image: {
+    height: 200,
+    width: 100
   }
 })
