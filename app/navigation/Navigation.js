@@ -112,7 +112,7 @@ function HomeTabs() {
     return (
 
         <Tab.Navigator screenOptions={screenOptions} initialRouteName='Home'>
-            <Tab.Screen
+            {/*    <Tab.Screen
                 name="Contenido"
                 component={ContentScreen}
                 options={{
@@ -129,7 +129,7 @@ function HomeTabs() {
                         )
                     }
                 }} />
-            {/* <Tab.Screen
+            <Tab.Screen
                 name="Catalogo"
                 component={CatalogoScreen}
                 options={{
@@ -145,6 +145,23 @@ function HomeTabs() {
                         )
                     }
                 }} /> */}
+
+            <Tab.Screen
+                name="Contacto"
+                component={ContactScreen}
+                options={{
+                    tabBarIcon: ({ focused }) => {
+                        return (
+                            <>
+                                <View style={focused ? styles.iconFocus : styles.iconNotFocus}>
+                                    <Feather name="message-circle" size={30} color={focused ? primaryOrangeColor : "#FF976B"} />
+                                </View>
+                                <Text style={focused ? styles.textFocus : styles.textNotFocus}>Contacto</Text>
+                            </>
+
+                        )
+                    }
+                }} />
             <Tab.Screen
                 name="Home"
                 component={HomeScreen}
@@ -163,22 +180,6 @@ function HomeTabs() {
 
                 }}
             />
-            <Tab.Screen
-                name="Contacto"
-                component={ContactScreen}
-                options={{
-                    tabBarIcon: ({ focused }) => {
-                        return (
-                            <>
-                                <View style={focused ? styles.iconFocus : styles.iconNotFocus}>
-                                    <Feather name="message-circle" size={30} color={focused ? primaryOrangeColor : "#FF976B"} />
-                                </View>
-                                <Text style={focused ? styles.textFocus : styles.textNotFocus}>Contacto</Text>
-                            </>
-
-                        )
-                    }
-                }} />
             <Tab.Screen
                 name="Profile"
                 component={ProfileScreen}

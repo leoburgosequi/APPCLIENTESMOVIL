@@ -142,6 +142,15 @@ const HomeScreen = ({ navigation }) => {
         );
     };
 
+    function capitalizeEachWord(str) {
+        return str.split(' ').map(word => {
+            if (word.length > 0) {
+                return word[0].toLocaleUpperCase('es-ES') + word.slice(1).toLocaleLowerCase('es-ES');
+            }
+            return word;
+        }).join(' ');
+    }
+
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={{ alignItems: "center", flex: 1, backgroundColor: "white" }}>
@@ -173,8 +182,11 @@ const HomeScreen = ({ navigation }) => {
                             </>
                             :
                             <>
-                                <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: "40%", paddingHorizontal: 30 }}>
-                                    Bienvenido, {user.name ? toCapitalizeCase(user.name) : ""}.
+                                <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: "35%", paddingHorizontal: 30 }}>
+                                    Bienvenido, {user.name ? capitalizeEachWord(user.name) : ""}.
+                                </Text>
+                                <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: "2%", paddingHorizontal: 30 }}>
+                                    A continuación, podrás cotizar soluciones estandares de <Text style={{ color: StandardStyles.primaryOrangeColor }}>Equinorte SA</Text>{(user.id_role === 3) && (<Text> y consultar información de tus obras</Text>)}.
                                 </Text>
                                 <View style={styles.optionWrapper}>
                                     {
@@ -185,7 +197,7 @@ const HomeScreen = ({ navigation }) => {
                                                 </View>
 
                                                 <View style={styles.textWrapperOption} >
-                                                    <Text style={styles.textBoxOption}> Consultar Obras</Text>
+                                                    <Text style={styles.textBoxOption}>Obras</Text>
                                                 </View>
 
                                             </TouchableOpacity>
@@ -196,8 +208,8 @@ const HomeScreen = ({ navigation }) => {
                                         <View style={styles.wrapperIconOption}>
                                             <MaterialCommunityIcons name="calculator-variant" size={70} style={styles.iconBoxOption} />
                                         </View>
-                                        <View style={styles.textWrapperOption} >
-                                            <Text style={styles.textBoxOption}> Autocotizador</Text>
+                                        <View style={[styles.textWrapperOption]} >
+                                            <Text style={[styles.textBoxOption, { fontSize: 16 }]}>Soluciones estándares</Text>
                                         </View>
                                     </TouchableOpacity>
                                 </View>

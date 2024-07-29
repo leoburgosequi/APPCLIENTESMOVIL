@@ -4,7 +4,7 @@
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/8bb7cac2-f516-4ed6-b588-229bca54c06a"
     },
-    "name": "eqn",
+    "name": "Equinorte SA",
     "slug": "appClientesMovil",
     "version": "3.4.0",
     "orientation": "portrait",
@@ -28,7 +28,7 @@
       },
       "package": "com.leoburgos07.appClientesMovil",
       "softwareKeyboardLayoutMode": "pan",
-      "versionCode": 9
+      "versionCode": 1
     },
     "extra": {
       "eas": {
