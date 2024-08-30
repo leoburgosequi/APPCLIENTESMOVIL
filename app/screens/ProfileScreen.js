@@ -1,3 +1,5 @@
+import * as WebBrowser from 'expo-web-browser';
+
 import { Alert, Keyboard, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import { BASE_URI, grayStandardColor, primaryOrangeColor, timeActivity } from '../config'
 import React, { useContext, useEffect, useState } from 'react'
@@ -27,6 +29,8 @@ const ProfileScreen = ({ navigation }) => {
   const toogleForm = () => {
     setShowForm(!showForm);
   }
+
+
 
   const changePassword = () => {
     setIsLoading(true);
@@ -66,8 +70,12 @@ const ProfileScreen = ({ navigation }) => {
 
   }
 
+  function execute() {
+    WebBrowser.openBrowserAsync("https://appclientes.equinorte.co/FAQS");
+  }
+
   const testAlert = () => {
-    simpleMsgAlert("hey", "probando alerta");
+    dobleButtonActionAlert("¿Deseas darte de baja?", "Para eliminar su cuenta debe ir a nuestro portal web, iniciar sesión y luego en el ícono de perfil encontrará un botón para darse de baja. ¿desea ser redireccionado para más detalles?", "¡Si quiero!", "Cancelar", execute)
   }
 
   return (
@@ -81,9 +89,15 @@ const ProfileScreen = ({ navigation }) => {
             {user.id_role === 3 ? "Cliente" : user.id_role === 2 ? "Visitante" : "Administrador"}
           </Text>
           <Text style={{ fontSize: 18, marginTop: 7 }}> <Feather name="mail" size={24} color="black" /> {user.email}</Text>
-          <TouchableOpacity style={[StandardStyles.bluePrimaryButton, { padding: 10, marginTop: 20 }]} onPress={logout}>
-            <Text style={{ color: "white", fontWeight: "bold" }}>Cerrar sesión</Text>
-          </TouchableOpacity>
+          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <TouchableOpacity style={[StandardStyles.bluePrimaryButton, { padding: 10, marginTop: 20 }]} onPress={logout}>
+              <Text style={{ color: "white", fontWeight: "bold" }}>Cerrar sesión</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[{ padding: 10, marginTop: 20, marginHorizontal: 10, backgroundColor: "#DE0E24", borderRadius: 10 }]} onPress={testAlert}>
+              <Text style={{ color: "white", fontWeight: "bold" }}>Eliminar cuenta</Text>
+            </TouchableOpacity>
+          </View>
+
         </View>
         <View style={[styles.buttonWrapper]}>
           <TouchableOpacity style={styles.boxButton} onPress={toogleForm}>

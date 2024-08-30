@@ -25,7 +25,7 @@ export function simpleMsgAlert(title, content) {
   ]);
 }
 
-export function dobleButtonActionAlert(title, content, textDoneButton, textCancelButton, functionExecute) {
+export function dobleButtonActionAlert(title, content, textDoneButton, textCancelButton = "Cancelar", functionExecute) {
   Alert.alert(title, content, [
     {
       text: textCancelButton,
@@ -34,7 +34,7 @@ export function dobleButtonActionAlert(title, content, textDoneButton, textCance
     {
       text: textDoneButton,
       style: 'cancel',
-      onPress: functionExecute()
+      onPress: functionExecute
     },
   ]);
 }
