@@ -1,4 +1,4 @@
-import { Alert, Image, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { Alert, Dimensions, Image, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { BASE_URI, BASE_URI_CES, primaryOrangeColor, timeActivity } from "../config";
 import React, { useContext, useEffect, useState } from "react";
 import { getItem, saveItem } from "../storage/GeneralStorage";
@@ -14,6 +14,7 @@ import axios from "axios";
 import { checkActivity } from "../helpers/General";
 import { simpleMsgAlert } from "../helpers/General";
 
+const { width, height } = Dimensions.get('window');
 const HomeScreen = ({ navigation }) => {
 
     const [login, testApi, token, logout, register, user, , cesToken] = useContext(AuthContext);
@@ -131,7 +132,7 @@ const HomeScreen = ({ navigation }) => {
                 {
                     text: 'Generar',
                     style: 'cancel',
-                    onPress: handleGenerateCode  // Pasar la referencia de la función
+                    onPress: handleGenerateCode
                 },
                 {
                     text: 'Cancelar',
@@ -182,10 +183,10 @@ const HomeScreen = ({ navigation }) => {
                             </>
                             :
                             <>
-                                <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: "35%", paddingHorizontal: 30 }}>
+                                <Text style={{ fontSize: height * 0.03, fontWeight: "bold", marginTop: "25%", paddingHorizontal: 30 }}>
                                     Bienvenido, {user.name ? capitalizeEachWord(user.name) : ""}.
                                 </Text>
-                                <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: "2%", paddingHorizontal: 30 }}>
+                                <Text style={{ fontSize: height * 0.021, fontWeight: "bold", marginTop: "2%", paddingHorizontal: 30 }}>
                                     A continuación, podrás cotizar soluciones estandares de <Text style={{ color: StandardStyles.primaryOrangeColor }}>Equinorte SA</Text>{(user.id_role === 3) && (<Text> y consultar información de tus obras</Text>)}.
                                 </Text>
                                 <View style={styles.optionWrapper}>
@@ -193,7 +194,7 @@ const HomeScreen = ({ navigation }) => {
                                         (user.id_role === 3) && (
                                             <TouchableOpacity style={styles.boxOption} onPress={() => navigation.navigate("Seleccionar cliente")}>
                                                 <View style={styles.wrapperIconOption}>
-                                                    <FontAwesome6 name="helmet-safety" size={70} style={styles.iconBoxOption} />
+                                                    <FontAwesome6 name="helmet-safety" size={height * 0.08} style={styles.iconBoxOption} />
                                                 </View>
 
                                                 <View style={styles.textWrapperOption} >
@@ -206,10 +207,10 @@ const HomeScreen = ({ navigation }) => {
 
                                     <TouchableOpacity onPress={() => navigation.navigate("Lineas de Negocio", { lineas })} style={styles.boxOption}>
                                         <View style={styles.wrapperIconOption}>
-                                            <MaterialCommunityIcons name="calculator-variant" size={70} style={styles.iconBoxOption} />
+                                            <MaterialCommunityIcons name="calculator-variant" size={height * 0.08} style={styles.iconBoxOption} />
                                         </View>
                                         <View style={[styles.textWrapperOption]} >
-                                            <Text style={[styles.textBoxOption, { fontSize: 16 }]}>Soluciones estándares</Text>
+                                            <Text style={[styles.textBoxOption]}>Soluciones estándares</Text>
                                         </View>
                                     </TouchableOpacity>
                                 </View>
@@ -232,7 +233,6 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     optionWrapper: {
         flexDirection: "row",
-
     },
     buttons: {
         marginTop: 50,
@@ -242,12 +242,12 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     inputWrapper: {
-        width: 350,
+        width: width * 0.95,
         alignItems: "center",
-        marginTop: 60
+        marginTop: height * 0.05
     },
     inputCode: {
-        width: "70%",
+        width: "80%",
         paddingLeft: 20,
         paddingTop: 40,
         fontSize: 50,
@@ -260,10 +260,9 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 24,
-        marginTop: 30,
+        marginTop: width * 0.1,
         textAlign: "center",
         paddingHorizontal: 20,
-        // fontWeight: "bold"
     },
     contentWrapper: {
         marginTop: 60,
@@ -275,34 +274,33 @@ const styles = StyleSheet.create({
         alignItems: "center",
 
         borderColor: "black",
-        width: 190,
+        width: width * 0.4,
         marginHorizontal: 5,
         borderRadius: 20,
         marginTop: 20
     },
     textBoxOption: {
-        fontSize: 20,
+        fontSize: width * 0.037,
         fontWeight: "bold",
         color: "#313C4b",
         textAlign: "center"
-
     },
     textWrapperOption: {
         backgroundColor: "#FFECE4",
-        padding: 10,
+        padding: 5,
         width: "100%",
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10,
-        justifyContent: "center"
+        justifyContent: "center",
+        height: height * 0.065
     },
     iconBoxOption: {
-
         color: primaryOrangeColor,
         padding: 10,
         borderRadius: 20
     },
     wrapperIconOption: {
-        padding: 30
+        padding: 10
     }
 })
 

@@ -1,5 +1,5 @@
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from "../context/AuthContext";
@@ -29,6 +29,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { primaryOrangeColor } from '../config';
 
+const { width, height } = Dimensions.get('window');
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -41,7 +43,7 @@ const screenOptions = {
         right: 0,
         left: 0,
         elevation: 0,
-        height: 100,
+        height: height * 0.11,
         backgroundColor: primaryOrangeColor,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
@@ -53,7 +55,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "white",
-        padding: 8,
+        padding: 5,
         borderRadius: 10
     },
     iconNotFocus: {
@@ -154,7 +156,7 @@ function HomeTabs() {
                         return (
                             <>
                                 <View style={focused ? styles.iconFocus : styles.iconNotFocus}>
-                                    <Feather name="message-circle" size={30} color={focused ? primaryOrangeColor : "#FF976B"} />
+                                    <Feather name="message-circle" size={height * 0.035} color={focused ? primaryOrangeColor : "#FF976B"} />
                                 </View>
                                 <Text style={focused ? styles.textFocus : styles.textNotFocus}>Contacto</Text>
                             </>
@@ -170,7 +172,7 @@ function HomeTabs() {
                         return (
                             <>
                                 <View style={focused ? styles.iconFocus : styles.iconNotFocus}>
-                                    <Entypo name="home" size={30} color={focused ? primaryOrangeColor : "#FF976B"} />
+                                    <Entypo name="home" size={height * 0.035} color={focused ? primaryOrangeColor : "#FF976B"} />
                                 </View>
                                 <Text style={focused ? styles.textFocus : styles.textNotFocus}>Inicio</Text>
                             </>
@@ -188,7 +190,7 @@ function HomeTabs() {
                         return (
                             <>
                                 <View style={focused ? styles.iconFocus : styles.iconNotFocus}>
-                                    <FontAwesome name="user" size={30} color={focused ? primaryOrangeColor : "#FF976B"} />
+                                    <FontAwesome name="user" size={height * 0.035} color={focused ? primaryOrangeColor : "#FF976B"} />
                                 </View>
                                 <Text style={focused ? styles.textFocus : styles.textNotFocus}>Perfil</Text>
                             </>

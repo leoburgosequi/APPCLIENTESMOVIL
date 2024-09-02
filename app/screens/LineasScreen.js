@@ -1,4 +1,4 @@
-import { Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { grayStandardColor, primaryOrangeColor, secondBlueColor } from '../config'
 
@@ -12,6 +12,7 @@ import { checkActivity } from '../helpers/General';
 import { simpleMsgAlert } from '../helpers/General'
 import { timeActivity } from '../config';
 
+const { width, height } = Dimensions.get('window');
 const LineasScreen = ({ navigation, route }) => {
 
     const [, , token, logout, , user, , cesToken] = useContext(AuthContext);
@@ -71,7 +72,6 @@ const LineasScreen = ({ navigation, route }) => {
         }
         navigation.navigate("Categorías", { linea: item.id })
     }
-    console.log(lineas)
 
     return (
         <View style={{ flex: 1, backgroundColor: grayStandardColor, alignItems: "center" }}>
@@ -107,7 +107,7 @@ export default LineasScreen
 const estilos = StyleSheet.create({
     lineWrapper: {
         width: "100%",
-        height: 150,
+        height: height * 0.2,
         marginVertical: 20
     },
     boxImg: {
@@ -124,8 +124,6 @@ const estilos = StyleSheet.create({
         width: "100%",
         height: "100%",
         zIndex: -1,
-
-
     },
     title: {
         position: "absolute",

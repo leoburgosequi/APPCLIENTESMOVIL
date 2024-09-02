@@ -58,22 +58,20 @@ const SaldoScreen = ({ route }) => {
     };
 
     const renderSku = ({ item }) => {
-        return (<View style={styles.box}>
-            <Text style={{ color: primaryOrangeColor, fontSize: 10, fontWeight: "bold" }}>{item.category}</Text>
-            <View style={styles.title}>
-
-                <View>
-                    <Text style={{ fontWeight: "bold" }}>{item.sku} - {(item.interno) ? item.interno : ''}</Text>
+        return (
+            <View style={styles.box}>
+                <Text style={{ color: primaryOrangeColor, fontSize: 10, fontWeight: "bold" }}>{item.category}</Text>
+                <View style={styles.title}>
+                    <View>
+                        <Text style={styles.nameText}>{item.sku} - {(item.interno) ? item.interno : ''}</Text>
+                    </View>
+                    <View>
+                        <Text style={styles.nameText}>{item.nombre}</Text>
+                    </View>
                 </View>
-                <View>
-                    <Text style={{ fontWeight: "bold" }}>
-                        {item.nombre}
-                    </Text>
-                </View>
-
+                <View><Text style={{ color: "gray" }}>Cantidad: {item.cantidad}</Text></View>
             </View>
-            <View><Text style={{ color: "gray" }}>Cantidad: {item.cantidad}</Text></View>
-        </View>)
+        )
     };
 
     return (
@@ -126,7 +124,14 @@ const styles = StyleSheet.create({
         backgroundColor: "white"
     },
     title: {
-        flexDirection: "row"
+        flexDirection: "row",
+        flexWrap: "wrap",
+    },
+    nameText: {
+        flexShrink: 1,
+        fontWeight: "bold",
+        fontSize: 13,
+        overflow: "hidden"
     },
     banner: {
         marginVertical: 15,
@@ -135,3 +140,4 @@ const styles = StyleSheet.create({
         backgroundColor: "white"
     },
 });
+

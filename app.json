@@ -6,7 +6,7 @@
     },
     "name": "Equinorte SA",
     "slug": "appClientesMovil",
-    "version": "3.5.0",
+    "version": "3.5.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -21,7 +21,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.leoburgos07.appEquinorte",
-      "buildNumber": "3"
+      "buildNumber": "4"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,7 +30,7 @@
       },
       "package": "com.leoburgos07.appEquinorte",
       "softwareKeyboardLayoutMode": "pan",
-      "versionCode": 2
+      "versionCode": 3
     },
     "extra": {
       "eas": {

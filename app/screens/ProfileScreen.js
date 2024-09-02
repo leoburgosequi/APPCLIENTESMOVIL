@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 
-import { Alert, Keyboard, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { Alert, Dimensions, Keyboard, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import { BASE_URI, grayStandardColor, primaryOrangeColor, timeActivity } from '../config'
 import React, { useContext, useEffect, useState } from 'react'
 import { checkActivity, dobleButtonActionAlert, simpleMsgAlert } from '../helpers/General';
@@ -13,7 +13,9 @@ import SimpleBackground from '../components/SimpleBackground';
 import { StandardStyles } from '../styles/StandardStyles'
 import axios from 'axios';
 
+const { width, height } = Dimensions.get('window');
 const ProfileScreen = ({ navigation }) => {
+
 
   const [, , token, logout, , user, , cesToken] = useContext(AuthContext);
   const [showForm, setShowForm] = useState(false);
@@ -24,6 +26,7 @@ const ProfileScreen = ({ navigation }) => {
 
   useEffect(() => {
     checkActivity(timeActivity, logout);
+    console.log("width: " + width + " Height: " + height);
   }, [])
 
   const toogleForm = () => {
@@ -79,11 +82,10 @@ const ProfileScreen = ({ navigation }) => {
   }
 
   return (
-
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
         <View style={styles.bannerInfo}>
-          <FontAwesome name="user-circle" size={120} color={primaryOrangeColor} style={[StandardStyles.androidShadow, StandardStyles.iosShadow]} />
+          <FontAwesome name="user-circle" size={width * 0.2} color={primaryOrangeColor} style={[StandardStyles.androidShadow, StandardStyles.iosShadow]} />
           <Text style={styles.name}>{user.name}</Text>
           <Text style={{ color: primaryOrangeColor, fontSize: 18, fontWeight: "bold", marginTop: 7 }}>
             {user.id_role === 3 ? "Cliente" : user.id_role === 2 ? "Visitante" : "Administrador"}
@@ -97,8 +99,8 @@ const ProfileScreen = ({ navigation }) => {
               <Text style={{ color: "white", fontWeight: "bold" }}>Eliminar cuenta</Text>
             </TouchableOpacity>
           </View>
-
         </View>
+
         <View style={[styles.buttonWrapper]}>
           <TouchableOpacity style={styles.boxButton} onPress={toogleForm}>
             <View style={styles.iconBox}>
@@ -140,31 +142,17 @@ const ProfileScreen = ({ navigation }) => {
                   secureTextEntry={!showPass}
                 />
               </View>
-
-              {/*   <View style={styles.inputBox}>
-                <Text style={styles.label}>Confirma nueva contraseña</Text>
-                <TextInput
-                  value={passConfirm}
-                  onChangeText={setPassCofirm}
-                  style={styles.input}
-                  secureTextEntry={!showPass}
-                />
-              </View> */}
-
-              <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-                <TouchableOpacity style={[StandardStyles.orangePrimaryButton, { marginTop: 15, width: "30%", padding: 10 }]} onPress={changePassword}>
+              <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                <TouchableOpacity style={[StandardStyles.orangePrimaryButton, { marginTop: 15, width: "46%", padding: 10 }]} onPress={changePassword}>
                   <Text style={{ fontWeight: "bold", color: "white", fontSize: 12 }}> Actualizar contraseña</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[StandardStyles.bluePrimaryButton, { marginTop: 15, width: "30%", padding: 10 }]} onPress={() => setShowPass(!showPass)}>
+                <TouchableOpacity style={[StandardStyles.bluePrimaryButton, { marginTop: 15, width: "46%", padding: 10 }]} onPress={() => setShowPass(!showPass)}>
                   <Text style={{ fontWeight: "bold", color: "white", fontSize: 12, textAlign: "center" }}>{showPass ? "Ocultar contraseñas" : "Mostrar contraseñas"}  </Text>
                 </TouchableOpacity>
               </View>
-
-
             </View>
           )
         }
-
         <SimpleBackground width="100%" />
       </View >
 
@@ -202,19 +190,11 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
-    padding: 50
-  },
-  profileIcon: {
-    width: 130,
-    borderRadius: 150,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 0,
-    backgroundColor: primaryOrangeColor
+    marginTop: height * 0.01,
+    padding: width * 0.1
   },
   name: {
-    fontSize: 20,
+    fontSize: width * 0.05,
     fontWeight: "bold",
     marginTop: 10
   },

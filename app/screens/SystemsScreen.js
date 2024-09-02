@@ -1,10 +1,11 @@
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-import { checkActivity, formatPrice } from '../helpers/General'
+import { checkActivity, formatPrice, simpleMsgAlert } from '../helpers/General'
 import { defaultListaPrecio, defaultZone, primaryOrangeColor, timeActivity } from '../config'
 
 import { AuthContext } from '../context/AuthContext'
 import { BASE_URI_CES } from '../config'
+import Entypo from '@expo/vector-icons/Entypo';
 import SimpleBackground from '../components/SimpleBackground'
 import { StandardStyles } from '../styles/StandardStyles'
 import axios from 'axios'
@@ -26,6 +27,7 @@ const SystemsScreen = ({ navigation, route }) => {
 
     useEffect(() => {
         checkActivity(timeActivity, logout);
+        simpleMsgAlert("¡Atención!", "Los precios de los siguientes sistemas son por día y sin iva.")
 
         const getSystems = async () => {
             setLoading(true);

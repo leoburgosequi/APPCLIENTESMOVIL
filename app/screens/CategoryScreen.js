@@ -17,7 +17,6 @@ const CategoryScreen = ({ navigation, route }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [categorys, setCategorys] = useState([]);
     const { linea } = route.params;
-    console.log(linea)
 
     const dataFull = {
         "content": [
@@ -77,13 +76,11 @@ const CategoryScreen = ({ navigation, route }) => {
         checkActivity(1, logout);
         const getCategorys = () => {
             setIsLoading(true);
-            console.log(`${BASE_URI_CES}/getCategorys?pageIndex=${20}&pageSize=${0}&ln=${linea}`)
             axios.get(`${BASE_URI_CES}/getCategorys?pageIndex=${0}&pageSize=${20}&ln=${linea}`, {
                 headers: {
                     'Authorization': `Bearer ${cesToken}`
                 }
             }).then(resp => {
-                console.log(resp.data.content);
                 setCategorys(resp.data.content);
                 setIsLoading(false);
             })
