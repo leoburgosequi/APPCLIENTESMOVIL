@@ -101,6 +101,8 @@ const RegisterScreen = ({ navigation }) => {
                         isButton={true}
                         link="Politica de tratamiento de datos"
                         containerWidth="80%"
+                        width={25}
+                        height={25}
 
                     />
                     <TouchableOpacity style={[StandardStyles.orangePrimaryButton, { marginTop: 10 }]}

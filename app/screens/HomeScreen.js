@@ -183,7 +183,7 @@ const HomeScreen = ({ navigation }) => {
                             </>
                             :
                             <>
-                                <Text style={{ fontSize: height * 0.03, fontWeight: "bold", marginTop: "25%", paddingHorizontal: 30 }}>
+                                <Text style={{ fontSize: 24, fontWeight: "bold", marginTop: "25%", paddingHorizontal: 30 }}>
                                     Bienvenido, {user.name ? capitalizeEachWord(user.name) : ""}.
                                 </Text>
                                 <Text style={{ fontSize: height * 0.021, fontWeight: "bold", marginTop: "2%", paddingHorizontal: 30 }}>

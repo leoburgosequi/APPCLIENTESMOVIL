@@ -1,5 +1,5 @@
 import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { BASE_URI_CES, defaultListaPrecio, timeActivity } from '../config';
+import { BASE_URI_CES, defaultListaPrecio, grayStandardColor, timeActivity } from '../config';
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { checkActivity, formatPrice } from '../helpers/General';
 
@@ -182,6 +182,12 @@ const SystemDetailScreen = ({ navigation, route }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.titleSistema}>{details.sistema ? details.sistema.nombre : ''}</Text>
+            <View style={{ alignItems: "center", marginTop: 10 }}>
+                <Text style={{ textAlign: "center", width: "90%", color: "gray", }}>
+                    Esta es una cotización preliminar que contiene los componentes de una solución estándar y no es válida para la generación de pedidos y remisiones.
+                </Text>
+            </View>
+
             <TouchableOpacity style={{ marginTop: 30, flexDirection: "row", justifyContent: "space-evenly", alignItems: "center", paddingVertical: 10 }} onPress={() => setIsCollapsed(!isCollapsed)}>
                 <Text style={{ fontSize: 20 }}>Elementos básicos</Text>
                 <Text style={{ fontSize: 18, fontWeight: "bold" }}>$ {formatPrice(basicPrice)}</Text>

@@ -3,13 +3,13 @@ import { Appearance, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 
-const CheckBox = ({ isChecked, onChange, label, isButton, sizeFont, link, containerWidth }) => {
+const CheckBox = ({ isChecked, onChange, label, isButton, sizeFont, link, containerWidth, width = 20, height = 20 }) => {
   const navigation = useNavigation();
 
   const styles = StyleSheet.create({
     contentWrapper: {
-      width: 18,
-      height: 18,
+      width,
+      height,
       backgroundColor: isChecked ? "#E45417" : "#fff",
       borderColor: "#E45417",
       borderWidth: 2,
